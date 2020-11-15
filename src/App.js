@@ -10,12 +10,13 @@ import Box from '@material-ui/core/Box';
 function App() {
     return (
         <BrowserRouter>
-            {/* <NavBar /> */}
             <Switch>
                 <Route exact path="/">
+                    <NavBar />
                     <Home />
                 </Route>
                 <Route exact path="/login">
+                    <NavBar />
                     <Login />
                 </Route>
                 <Route exact path="/dashboard">
