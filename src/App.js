@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 function App() {
     return (
         <BrowserRouter>
-            <NavBar />
+            {/* <NavBar /> */}
             <Switch>
                 <Route exact path="/">
                     <Home />

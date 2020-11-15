@@ -1,49 +1,70 @@
 import React from 'react';
-import { Drawer, Toolbar, List, ListItem, ListItemText, makeStyles } from '@material-ui/core';
+import clsx from 'clsx';
+import { Drawer, List, ListItem, ListItemText, IconButton, makeStyles } from '@material-ui/core';
+import './style.css';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
+    toolbarIcon: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        padding: '0 8px',
+        ...theme.mixins.toolbar,
     },
     drawerPaper: {
+        position: 'relative',
+        whiteSpace: 'nowrap',
         width: drawerWidth,
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
     },
-    drawerContainer: {
-        overflow: 'auto',
+    drawerPaperClose: {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+            width: theme.spacing(9),
+        },
     },
 }));
 
-export default function SideNav() {
+export default function SideNav(props) {
     const classes = useStyles();
 
     return (
         <Drawer
-            className={classes.drawer}
             variant="permanent"
             classes={{
-                paper: classes.drawerPaper,
+                paper: clsx(classes.drawerPaper, !props.open && classes.drawerPaperClose),
             }}
+            open={props.open}
         >
-            <Toolbar />
-            <div className={classes.drawerContainer}>
-                <List>
-                    {[
-                        ['Dashboard', 'dashboard'],
-                        ['My Cake Master', 'cake'],
-                        ['Orders', 'receipt'],
-                        ['Inventory', 'list'],
-                        ['Account', 'account_box']
-                    ].map((text) => (
-                        <ListItem button key={text[0]}>
-                            <i class="material-icons">{text[1]}</i>
-                            <ListItemText primary={text[0]} />
-                        </ListItem>
-                    ))}
-                </List>
+            <div className={classes.toolbarIcon}>
+                <IconButton onClick={props.handleDrawerClose}>
+                    <span class="material-icons">chevron_left</span>
+                </IconButton>
             </div>
+            <List>
+                {[
+                    ['Dashboard', 'dashboard'],
+                    ['My Cake Master', 'cake'],
+                    ['Orders', 'assignment'],
+                    ['Inventory', 'list'],
+                    ['Account', 'account_box']
+                ].map((text) => (
+                    <ListItem button key={text[0]}>
+                        <i class="material-icons">{text[1]}</i>
+                        <ListItemText primary={text[0]} />
+                    </ListItem>
+                ))}
+            </List>
         </Drawer>
     )
 }
