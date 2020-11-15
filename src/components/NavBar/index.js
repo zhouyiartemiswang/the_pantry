@@ -7,17 +7,23 @@ export default function NavBar() {
     return (
         <AppBar position="fixed">
             <Toolbar>
-                <Typography variant="h6">
-                    The Pantry
+                <Typography variant="h6" className="nav-tab" style={{ flex: 1 }}>
+                    <Link href="/">
+                        The Pantry
+                    </Link>
                 </Typography>
-                <Button color="inherit">Cake Masters</Button>
-                <Button color="inherit">
-                    <Link>
+                <Button className="nav-tab">
+                    <Link href="/cakemasters">
+                        Cake Masters
+                    </Link>
+                </Button>
+                <Button className="nav-tab">
+                    <Link href="/login">
                         Login
                     </Link>
                 </Button>
-                <Button color="inherit">
-                    <Link>
+                <Button className="nav-tab">
+                    <Link href="/cart">
                         <i class="material-icons">shopping_cart</i>
                     </Link>
                 </Button>
