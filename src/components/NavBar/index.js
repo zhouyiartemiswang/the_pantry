@@ -5,9 +5,9 @@ import './style.css';
 export default function NavBar() {
 
     return (
-        <AppBar position="fixed">
+        <AppBar position="fixed" style={{zIndex: 100}}>
             <Toolbar>
-                <Typography variant="h6" className="nav-tab" style={{ flex: 1 }}>
+                <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
                     <Link href="/">
                         The Pantry
                     </Link>
