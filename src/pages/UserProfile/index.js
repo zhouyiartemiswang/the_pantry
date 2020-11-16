@@ -26,6 +26,15 @@ export default function SimpleAccordion() {
         <div className={classes.root}>
             <Paper>
                 <Avatar alt="avatar" src="#" />
+                <Typography className={classes.heading}>
+                    Customer Name
+                </Typography>
+                <Typography className={classes.heading}>
+                    customer@gmail.com
+                </Typography>
+                <Typography className={classes.heading}>
+                    (123)456-7890
+                </Typography>
                 <Accordion>
                     <AccordionSummary
                         expandIcon={
