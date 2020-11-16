@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import InventoryAlert from '../../components/InventoryAlert';
+import InventoryAlert from '../InventoryAlert';
+import OrderList from '../OrderList';
 import { Grid, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -35,11 +36,10 @@ export default function Dashboard() {
                     <InventoryAlert />
                 </Paper>
             </Grid>
-            
+
             {/* Recent Orders */}
             <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                </Paper>
+                <OrderList />
             </Grid>
         </Grid>
     )
