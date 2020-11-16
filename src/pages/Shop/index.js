@@ -51,6 +51,15 @@ export default function Shop() {
         });
     };
 
+    const handleButtonClick = (event) => {
+        console.log(event.target);
+        if (event.target.name === "addToCart") {
+            // Add to cart
+        } else {
+            // Go back to cake master page
+        }
+    }
+
     const { sugarFlower, chocolateLettering } = decorationState;
 
     return (
@@ -71,19 +80,7 @@ export default function Shop() {
             </FormControl>
             {cakeState.owner ?
                 <>
-                    <FormControl required className={classes.formControl}>
-                        <InputLabel id="type-label">Type of cake</InputLabel>
-                        <Select
-                            labelId="type-label"
-                            id="type"
-                            onChange={handleCakeChange}
-                            value={cakeState.type}
-                            name="type"
-                        >
-                            <MenuItem value="preMade">Pre-Made</MenuItem>
-                            <MenuItem value="custom">Custom</MenuItem>
-                        </Select>
-                    </FormControl>
+                    {/* Select Cake Size */}
                     <FormControl required className={classes.formControl}>
                         <InputLabel id="size-label">Size of cake</InputLabel>
                         <Select
@@ -96,6 +93,21 @@ export default function Shop() {
                             <MenuItem value={6}>6 inch</MenuItem>
                             <MenuItem value={8}>8 inch</MenuItem>
                             <MenuItem value={10}>10 inch</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    {/* Select Cake Type */}
+                    <FormControl required className={classes.formControl}>
+                        <InputLabel id="type-label">Type of cake</InputLabel>
+                        <Select
+                            labelId="type-label"
+                            id="type"
+                            onChange={handleCakeChange}
+                            value={cakeState.type}
+                            name="type"
+                        >
+                            <MenuItem value="preMade">Pre-Made</MenuItem>
+                            <MenuItem value="custom">Custom</MenuItem>
                         </Select>
                     </FormControl>
                     {cakeState.type ?
@@ -175,10 +187,20 @@ export default function Shop() {
                             }
                         </> : null
                     }
-                    <Button variant="outlined" color="primary">
+                    <Button
+                        onClick={handleButtonClick}
+                        name="addToCartBtn"
+                        variant="outlined"
+                        color="primary"
+                    >
                         Add to Cart
                     </Button>
-                    <Button variant="outlined" color="primary">
+                    <Button
+                        onClick={handleButtonClick}
+                        name="cancelBtn"
+                        variant="outlined"
+                        color="primary"
+                    >
                         Cancel
                     </Button>
                 </> : null
