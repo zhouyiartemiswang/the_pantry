@@ -5,7 +5,6 @@ import Dashboard from '../../components/Dashboard';
 import Inventory from '../../components/Inventory';
 import { CssBaseline, Container, makeStyles } from '@material-ui/core';
 import './style.css';
-import InventoryAlert from '../../components/InventoryAlert';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Owner(props) {
-
     const classes = useStyles();
 
     const [open, setOpen] = useState(true);
