@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Drawer, List, ListItem, ListItemText, IconButton, makeStyles } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, IconButton, Divider, makeStyles } from '@material-ui/core';
 import './style.css';
 
 const drawerWidth = 240;
@@ -51,6 +51,7 @@ export default function SideNav(props) {
                     <span class="material-icons">chevron_left</span>
                 </IconButton>
             </div>
+            <Divider />
             <List>
                 {[
                     ['Dashboard', 'dashboard'],

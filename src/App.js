@@ -3,13 +3,14 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+import Owner from './pages/Owner';
 import Footer from './components/Footer';
 import Box from '@material-ui/core/Box';
 
 function App() {
     return (
         <BrowserRouter>
+
             <Switch>
                 <Route exact path="/">
                     <NavBar />
@@ -19,14 +20,18 @@ function App() {
                     <NavBar />
                     <Login />
                 </Route>
-                
-                <Route exact path="/dashboard">
-                    <Dashboard />
+                <Route exact path="/owner/dashboard">
+                    <Owner page="Dashboard" />
+                </Route>
+                <Route exact path="/owner/inventory">
+                    <Owner page="Inventory" />
                 </Route>
             </Switch>
+
             <Box position="absolute" bottom={0}>
                 <Footer />
             </Box>
+
         </BrowserRouter>
     );
 }
