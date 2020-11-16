@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import AddItemForm from '../AddItemForm';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -197,16 +198,17 @@ export default function EnhancedTable() {
                             )}
                         </TableBody>
                     </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                    />
                 </TableContainer>
+                <AddItemForm />
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
             </Paper>
         </div>
     );
