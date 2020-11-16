@@ -4,7 +4,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import { Paper, Avatar } from '@material-ui/core';
+import { Paper, Avatar, Button } from '@material-ui/core';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +51,7 @@ export default function SimpleAccordion() {
                     <AccordionDetails>
                         <Typography>
                             Order# 000001, Black Forest Cake, Delivered by December 4, 2020
-                    </Typography>
+                        </Typography>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -94,6 +94,7 @@ export default function SimpleAccordion() {
                     </Typography>
                     </AccordionDetails>
                 </Accordion>
+                <Button>Sign Out</Button>
             </Paper>
         </div>
     );
