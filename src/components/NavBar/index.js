@@ -5,7 +5,7 @@ import './style.css';
 export default function NavBar() {
 
     return (
-        <AppBar position="fixed" style={{zIndex: 100}}>
+        <AppBar position="fixed">
             <Toolbar>
                 <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
                     <Link href="/">

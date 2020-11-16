@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Drawer, List, ListItem, ListItemText, IconButton, makeStyles } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, IconButton, Divider, Link, makeStyles } from '@material-ui/core';
 import './style.css';
 
 const drawerWidth = 240;
@@ -51,18 +51,21 @@ export default function SideNav(props) {
                     <span class="material-icons">chevron_left</span>
                 </IconButton>
             </div>
+            <Divider />
             <List>
                 {[
-                    ['Dashboard', 'dashboard'],
-                    ['My Cake Master', 'cake'],
-                    ['Orders', 'assignment'],
-                    ['Inventory', 'list'],
-                    ['Account', 'account_box']
+                    ['Dashboard', '/owner/dashboard', 'dashboard'],
+                    ['My Cake Master', '/owner/cakemaster', 'cake'],
+                    ['Orders', '/owner/orders', 'assignment'],
+                    ['Inventory', '/owner/inventory', 'list'],
+                    ['Account', '/owner/account', 'account_box']
                 ].map((text) => (
-                    <ListItem button key={text[0]}>
-                        <i class="material-icons">{text[1]}</i>
-                        <ListItemText primary={text[0]} />
-                    </ListItem>
+                    <Link href={text[1]}>
+                        <ListItem button key={text[0]}>
+                            <span class="material-icons">{text[2]}</span>
+                            <ListItemText primary={text[0]} />
+                        </ListItem>
+                    </Link>
                 ))}
             </List>
         </Drawer>
