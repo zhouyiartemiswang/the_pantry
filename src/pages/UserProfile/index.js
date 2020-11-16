@@ -4,7 +4,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import { Paper } from '@material-ui/core';
+import { Paper, Avatar } from '@material-ui/core';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +25,7 @@ export default function SimpleAccordion() {
     return (
         <div className={classes.root}>
             <Paper>
+                <Avatar alt="avatar" src="#" />
                 <Accordion>
                     <AccordionSummary
                         expandIcon={
