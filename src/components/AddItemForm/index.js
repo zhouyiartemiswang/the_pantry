@@ -13,9 +13,13 @@ export default function FormDialog() {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
-    const [unit, setUnit] = useState("");
+    const [itemState, setItemState] = useState({
+        name: "",
+        quantity: "",
+        metric: ""
+    });
 
-    const handleClickOpen = () => {
+    const handleOpen = () => {
         setOpen(true);
     };
 
@@ -23,30 +27,55 @@ export default function FormDialog() {
         setOpen(false);
     };
 
-    const handleChange = (event) => {
-        setUnit(event.target.value);
+    const handleInputChange = (event) => {
+        console.log(event.target.name);
+        const { name, value } = event.target;
+        setItemState({
+            ...itemState,
+            [name]: value
+        });
     };
+
+    const handleAddItem = () => {
+        handleClose();
+    }
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" color="primary" onClick={handleOpen}>
                 Add Item
             </Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add an Item</DialogTitle>
                 <DialogContent>
                     <FormControl className={classes.formControl}>
-                        <TextField required autofocus id="item" label="Item" />
+                        <TextField
+                            required autofocus
+                            id="item"
+                            label="Item"
+                            value={itemState.name}
+                            name="name"
+                            onChange={handleInputChange}
+                        />
                     </FormControl>
                     <FormControl className={classes.formControl}>
-                        <TextField required autofocus type="number" id="quantity" label="Quantity" />
+                        <TextField
+                            required autofocus
+                            type="number"
+                            id="quantity"
+                            label="Quantity"
+                            value={itemState.quantity}
+                            name="quantity"
+                            onChange={handleInputChange}
+                        />
                     </FormControl>
                     <FormControl required className={classes.formControl}>
-                        <InputLabel id="unit">Unit</InputLabel>
+                        <InputLabel id="metric">Unit</InputLabel>
                         <Select
-                            id="unit"
-                            value={unit}
-                            onChange={handleChange}
+                            id="metric"
+                            value={itemState.metric}
+                            name="metric"
+                            onChange={handleInputChange}
                         >
                             <MenuItem value="g">g</MenuItem>
                             <MenuItem value="kg">kg</MenuItem>
@@ -62,7 +91,7 @@ export default function FormDialog() {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleAddItem} color="primary">
                         Add
                     </Button>
                 </DialogActions>
