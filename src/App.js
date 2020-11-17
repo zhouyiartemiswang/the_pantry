@@ -35,20 +35,20 @@ function App() {
         //       console.log("nothing to see here");
         //     }
         //   });
-        // API.getOneOrder(1).then(data => {
-        //     if (data) {
-        //         console.log(data);
-        //     }else {
-        //         console.log("nothing to see here");
-        //     }
-        // });
-        API.deleteOrder(loginFormState.token, 1).then(data => {
+        API.getOneOrder(5).then(data => {
             if (data) {
                 console.log(data);
             }else {
                 console.log("nothing to see here");
             }
         });
+        // API.deleteOrder(loginFormState.token, 1).then(data => {
+        //     if (data) {
+        //         console.log(data);
+        //     }else {
+        //         console.log("nothing to see here");
+        //     }
+        // });
       }
 
     return (
