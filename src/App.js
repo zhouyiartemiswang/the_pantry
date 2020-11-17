@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Shop from './pages/Shop';
 import UserProfile from './pages/UserProfile';
 import Owner from './pages/Owner';
 import Footer from './components/Footer';
@@ -20,6 +21,10 @@ function App() {
                 <Route exact path="/login">
                     <NavBar />
                     <Login />
+                </Route>
+                <Route exact path="/shop">
+                    <NavBar />
+                    <Shop />
                 </Route>
                 <Route exact path="/user/profile">
                     <NavBar />
