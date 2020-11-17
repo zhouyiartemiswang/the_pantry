@@ -185,8 +185,8 @@ export default function EnhancedTable() {
                                             <TableCell align="right">{row.quantity}</TableCell>
                                             <TableCell align="left">{row.unit}</TableCell>
                                             <TableCell align="left">
-                                                <span class="material-icons">edit</span>
-                                                <span class="material-icons">delete</span>
+                                                <span className="material-icons">edit</span>
+                                                <span className="material-icons">delete</span>
                                             </TableCell>
                                         </TableRow>
                                     );

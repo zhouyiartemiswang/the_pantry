@@ -47,7 +47,7 @@ export default function OwnerNavBar(props) {
                     onClick={props.handleDrawerOpen}
                     className={clsx(classes.menuButton, props.open && classes.menuButtonHidden)}
                 >
-                    <span class="material-icons">menu</span>
+                    <span className="material-icons">menu</span>
                 </IconButton>
                 <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {props.page}
