@@ -15,25 +15,27 @@ const useStyles = makeStyles({
     },
 });
 
-function createData(orderNumber, type, sale, deadline, status) {
-    return { orderNumber, type, sale, deadline, status };
-}
+// function createData(orderNumber, type, sale, deadline, status) {
+//     return { orderNumber, type, sale, deadline, status };
+// }
 
-const rows = [
-    createData("000001", "pre-made", 100, "December 4, 2020", "in progress" ),
-    createData("000002", "pre-made", 90, "December 2, 2020", "in progress"),
-    createData("000003", "custom", 200, "December 14, 2020", "in progress"),
-    createData("000004", "pre-made", 45, "December 3, 2020", "in progress"),
-    createData("000005", "custom", 300, "December 11, 2020", "in progress"),
-];
+// const rows = [
+//     createData("000001", "pre-made", 100, "December 4, 2020", "in progress" ),
+//     createData("000002", "pre-made", 90, "December 2, 2020", "in progress"),
+//     createData("000003", "custom", 200, "December 14, 2020", "in progress"),
+//     createData("000004", "pre-made", 45, "December 3, 2020", "in progress"),
+//     createData("000005", "custom", 300, "December 11, 2020", "in progress"),
+// ];
 
 export default function BasicTable() {
     const classes = useStyles();
     const [orderState, setOrderState] = useState([]);
 
-    // useEffect(() => {
-    //     API.getOrders().then(res => setOrderState(res))
-    // }, [])
+    useEffect(() => {
+        API.getAllOrders().then(res => {
+            setOrderState(res)
+        })
+    }, [])
 
     return (
         <TableContainer component={Paper}>
@@ -48,7 +50,8 @@ export default function BasicTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
+                    {/* {rows.map((row) => ( */}
+                    {orderState.map((row) => (
                         <TableRow key={row.orderNumber}>
                             <TableCell align="center">{row.orderNumber}</TableCell>
                             <TableCell align="center">{row.type}</TableCell>
