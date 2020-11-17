@@ -48,7 +48,7 @@ export default function SideNav(props) {
         >
             <div className={classes.toolbarIcon}>
                 <IconButton onClick={props.handleDrawerClose}>
-                    <span class="material-icons">chevron_left</span>
+                    <span className="material-icons">chevron_left</span>
                 </IconButton>
             </div>
             <Divider />
@@ -62,7 +62,7 @@ export default function SideNav(props) {
                 ].map((text) => (
                     <Link href={text[1]}>
                         <ListItem button key={text[0]}>
-                            <span class="material-icons">{text[2]}</span>
+                            <span className="material-icons">{text[2]}</span>
                             <ListItemText primary={text[0]} />
                         </ListItem>
                     </Link>
