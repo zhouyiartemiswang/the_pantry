@@ -11,6 +11,7 @@ const API = {
             return null;
         });
     },
+    // requires: user id(integer)
     getOneUser:function(id){
         return fetch(`${URL_PREFIX}/api/users/${id}`,{
         }).then(function(res){
@@ -19,6 +20,8 @@ const API = {
             return null;
         });
     },
+    // expects: buyer to be logged in
+    // requires: bearer token(string)
     getBuyer:function(token){
         return fetch(`${URL_PREFIX}/api/users/buyer`,{
             method:"GET",
@@ -31,6 +34,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string)
     getBaker:function(token){
         return fetch(`${URL_PREFIX}/api/users/baker`,{
             method:"GET",
@@ -43,6 +48,7 @@ const API = {
             return null;
         });
     },
+    // requires: email(string), username(string), password(string), address(string), phone(string), isOwner(bool)
     createUser:function(info){
         return fetch(`${URL_PREFIX}/api/users`,{
             method:"POST",
@@ -56,6 +62,7 @@ const API = {
             return null;
         });
     },
+    // requires: email(string), password(string)
     loginUser:function(info){
         return fetch(`${URL_PREFIX}/api/users/login`,{
             method:"POST",
@@ -78,6 +85,7 @@ const API = {
             return null;
         });
     },
+    // requires: order id(integer)
     getOneOrder:function(id){
         return fetch(`${URL_PREFIX}/api/orders/${id}`,{
         }).then(function(res){
@@ -86,6 +94,8 @@ const API = {
             return null;
         });
     },
+    // expects: user to be logged in
+    // requires: bearer token(string), sale(decimal), ingredients(string), deadline(date), status(string), description(string), baker_id(integer)
     createOrder:function(token, info){
         return fetch(`${URL_PREFIX}/api/orders`,{
             method:"POST",
@@ -100,7 +110,9 @@ const API = {
             return null;
         });
     },
-    getEditOrder:function(token, info, id){
+    // expects: baker to be logged in
+    // requires: bearer token(string), order id(integer), sale(decimal), ingredients(string), deadline(date), status(string), description(string)
+    editOrder:function(token, id, info){
         return fetch(`${URL_PREFIX}/api/orders/${id}`,{
             method:"PUT",
             headers: {
@@ -114,6 +126,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), order id(integer)
     deleteOrder:function(token, id){
         return fetch(`${URL_PREFIX}/api/orders/${id}`,{
             method:"DELETE",
@@ -136,6 +150,7 @@ const API = {
             return null;
         });
     },
+    // requires: invchanges id(integer)
     getOneInvChanges:function(id){
         return fetch(`${URL_PREFIX}/api/invchanges/${id}`,{
         }).then(function(res){
@@ -144,6 +159,9 @@ const API = {
             return null;
         });
     },
+    
+    // expects: baker to be logged in
+    // requires: bearer token(string), ingredients(string), handled(boolean), origin(string)
     createInvChanges:function(token, info){
         return fetch(`${URL_PREFIX}/api/invchanges`,{
             method:"POST",
@@ -158,7 +176,10 @@ const API = {
             return null;
         });
     },
-    getEditInvChanges:function(token, info, id){
+    
+    // expects: baker to be logged in
+    // requires: bearer token(string), invchanges id(integer), ingredients(string), handled(boolean), origin(string)
+    editInvChanges:function(token, id, info){
         return fetch(`${URL_PREFIX}/api/invchanges/${id}`,{
             method:"PUT",
             headers: {
@@ -172,6 +193,9 @@ const API = {
             return null;
         });
     },
+    
+    // expects: baker to be logged in
+    // requires: bearer token(string), invchanges id(integer)
     deleteInvChanges:function(token, id){
         return fetch(`${URL_PREFIX}/api/invchanges/${id}`,{
             method:"DELETE",
@@ -194,6 +218,7 @@ const API = {
             return null;
         });
     },
+    // requires: inventory id(integer)
     getOneInventory:function(id){
         return fetch(`${URL_PREFIX}/api/inventory/${id}`,{
         }).then(function(res){
@@ -202,6 +227,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), name(string), quantity(integer), metric(string), expires(date)
     createInventory:function(token, info){
         return fetch(`${URL_PREFIX}/api/inventory`,{
             method:"POST",
@@ -216,7 +243,9 @@ const API = {
             return null;
         });
     },
-    getEditInventory:function(token, info, id){
+    // expects: baker to be logged in
+    // requires: bearer token(string), inventory id(integer), name(string), quantity(integer), metric(string), expires(date)
+    editInventory:function(token, info, id){
         return fetch(`${URL_PREFIX}/api/inventory/${id}`,{
             method:"PUT",
             headers: {
@@ -230,6 +259,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), inventory id(integer)
     deleteInventory:function(token, id){
         return fetch(`${URL_PREFIX}/api/inventory/${id}`,{
             method:"DELETE",
@@ -252,6 +283,7 @@ const API = {
             return null;
         });
     },
+    // requires: premade id(integer)
     getOnePreMade:function(id){
         return fetch(`${URL_PREFIX}/api/premade/${id}`,{
         }).then(function(res){
@@ -260,6 +292,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), name(string), price(decimal), ingredients(string), description(string), img(string)
     createPreMade:function(token, info){
         return fetch(`${URL_PREFIX}/api/premade`,{
             method:"POST",
@@ -274,7 +308,9 @@ const API = {
             return null;
         });
     },
-    getEditPreMade:function(token, info, id){
+    // expects: baker to be logged in
+    // requires: bearer token(string), premade id(integer), name(string), price(decimal), ingredients(string), description(string), img(string)
+    editPreMade:function(token, id, info){
         return fetch(`${URL_PREFIX}/api/premade/${id}`,{
             method:"PUT",
             headers: {
@@ -288,6 +324,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), premade id(integer)
     deletePreMade:function(token, id){
         return fetch(`${URL_PREFIX}/api/premade/${id}`,{
             method:"DELETE",
@@ -310,6 +348,7 @@ const API = {
             return null;
         });
     },
+    // requires: pricing id(integer)
     getOnePricing:function(id){
         return fetch(`${URL_PREFIX}/api/pricing/${id}`,{
         }).then(function(res){
@@ -318,6 +357,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), name(string), price(decimal), type(string)
     createPricing:function(token, info){
         return fetch(`${URL_PREFIX}/api/pricing`,{
             method:"POST",
@@ -332,7 +373,9 @@ const API = {
             return null;
         });
     },
-    getEditPricing:function(token, info, id){
+    // expects: baker to be logged in
+    // requires: bearer token(string), pricing id(integer), name(string), price(decimal), type(string)
+    editPricing:function(token, info, id){
         return fetch(`${URL_PREFIX}/api/pricing/${id}`,{
             method:"PUT",
             headers: {
@@ -346,6 +389,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), pricing id(integer)
     deletePricing:function(token, id){
         return fetch(`${URL_PREFIX}/api/pricing/${id}`,{
             method:"DELETE",
@@ -368,6 +413,7 @@ const API = {
             return null;
         });
     },
+    // requires: revenue id(integer)
     getOneRevenue:function(id){
         return fetch(`${URL_PREFIX}/api/revenue/${id}`,{
         }).then(function(res){
@@ -376,6 +422,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), ingredients(decimal), sales(decimal), month(string)
     createRevenue:function(token, info){
         return fetch(`${URL_PREFIX}/api/revenue`,{
             method:"POST",
@@ -390,7 +438,9 @@ const API = {
             return null;
         });
     },
-    getEditRevenue:function(token, info, id){
+    // expects: baker to be logged in
+    // requires: bearer token(string), revenue id(integer), ingredients(decimal), sales(decimal), month(string)
+    editRevenue:function(token, info, id){
         return fetch(`${URL_PREFIX}/api/revenue/${id}`,{
             method:"PUT",
             headers: {
@@ -404,6 +454,8 @@ const API = {
             return null;
         });
     },
+    // expects: baker to be logged in
+    // requires: bearer token(string), revenue id(integer)
     deleteRevenue:function(token, id){
         return fetch(`${URL_PREFIX}/api/revenue/${id}`,{
             method:"DELETE",
