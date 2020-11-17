@@ -138,8 +138,10 @@ export default function Inventory() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     useEffect(() => {
-        API.getAllInventory().then(res => {
-            // console.log(res);
+        const token = localStorage.getItem("token");
+        console.log(token);
+        API.getBaker(token).then(res => {
+            console.log(res)
             setInventoryState(res)
         })
     }, [])
