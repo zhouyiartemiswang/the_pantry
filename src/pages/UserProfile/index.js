@@ -38,13 +38,13 @@ export default function SimpleAccordion() {
                 <Accordion>
                     <AccordionSummary
                         expandIcon={
-                            <span class="material-icons">expand_more</span>
+                            <span className="material-icons">expand_more</span>
                         }
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
                         <Typography className={classes.heading}>
-                            <span class="material-icons">shopping_basket</span>
+                            <span className="material-icons">shopping_basket</span>
                             My Orders
                         </Typography>
                     </AccordionSummary>
@@ -57,13 +57,13 @@ export default function SimpleAccordion() {
                 <Accordion>
                     <AccordionSummary
                         expandIcon={
-                            <span class="material-icons">expand_more</span>
+                            <span className="material-icons">expand_more</span>
                         }
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
                         <Typography className={classes.heading}>
-                            <span class="material-icons">favorite</span>
+                            <span className="material-icons">favorite</span>
                             My Favorites
                         </Typography>
                     </AccordionSummary>
@@ -77,13 +77,13 @@ export default function SimpleAccordion() {
                 <Accordion>
                     <AccordionSummary
                         expandIcon={
-                            <span class="material-icons">expand_more</span>
+                            <span className="material-icons">expand_more</span>
                         }
                         aria-controls="panel2a-content"
                         id="panel2a-header"
                     >
                         <Typography className={classes.heading}>
-                            <span class="material-icons">house</span>
+                            <span className="material-icons">house</span>
                             My Addresses
                         </Typography>
                     </AccordionSummary>
