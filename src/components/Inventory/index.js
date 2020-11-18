@@ -139,12 +139,15 @@ export default function Inventory() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        console.log(token);
+        // console.log(token);
         API.getBaker(token).then(res => {
             console.log(res)
-            setInventoryState(res)
+            if (res) {
+                setInventoryState(res.Inventories)
+            }
         })
     }, [])
+
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');

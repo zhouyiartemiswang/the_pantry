@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, FormControl, TextField, InputLabel, Select, MenuItem, DialogActions, makeStyles } from '@material-ui/core';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+
 import './style.css';
+import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -9,15 +15,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FormDialog() {
+export default function AddItemForm() {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
     const [itemState, setItemState] = useState({
         name: "",
         quantity: "",
-        metric: ""
+        metric: "",
+        expires: ""
     });
+    const [selectedDate, setSelectedDate] = useState(new Date('2020-11-18'));
 
     const handleOpen = () => {
         setOpen(true);
@@ -36,8 +44,24 @@ export default function FormDialog() {
         });
     };
 
-    const handleAddItem = () => {
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        setItemState({
+            ...itemState,
+            expires: selectedDate
+        })
+    };
+
+    const handleAddItemSubmit = (event) => {
+        event.preventDefault();
         handleClose();
+        const token = localStorage.getItem("token");
+        API.createInventory(token, itemState)
+            .then(res => {
+                console.log("Item added!")
+                window.location.reload();
+            })
+            .catch(err => console.log(err));
     }
 
     return (
@@ -50,7 +74,7 @@ export default function FormDialog() {
                 <DialogContent>
                     <FormControl className={classes.formControl}>
                         <TextField
-                            required autofocus
+                            required autoFocus
                             id="item"
                             label="Item"
                             value={itemState.name}
@@ -60,7 +84,7 @@ export default function FormDialog() {
                     </FormControl>
                     <FormControl className={classes.formControl}>
                         <TextField
-                            required autofocus
+                            required autoFocus
                             type="number"
                             id="quantity"
                             label="Quantity"
@@ -87,11 +111,28 @@ export default function FormDialog() {
                         </Select>
                     </FormControl>
                 </DialogContent>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            margin="normal"
+                            id="date-picker-inline"
+                            label="Expiration Date"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                    </Grid>
+                </MuiPickersUtilsProvider>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleAddItem} color="primary">
+                    <Button onClick={handleAddItemSubmit} color="primary">
                         Add
                     </Button>
                 </DialogActions>

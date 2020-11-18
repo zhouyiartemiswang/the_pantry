@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
 import API from '../../utils/API';
 
 const useStyles = makeStyles({
@@ -43,18 +36,17 @@ export default function BasicTable() {
                 <TableHead>
                     <TableRow>
                         <TableCell align="center">Order Number</TableCell>
-                        <TableCell align="center">Type of Cake</TableCell>
+                        <TableCell align="center">Description</TableCell>
                         <TableCell align="center">Sale</TableCell>
                         <TableCell align="center">Deadline</TableCell>
                         <TableCell align="center">Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/* {rows.map((row) => ( */}
                     {orderState.map((row) => (
                         <TableRow key={row.orderNumber}>
-                            <TableCell align="center">{row.orderNumber}</TableCell>
-                            <TableCell align="center">{row.type}</TableCell>
+                            <TableCell align="center">{row.id}</TableCell>
+                            <TableCell align="center">{row.description}</TableCell>
                             <TableCell align="center">${row.sale}</TableCell>
                             <TableCell align="center">{row.deadline}</TableCell>
                             <TableCell align="center">{row.status}</TableCell>

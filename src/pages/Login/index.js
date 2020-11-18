@@ -74,9 +74,11 @@ export default function Login() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        API.loginUser(loginFormState).then(newToken => {
-            localStorage.setItem("token", newToken.token)
-        })
+        API.loginUser(loginFormState)
+            .then(newToken => {
+                localStorage.setItem("token", newToken.token)
+            })
+            .catch(err => console.log(err));
     }
 
     return (
