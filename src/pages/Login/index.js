@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -51,9 +52,12 @@ export default function Login() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
+        let history = useHistory();
         API.loginUser(loginFormState)
-            .then(newToken => {
-                localStorage.setItem("token", newToken.token)
+            .then(res => {
+                localStorage.setItem("token", res.token)
+                // API.getOneUser(res.id)
+                // history.push("/owner/dashboard")
             })
             .catch(err => console.log(err));
     }
@@ -104,9 +108,7 @@ export default function Login() {
                         className={classes.submit}
                         onClick={handleFormSubmit}
                     >
-                        <Link href="/owner/dashboard">
                             Sign In
-                        </Link>
                     </Button>
                     <Grid container>
                         <Grid item xs>
