@@ -20,6 +20,11 @@ export default function NavBar() {
                     </Link>
                 </Button>
                 <Button className="nav-tab">
+                    <Link href="/signup">
+                        Sign Up
+                    </Link>
+                </Button>
+                <Button className="nav-tab">
                     <Link href="/login">
                         Login
                     </Link>

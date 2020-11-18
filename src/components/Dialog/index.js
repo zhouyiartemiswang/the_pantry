@@ -64,7 +64,7 @@ export default function AddItemForm(props) {
                 })
                 .catch(err => console.log(err));
         } else {
-            API.editInventory(token, itemState, props.id)
+            API.editInventory(token, props.id, itemState)
                 .then(res => {
                     console.log("Item edited!");
                     window.location.reload();

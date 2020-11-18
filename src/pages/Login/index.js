@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
+    let history = useHistory();
 
     const [loginFormState, setLoginFormState] = useState({
         email: "",
@@ -51,9 +53,23 @@ export default function Login() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
+        console.log(event.target);
         API.loginUser(loginFormState)
-            .then(newToken => {
-                localStorage.setItem("token", newToken.token)
+            .then(res => {
+                console.log(res.token);
+                localStorage.setItem("token", res.token)
+                API.getOneUser(res.id)
+                    .then(res => {
+                        console.log(res)
+                        if (res.isOwner) {
+                            console.log(res.isOwner)
+                            // history.push("/profile")
+                        } else {
+                            console.log(res.isOwner)
+                            // history.push("/profile")
+                        }
+                    })
+                    .catch(err => console.log(err));
             })
             .catch(err => console.log(err));
     }
@@ -65,7 +81,11 @@ export default function Login() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form
+                    className={classes.form}
+                    noValidate
+                    onSubmit={handleFormSubmit}
+                >
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -102,9 +122,8 @@ export default function Login() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        onClick={handleFormSubmit}
                     >
-                            Sign In
+                        Sign In
                     </Button>
                     <Grid container>
                         <Grid item xs>

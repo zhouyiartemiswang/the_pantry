@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
+import CakeMasters from './pages/CakeMasters';
+import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Shop from './pages/Shop';
 import UserProfile from './pages/UserProfile';
@@ -58,6 +60,14 @@ function App() {
                 <Route exact path="/">
                     <NavBar />
                     <Home />
+                </Route>
+                <Route exact path="/cakemasters">
+                    <NavBar />
+                    <CakeMasters />
+                </Route>
+                <Route exact path="/signup">
+                    <NavBar />
+                    <Signup />
                 </Route>
                 <Route exact path="/login">
                     <NavBar />
