@@ -6,8 +6,8 @@ import CakeMasters from './pages/CakeMasters';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Shop from './pages/Shop';
-import UserProfile from './pages/UserProfile';
-import Owner from './pages/Owner';
+import Profile from './pages/Profile';
+import Inventory from './pages/Inventory';
 import Footer from './components/Footer';
 import Box from '@material-ui/core/Box';
 import API from './utils/API';
@@ -55,37 +55,29 @@ function App() {
 
     return (
         <BrowserRouter>
-
+            <NavBar/>
+            
             <Switch>
                 <Route exact path="/">
-                    <NavBar />
                     <Home />
                 </Route>
                 <Route exact path="/cakemasters">
-                    <NavBar />
                     <CakeMasters />
                 </Route>
                 <Route exact path="/signup">
-                    <NavBar />
                     <Signup />
                 </Route>
                 <Route exact path="/login">
-                    <NavBar />
                     <Login />
                 </Route>
                 <Route exact path="/shop">
-                    <NavBar />
                     <Shop />
                 </Route>
-                <Route exact path="/user/profile">
-                    <NavBar />
-                    <UserProfile />
+                <Route exact path="/profile">
+                    <Profile />
                 </Route>
-                <Route exact path="/owner/dashboard">
-                    <Owner page="Dashboard" />
-                </Route>
-                <Route exact path="/owner/inventory">
-                    <Owner page="Inventory" />
+                <Route exact path="/inventory">
+                    <Inventory/>
                 </Route>
             </Switch>
 

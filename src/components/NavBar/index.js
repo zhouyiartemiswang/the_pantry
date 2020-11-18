@@ -28,6 +28,11 @@ export default function NavBar() {
                     </Link>
                 </Button>
                 <Button className="nav-tab">
+                    <Link href="/profile">
+                        <span className="material-icons">account_circle</span>
+                    </Link>
+                </Button>
+                <Button className="nav-tab">
                     <Link href="/cart">
                         <span className="material-icons">shopping_cart</span>
                     </Link>
