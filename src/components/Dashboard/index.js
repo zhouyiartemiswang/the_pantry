@@ -60,7 +60,7 @@ export default function Dashboard() {
             {/* Inventory Alerts */}
             <Grid item xs={12} md={4} lg={3}>
                 <Paper className={fixedHeightPaper}>
-                    <InventoryAlert lowStockItem={lowStockItem}/>
+                    {/* <InventoryAlert lowStockItem={lowStockItem}/> */}
                 </Paper>
             </Grid>
 

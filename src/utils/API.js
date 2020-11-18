@@ -1,5 +1,5 @@
-// const URL_PREFIX = "http://localhost:8080"
-const URL_PREFIX = "https://the-pantry-api.herokuapp.com/"
+const URL_PREFIX = "http://localhost:8080"
+// const URL_PREFIX = "https://the-pantry-api.herokuapp.com/"
 
 const API = {
     //////////////////////////// User Calls ////////////////////////////
@@ -70,6 +70,21 @@ const API = {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(info)
+        }).then(function (res) {
+            return res.json();
+        }).catch(function (err) {
+            return null;
+        });
+    },
+    // expects: user to be logged in
+    // requires: bearer token(string) 
+    disableUser: function (token) {
+        return fetch(`${URL_PREFIX}/api/users/disable`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                "authorization": `Bearer ${token}`
+            }
         }).then(function (res) {
             return res.json();
         }).catch(function (err) {

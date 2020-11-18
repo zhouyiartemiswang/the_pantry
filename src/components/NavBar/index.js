@@ -1,7 +1,9 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Link } from '@material-ui/core';
 import './style.css';
-
+// add a check on the login button to display login or log out based on user state
+// have a link to profile
+// have a link to orders
 export default function NavBar() {
 
     return (
