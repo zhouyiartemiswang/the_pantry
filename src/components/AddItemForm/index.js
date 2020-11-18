@@ -58,7 +58,7 @@ export default function AddItemForm() {
         const token = localStorage.getItem("token");
         API.createInventory(token, itemState)
             .then(res => {
-                console.log("Item added!")
+                console.log("Item added!");
                 window.location.reload();
             })
             .catch(err => console.log(err));

@@ -131,6 +131,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Inventory() {
     const classes = useStyles();
+    const [tokenState, setTokenState] = useState("");
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('quantity');
     const [inventoryState, setInventoryState] = useState([]);
@@ -139,6 +140,7 @@ export default function Inventory() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        setTokenState(token);
         // console.log(token);
         API.getBaker(token).then(res => {
             console.log(res)
@@ -161,6 +163,16 @@ export default function Inventory() {
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+    };
+
+    const handleItemDelete = (event) => {
+        // console.log(event.target.id);
+        API.deleteInventory(tokenState, event.target.id)
+            .then(res => {
+                console.log("Item deleted!");
+                window.location.reload();
+            })
+            .catch(err => console.log(err));
     };
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, inventoryState.length - page * rowsPerPage);
@@ -199,7 +211,12 @@ export default function Inventory() {
                                             <TableCell align="left">{row.metric}</TableCell>
                                             <TableCell align="left">
                                                 <span className="material-icons">edit</span>
-                                                <span className="material-icons">delete</span>
+                                                <span
+                                                    className="material-icons"
+                                                    id={row.id}
+                                                    onClick={handleItemDelete}
+                                                >
+                                                    delete</span>
                                             </TableCell>
                                         </TableRow>
                                     );
