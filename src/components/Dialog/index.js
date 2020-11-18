@@ -4,9 +4,8 @@ import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-
-import './style.css';
 import API from '../../utils/API';
+import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -36,8 +35,8 @@ export default function AddItemForm(props) {
     };
 
     const handleInputChange = (event) => {
-        console.log(event.target.name);
-        console.log(event.target.value);
+        // console.log(event.target.name);
+        // console.log(event.target.value);
         const { name, value } = event.target;
         setItemState({
             ...itemState,
