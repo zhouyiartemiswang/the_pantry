@@ -104,7 +104,9 @@ export default function Login() {
                         className={classes.submit}
                         onClick={handleFormSubmit}
                     >
+                        <Link href="/owner/dashboard">
                             Sign In
+                        </Link>
                     </Button>
                     <Grid container>
                         <Grid item xs>
