@@ -10,7 +10,7 @@ import './style.css';
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '50%',
-        marginTop: 100,
+        marginTop: 50,
         marginLeft: 350,
     },
     heading: {
