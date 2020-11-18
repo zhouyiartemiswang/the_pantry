@@ -39,29 +39,6 @@ export default function Login() {
 
     function fetchUserData() {
         const token = localStorage.getItem("token");
-        // API.getProfile(token).then(profileData => {
-        //     if (profileData) {
-        //         setProfileState({
-        //             name: profileData.name,
-        //             email: profileData.email,
-        //             tanks: profileData.Tanks,
-        //             fish: profileData.Fishes,
-        //             token: token,
-        //             id: profileData.id,
-        //             isLoggedIn: true
-        //         })
-        //     } else {
-        //         localStorage.removeItem("token");
-        //         setProfileState({
-        //             name: "",
-        //             email: "",
-        //             tanks: [],
-        //             token: "",
-        //             id: "",
-        //             isLoggedIn: false
-        //         })
-        //     }
-        // })
     }
 
     const handleInputChange = event => {
@@ -127,7 +104,7 @@ export default function Login() {
                         className={classes.submit}
                         onClick={handleFormSubmit}
                     >
-                        Sign In
+                            Sign In
                     </Button>
                     <Grid container>
                         <Grid item xs>
