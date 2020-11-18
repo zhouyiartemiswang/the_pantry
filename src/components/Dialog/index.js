@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AddItemForm() {
+export default function AddItemForm(props) {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
@@ -37,6 +37,7 @@ export default function AddItemForm() {
 
     const handleInputChange = (event) => {
         console.log(event.target.name);
+        console.log(event.target.value);
         const { name, value } = event.target;
         setItemState({
             ...itemState,
@@ -52,25 +53,38 @@ export default function AddItemForm() {
         })
     };
 
-    const handleAddItemSubmit = (event) => {
+    const handleInputSubmit = (event) => {
         event.preventDefault();
         handleClose();
         const token = localStorage.getItem("token");
-        API.createInventory(token, itemState)
-            .then(res => {
-                console.log("Item added!");
-                window.location.reload();
-            })
-            .catch(err => console.log(err));
+        if (props.isAddItem) {
+            API.createInventory(token, itemState)
+                .then(res => {
+                    console.log("Item added!");
+                    window.location.reload();
+                })
+                .catch(err => console.log(err));
+        } else {
+            API.editInventory(token, itemState, props.id)
+                .then(res => {
+                    console.log("Item edited!");
+                    window.location.reload();
+                })
+                .catch(err => console.log(err));
+        }
     }
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleOpen}>
-                Add Item
-            </Button>
+            {props.isAddItem
+                ? <Button variant="outlined" color="primary" onClick={handleOpen}>Add Item</Button>
+                : <span className="material-icons" onClick={handleOpen}>edit</span>
+            }
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Add an Item</DialogTitle>
+                {props.isAddItem
+                    ? <DialogTitle id="form-dialog-title">Add an Item</DialogTitle>
+                    : <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
+                }
                 <DialogContent>
                     <FormControl className={classes.formControl}>
                         <TextField
@@ -128,12 +142,13 @@ export default function AddItemForm() {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
+
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleAddItemSubmit} color="primary">
-                        Add
+                    <Button onClick={handleInputSubmit} color="primary">
+                        Submit
                     </Button>
                 </DialogActions>
             </Dialog>

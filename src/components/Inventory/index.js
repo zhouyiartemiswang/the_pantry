@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AddItemForm from '../AddItemForm';
+import Dialog from '../Dialog';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
@@ -55,6 +55,7 @@ const headCells = [
     { id: 'item', label: 'Item' },
     { id: 'quantity', label: 'Quantity' },
     { id: 'unit', label: 'Unit' },
+    { id: 'expires', label: 'Expiration Date' },
     { id: 'action', label: 'Action' },
 ];
 
@@ -209,8 +210,9 @@ export default function Inventory() {
                                             </TableCell>
                                             <TableCell align="right">{row.quantity}</TableCell>
                                             <TableCell align="left">{row.metric}</TableCell>
+                                            <TableCell align="left">{row.expires}</TableCell>
                                             <TableCell align="left">
-                                                <span className="material-icons">edit</span>
+                                                <Dialog isAddItem={false} id={row.id} />
                                                 <span
                                                     className="material-icons"
                                                     id={row.id}
@@ -229,7 +231,7 @@ export default function Inventory() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <AddItemForm />
+                <Dialog isAddItem={true} />
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
