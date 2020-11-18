@@ -24,7 +24,7 @@ export default function NavBar() {
                 </Button>
                 <Button className="nav-tab">
                     <Link href="/cart">
-                        <i class="material-icons">shopping_cart</i>
+                        <span className="material-icons">shopping_cart</span>
                     </Link>
                 </Button>
             </Toolbar>

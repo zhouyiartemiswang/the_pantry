@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     form: {
-        width: '100%', 
+        width: '100%',
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -28,6 +29,34 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
     const classes = useStyles();
+
+    const [loginFormState, setLoginFormState] = useState({
+        email: "",
+        password: ""
+    })
+
+    useEffect(fetchUserData, [])
+
+    function fetchUserData() {
+        const token = localStorage.getItem("token");
+    }
+
+    const handleInputChange = event => {
+        const { name, value } = event.target;
+        setLoginFormState({
+            ...loginFormState,
+            [name]: value
+        })
+    }
+
+    const handleFormSubmit = event => {
+        event.preventDefault();
+        API.loginUser(loginFormState)
+            .then(newToken => {
+                localStorage.setItem("token", newToken.token)
+            })
+            .catch(err => console.log(err));
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -44,6 +73,8 @@ export default function Login() {
                         fullWidth
                         id="email"
                         label="Email Address"
+                        value={loginFormState.email}
+                        onChange={handleInputChange}
                         name="email"
                         autoComplete="email"
                         autoFocus
@@ -53,8 +84,10 @@ export default function Login() {
                         margin="normal"
                         required
                         fullWidth
-                        name="password"
                         label="Password"
+                        value={loginFormState.password}
+                        onChange={handleInputChange}
+                        name="password"
                         type="password"
                         id="password"
                         autoComplete="current-password"
@@ -69,8 +102,9 @@ export default function Login() {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={handleFormSubmit}
                     >
-                        Sign In
+                            Sign In
                     </Button>
                     <Grid container>
                         <Grid item xs>

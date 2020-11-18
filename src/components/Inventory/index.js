@@ -1,28 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import AddItemForm from '../AddItemForm';
+import Dialog from '../Dialog';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles } from '@material-ui/core';
+import API from '../../utils/API';
 import './style.css';
 
-function createData(item, quantity, unit) {
-    return { item, quantity, unit };
-}
+// function createData(item, quantity, unit) {
+//     return { item, quantity, unit };
+// }
 
-const rows = [
-    createData("Milk, whole", 5, "gal"),
-    createData("Egg", 10, "dozen"),
-    createData("Butter, unsalted", 10, "lb"),
-    createData("Flour, cake", 50, "lb"),
-    createData("Flour, all-purpose", 73, "lb"),
-    createData("Sugar, granulated", 24, "lb"),
-    createData("Sugar, powered", 10, "lb"),
-    createData("Cream, heavy whipping", 4, "gal"),
-    createData("Vanilla bean, pod", 50, "each"),
-    createData("Chocolate, dark", 14, "lb"),
-    createData("Almond, sliced, toasted", 1, "lb"),
-    createData("Chocolate, milk", 10, "lb"),
-    createData("Coconut, shredded, sweetened", 2, "lb"),
-];
+// const rows = [
+//     createData("Milk, whole", 5, "gal"),
+//     createData("Egg", 10, "dozen"),
+//     createData("Butter, unsalted", 10, "lb"),
+//     createData("Flour, cake", 50, "lb"),
+//     createData("Flour, all-purpose", 73, "lb"),
+//     createData("Sugar, granulated", 24, "lb"),
+//     createData("Sugar, powered", 10, "lb"),
+//     createData("Cream, heavy whipping", 4, "gal"),
+//     createData("Vanilla bean, pod", 50, "each"),
+//     createData("Chocolate, dark", 14, "lb"),
+//     createData("Almond, sliced, toasted", 1, "lb"),
+//     createData("Chocolate, milk", 10, "lb"),
+//     createData("Coconut, shredded, sweetened", 2, "lb"),
+// ];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -54,10 +55,11 @@ const headCells = [
     { id: 'item', label: 'Item' },
     { id: 'quantity', label: 'Quantity' },
     { id: 'unit', label: 'Unit' },
+    { id: 'expires', label: 'Expiration Date' },
     { id: 'action', label: 'Action' },
 ];
 
-function EnhancedTableHead(props) {
+function InventoryHead(props) {
     const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
@@ -66,7 +68,7 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-                {headCells.map((headCell, index) => (
+                {headCells.map((headCell) => (
                     headCell.id === "item" ?
                         (<TableCell
                             key={headCell.id}
@@ -97,7 +99,7 @@ function EnhancedTableHead(props) {
     );
 }
 
-EnhancedTableHead.propTypes = {
+InventoryHead.propTypes = {
     classes: PropTypes.object.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
@@ -128,12 +130,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function EnhancedTable() {
+export default function Inventory() {
     const classes = useStyles();
+    const [tokenState, setTokenState] = useState("");
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('quantity');
+    const [inventoryState, setInventoryState] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        setTokenState(token);
+        // console.log(token);
+        API.getBaker(token).then(res => {
+            console.log(res)
+            if (res) {
+                setInventoryState(res.Inventories)
+            }
+        })
+    }, [])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -150,7 +166,17 @@ export default function EnhancedTable() {
         setPage(0);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    const handleItemDelete = (event) => {
+        // console.log(event.target.id);
+        API.deleteInventory(tokenState, event.target.id)
+            .then(res => {
+                console.log("Item deleted!");
+                window.location.reload();
+            })
+            .catch(err => console.log(err));
+    };
+
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, inventoryState.length - page * rowsPerPage);
 
     return (
         <div className={classes.root}>
@@ -162,14 +188,14 @@ export default function EnhancedTable() {
                         size="medium"
                         aria-label="enhanced table"
                     >
-                        <EnhancedTableHead
+                        <InventoryHead
                             classes={classes}
                             order={order}
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
+                            {stableSort(inventoryState, getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -177,16 +203,22 @@ export default function EnhancedTable() {
                                         <TableRow
                                             hover
                                             tabIndex={-1}
-                                            key={row.item}
+                                            key={row.name}
                                         >
                                             <TableCell component="th" id={labelId} scope="row">
-                                                {row.item}
+                                                {row.name}
                                             </TableCell>
                                             <TableCell align="right">{row.quantity}</TableCell>
-                                            <TableCell align="left">{row.unit}</TableCell>
+                                            <TableCell align="left">{row.metric}</TableCell>
+                                            <TableCell align="left">{row.expires}</TableCell>
                                             <TableCell align="left">
-                                                <span class="material-icons">edit</span>
-                                                <span class="material-icons">delete</span>
+                                                <Dialog isAddItem={false} id={row.id} />
+                                                <span
+                                                    className="material-icons"
+                                                    id={row.id}
+                                                    onClick={handleItemDelete}
+                                                >
+                                                    delete</span>
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -199,11 +231,11 @@ export default function EnhancedTable() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <AddItemForm />
+                <Dialog isAddItem={true} />
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={inventoryState.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
