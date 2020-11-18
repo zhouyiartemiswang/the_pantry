@@ -6,7 +6,7 @@ export default function Footer() {
         <div className="footer">
             <Typography variant="body2" color="textSecondary" align="center">
                 {'Copyright © '}
-                <Link color="inherit" href="#">
+                <Link color="inherit" href="/">
                     The Pantry
                 </Link>
                 {' '}
