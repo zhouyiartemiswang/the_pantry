@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import CakeMasters from './pages/CakeMasters';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
 import Inventory from './pages/Inventory';
@@ -13,6 +14,7 @@ import Box from '@material-ui/core/Box';
 import API from './utils/API';
 
 function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState("");
     const [isOwner, setIsOwner] = useState("");
     const [loginFormState, setLoginFormState] = useState({
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
@@ -24,6 +26,7 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
+        setIsLoggedIn(false);
         setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
@@ -57,7 +60,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <NavBar isOwner={isOwner}/>
+            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner}/>
             
             <Switch>
                 <Route exact path="/">
@@ -71,6 +74,9 @@ function App() {
                 </Route>
                 <Route exact path="/login">
                     <Login />
+                </Route>
+                <Route exact path="/logout">
+                    <Logout />
                 </Route>
                 <Route exact path="/shop">
                     <Shop />

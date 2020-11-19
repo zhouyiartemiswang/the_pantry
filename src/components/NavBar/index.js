@@ -29,7 +29,7 @@ export default function NavBar(props) {
     };
     return (
         <>
-            { props.isOwner ?
+            { props.isLoggedIn && props.isOwner ?
                 <>
                     <AppBar position="fixed" className={classes.appBar}>
                         <Toolbar>
@@ -48,7 +48,7 @@ export default function NavBar(props) {
                             </Typography>
                         </Toolbar>
                     </AppBar>
-                    <SideNav mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    <SideNav mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </>
                 :
                 <>
@@ -69,16 +69,20 @@ export default function NavBar(props) {
                                     Shop
                                 </Link>
                             </Button>
-                            <Button className="nav-tab">
-                                <Link href="/signup">
-                                    Sign Up
+                            {props.isLoggedIn ? null :
+                                <>
+                                    <Button className="nav-tab">
+                                        <Link href="/signup">
+                                            Sign Up
                                 </Link>
-                            </Button>
-                            <Button className="nav-tab">
-                                <Link href="/login">
-                                    Login
+                                    </Button>
+                                    <Button className="nav-tab">
+                                        <Link href="/login">
+                                            Login
                                 </Link>
-                            </Button>
+                                    </Button>
+                                </>
+                            }
                             <Button className="nav-tab">
                                 <Link href="/profile">
                                     <span className="material-icons">account_circle</span>
