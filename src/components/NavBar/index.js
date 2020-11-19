@@ -41,10 +41,9 @@ export default function NavBar(props) {
                                 className={classes.menuButton}
                             >
                                 <span className="material-icons">menu</span>
-
                             </IconButton>
                             <Typography variant="h6" noWrap>
-                                The Pantry
+                                    The Pantry
                             </Typography>
                         </Toolbar>
                     </AppBar>
@@ -74,12 +73,12 @@ export default function NavBar(props) {
                                     <Button className="nav-tab">
                                         <Link href="/signup">
                                             Sign Up
-                                </Link>
+                                    </Link>
                                     </Button>
                                     <Button className="nav-tab">
                                         <Link href="/login">
                                             Login
-                                </Link>
+                                        </Link>
                                     </Button>
                                 </>
                             }

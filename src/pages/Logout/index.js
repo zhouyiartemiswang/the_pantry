@@ -1,5 +1,6 @@
 import React from 'react';
 import { Toolbar, Link } from '@material-ui/core';
+import './style.css';
 
 export default function Logout() {
     return (

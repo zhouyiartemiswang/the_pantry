@@ -9,6 +9,7 @@ import Logout from './pages/Logout';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
 import Inventory from './pages/Inventory';
+import Revenue from './pages/Revenue';
 import Footer from './components/Footer';
 import Box from '@material-ui/core/Box';
 import API from './utils/API';
@@ -26,7 +27,7 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(false);
+        setIsLoggedIn(true);
         setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
@@ -86,6 +87,9 @@ function App() {
                 </Route>
                 <Route exact path="/inventory">
                     <Inventory/>
+                </Route>
+                <Route exact path="/revenue">
+                    <Revenue/>
                 </Route>
             </Switch>
 

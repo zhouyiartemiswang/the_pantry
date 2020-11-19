@@ -2,11 +2,11 @@ import React from 'react';
 import { Toolbar } from '@material-ui/core';
 import './style.css';
 
-export default function Home() {
+export default function Revenue() {
     return (
         <div>
             <Toolbar/>
-            <h1>Home page</h1>
+            <h1 style={{textAlign: "center"}}>Revenue page</h1>
         </div>
     )
 }
