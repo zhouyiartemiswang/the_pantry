@@ -1,64 +1,51 @@
 import React from 'react';
-import clsx from 'clsx';
-import { Drawer, List, ListItem, ListItemText, IconButton, Divider, Link, makeStyles } from '@material-ui/core';
-import './style.css';
+import { Divider, List, Link, ListItem, ListItemText, Hidden, Drawer } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    drawerPaper: {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerPaperClose: {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
+    drawer: {
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
+            width: drawerWidth,
+            flexShrink: 0,
         },
+    },
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+        width: drawerWidth,
     },
 }));
 
-export default function SideNav(props) {
+function SideNav(props) {
+    const { window } = props;
     const classes = useStyles();
+    const theme = useTheme();
 
-    return (
-        <Drawer
-            variant="permanent"
-            classes={{
-                paper: clsx(classes.drawerPaper, !props.open && classes.drawerPaperClose),
-            }}
-            open={props.open}
-        >
-            <div className={classes.toolbarIcon}>
-                <IconButton onClick={props.handleDrawerClose}>
-                    <span className="material-icons">chevron_left</span>
-                </IconButton>
-            </div>
+    const drawer = (
+        <>
+            <div className={classes.toolbar} />
+            <Divider />
+            <List>
+                <Link href="/cakemasters">
+                    <ListItem button key="cake">
+                        <span className="material-icons">near_me</span>
+                        <ListItemText primary="Cake Masters" />
+                    </ListItem>
+                </Link>
+            </List>
             <Divider />
             <List>
                 {[
-                    ['Dashboard', '/owner/dashboard', 'dashboard'],
-                    ['My Cake Master', '/owner/cakemaster', 'cake'],
-                    ['Orders', '/owner/orders', 'assignment'],
-                    ['Inventory', '/owner/inventory', 'list'],
-                    ['Account', '/owner/account', 'account_box']
+                    ['Dashboard', '/profile', 'dashboard'],
+                    // ['My Products', '#', 'dashboard'],
+                    ['Pre-made Cakes', '/premade', 'cake'],
+                    ['Custom Cakes', '/custom', 'cake'],
+                    ['Orders', '/orders', 'assignment'],
+                    ['Inventory', '/inventory', 'list_alt'],
+                    ['Revenue', '/revenue', 'bar_chart'],
+                    ['Cart', '/cart', 'shopping_cart'],
+                    ['Logout', '/logout', 'logout']
                 ].map((text) => (
                     <Link href={text[1]}>
                         <ListItem button key={text[0]}>
@@ -68,8 +55,45 @@ export default function SideNav(props) {
                     </Link>
                 ))}
             </List>
-        </Drawer>
-    )
+        </>
+    );
+
+    const container = window !== undefined ? () => window().document.body : undefined;
+
+    return (
+        <>
+            <nav className={classes.drawer}>
+                <Hidden smUp implementation="css">
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={props.mobileOpen}
+                        onClose={props.handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true,
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        variant="permanent"
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+            </nav>
+        </>
+    );
 }
 
-
+export default SideNav;

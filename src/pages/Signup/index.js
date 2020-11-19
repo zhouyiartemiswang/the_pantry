@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { FormControlLabel, FormControl, FormLabel, RadioGroup, Radio } from '@material-ui/core';
+import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', 
+        width: '100%',
         marginTop: theme.spacing(3),
     },
     submit: {
@@ -30,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
     const classes = useStyles();
+    const [value, setValue] = useState("");
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
 
     return (
         <Container component="main" maxWidth="xs">
@@ -131,6 +138,14 @@ export default function Signup() {
                                 autoComplete="phone-number"
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <FormControl component="fieldset">
+                                <RadioGroup name="userType" value={value} onChange={handleChange}>
+                                    <FormControlLabel value="owner" control={<Radio color="primary"/>} label="Bakery Owner" />
+                                    <FormControlLabel value="user" control={<Radio color="primary"/>} label="Customer" />
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
                     </Grid>
                     <Button
                         type="submit"
@@ -143,7 +158,7 @@ export default function Signup() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="/signin" variant="body2">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
