@@ -45,6 +45,8 @@ export default function CakeMasterCard() {
         setExpanded(!expanded);
     };
 
+    // cards should be populated based on state data
+	// cards should have an option to have an order created from it
     return (
         <Card className={classes.root}>
             <CardHeader

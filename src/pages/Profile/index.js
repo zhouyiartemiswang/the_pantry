@@ -30,6 +30,8 @@ export default function Profile(props) {
     //     setIsOwner(false);
     // }, []);
 
+    // both user and owner should have the same profile page layout (as the owners should be able to make orders as well. database will be updated for this)
+    // you shouldn't be allowed to access the profile page if you aren't logged in
     return (
         <>
             <div className={classes.appBarSpacer} />

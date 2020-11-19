@@ -76,6 +76,21 @@ const API = {
             return null;
         });
     },
+    // expects: user to be logged in
+    // requires: bearer token(string) 
+    disableUser: function (token) {
+        return fetch(`${URL_PREFIX}/api/users/disable`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                "authorization": `Bearer ${token}`
+            }
+        }).then(function (res) {
+            return res.json();
+        }).catch(function (err) {
+            return null;
+        });
+    },
     //////////////////////////// Order Calls ////////////////////////////
     getAllOrders: function () {
         return fetch(`${URL_PREFIX}/api/orders`, {

@@ -29,8 +29,8 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(true);
-        setIsOwner(true);
+        setIsLoggedIn(false);
+        setIsOwner(false);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -45,13 +45,13 @@ function App() {
         //       console.log("nothing to see here");
         //     }
         //   });
-        API.getOneOrder(5).then(data => {
-            if (data) {
-                console.log(data);
-            } else {
-                console.log("nothing to see here");
-            }
-        });
+        // API.getOneOrder(5).then(data => {
+        //     if (data) {
+        //         console.log(data);
+        //     } else {
+        //         console.log("nothing to see here");
+        //     }
+        // });
         // API.deleteOrder(loginFormState.token, 1).then(data => {
         //     if (data) {
         //         console.log(data);
@@ -60,7 +60,6 @@ function App() {
         //     }
         // });
     }
-
     return (
         <BrowserRouter>
             <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} />

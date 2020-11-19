@@ -78,6 +78,10 @@ export default function Shop() {
 
     const { sugarFlower, chocolateLettering } = decorationState;
 
+    // you should be picking whether it's custom or premade before the size
+	// if you pick premade, you should just pick from the premade cakes for the baker, there is no size option
+	// if you pick custom, you then pick size, base, filling, decorations
+	// the cancel button should bring you back to the home page
     return (
         <>
             <div className={classes.appBarSpacer} />

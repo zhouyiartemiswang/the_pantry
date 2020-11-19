@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SimpleAccordion() {
     const classes = useStyles();
-
+    // we dont have a favorites section in the database for the users currently
+	// we dont allow a user to have multiple addresses
+	// the sign out should be in the navbar, not the middle of the page
+	// we will eventually want to allow the user to change their username, email, password, and address. but the database currently does not give them that power (on purpose, future feature)
     return (
         <div className={classes.root}>
             <Paper>

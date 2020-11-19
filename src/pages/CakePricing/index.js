@@ -69,6 +69,15 @@ export default function CakePricing(props) {
         ? ["Image", "Name", "Price ($)", "Ingredients", "Description", "Action"]
         : ["Type", "Name", "Price ($)", "Action"];
 
+    // form for the custom should not have a "size" field. That should be part of the "type" field.
+    // form for the custom should have a dropdown for the "type" field
+    // form for the premade should not have a "size" field. That should be included with the description.
+    // form for the premade, upload image button has no functionality. 
+    //     if you want to give the user freedom to add an img file, that would require a technology like cloudinary to host the img.
+    //     database is expecting a string (an img url), that can then be used as the "src" attribute for the img tag
+    // form for the premade, the "description" field should be a text box that changes in size so you can see everything you typed.
+    // form for the premade, the "ingredients" field should be a text box that changes in size so you can see everything you typed.
+    // you shouldn't be allowed to access the prices page if you aren't logged in
     return (
         <>
             <Toolbar />
