@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
+import PreMadeCakes from './pages/PreMadeCakes';
 import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
 import Footer from './components/Footer';
@@ -84,6 +85,9 @@ function App() {
                 </Route>
                 <Route exact path="/profile">
                     <Profile isOwner={isOwner}/>
+                </Route>
+                <Route exact path="/premade">
+                    <PreMadeCakes/>
                 </Route>
                 <Route exact path="/inventory">
                     <Inventory/>
