@@ -13,6 +13,7 @@ import Box from '@material-ui/core/Box';
 import API from './utils/API';
 
 function App() {
+    const [isOwner, setIsOwner] = useState("");
     const [loginFormState, setLoginFormState] = useState({
         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
         data: { sale: 15, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc" },
@@ -23,6 +24,7 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
+        setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -55,7 +57,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <NavBar/>
+            <NavBar isOwner={isOwner}/>
             
             <Switch>
                 <Route exact path="/">
@@ -74,7 +76,7 @@ function App() {
                     <Shop />
                 </Route>
                 <Route exact path="/profile">
-                    <Profile />
+                    <Profile isOwner={isOwner}/>
                 </Route>
                 <Route exact path="/inventory">
                     <Inventory/>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UserProfile from '../../components/UserProfile';
+import SideNav from '../../components/SideNav';
+import Drawer from '../../components/Drawer';
 import Dashboard from '../../components/Dashboard';
 import { CssBaseline, Container, makeStyles } from '@material-ui/core';
 import './style.css';
@@ -20,21 +22,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Profile() {
+export default function Profile(props) {
     const classes = useStyles();
-    const [isOwner, setIsOwner] = useState("");
+    // const [isOwner, setIsOwner] = useState("");
 
-    useEffect(() => {
-        setIsOwner(false);
-    }, []);
+    // useEffect(() => {
+    //     setIsOwner(false);
+    // }, []);
 
     return (
         <>
             <div className={classes.appBarSpacer} />
-            {isOwner ?
+            {props.isOwner ?
                 (<div className={classes.root}>
                     <CssBaseline />
-
+                    {/* <SideNav /> */}
+                    <Drawer/>
                     <main className={classes.content}>
                         <Container maxWidth="lg" className={classes.container}>
                             <Dashboard />
