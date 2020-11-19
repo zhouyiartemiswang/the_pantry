@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '../../components/Dialog';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles, Toolbar } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
 
@@ -112,6 +112,7 @@ InventoryHead.propTypes = {
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
+        marginLeft: 240,
     },
     paper: {
         width: '100%',
@@ -183,6 +184,7 @@ export default function Inventory() {
 
     return (
         <div className={classes.root}>
+            <Toolbar/>
             <Paper className={classes.paper}>
                 <TableContainer>
                     <Table
@@ -191,6 +193,13 @@ export default function Inventory() {
                         size="medium"
                         aria-label="enhanced table"
                     >
+                        <colgroup>
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                        </colgroup>
                         <InventoryHead
                             classes={classes}
                             order={order}

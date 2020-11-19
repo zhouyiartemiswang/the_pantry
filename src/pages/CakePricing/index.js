@@ -4,11 +4,14 @@ import CustomCakeDialog from '../../components/CustomCakeDialog';
 import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        }
     },
-});
+}));
 
 export default function CakePricing(props) {
     const classes = useStyles();
@@ -83,6 +86,13 @@ export default function CakePricing(props) {
             <Toolbar />
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
+                    <colgroup>
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                            <col style={{ width: '20%' }} />
+                        </colgroup>
                     <TableHead>
                         <TableRow>
                             {headList.map(head =>

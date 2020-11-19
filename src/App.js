@@ -29,8 +29,8 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(false);
-        setIsOwner(false);
+        setIsLoggedIn(true);
+        setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);

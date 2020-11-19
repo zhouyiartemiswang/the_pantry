@@ -3,11 +3,14 @@ import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableR
 import API from '../../utils/API';
 import './style.css';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        }
     },
-});
+}));
 
 export default function Orders() {
     const classes = useStyles();
