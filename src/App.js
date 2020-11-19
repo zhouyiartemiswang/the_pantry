@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
-import PreMadeCakes from './pages/PreMadeCakes';
+import CakePricing from './pages/CakePricing';
 import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
 import Footer from './components/Footer';
@@ -87,7 +87,10 @@ function App() {
                     <Profile isOwner={isOwner}/>
                 </Route>
                 <Route exact path="/premade">
-                    <PreMadeCakes/>
+                    <CakePricing isPreMade={true}/>
+                </Route>
+                <Route exact path="/custom">
+                    <CakePricing isPreMade={false}/>
                 </Route>
                 <Route exact path="/inventory">
                     <Inventory/>
