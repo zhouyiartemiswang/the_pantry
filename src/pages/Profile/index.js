@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import UserProfile from '../../components/UserProfile';
-import SideNav from '../../components/SideNav';
-import Drawer from '../../components/Drawer';
 import Dashboard from '../../components/Dashboard';
 import { CssBaseline, Container, makeStyles } from '@material-ui/core';
 import './style.css';
@@ -15,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
+        padding: theme.spacing(3),
+        // marginLeft: 240,
     },
     container: {
         paddingTop: theme.spacing(4),
@@ -36,8 +36,6 @@ export default function Profile(props) {
             {props.isOwner ?
                 (<div className={classes.root}>
                     <CssBaseline />
-                    {/* <SideNav /> */}
-                    <Drawer/>
                     <main className={classes.content}>
                         <Container maxWidth="lg" className={classes.container}>
                             <Dashboard />

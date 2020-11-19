@@ -1,4 +1,5 @@
 import React from 'react';
+import SideNav from '../SideNav';
 import { AppBar, Toolbar, Typography, Button, Link } from '@material-ui/core';
 import { IconButton, makeStyles } from '@material-ui/core';
 import './style.css';
@@ -44,9 +45,10 @@ export default function NavBar(props) {
                             </IconButton>
                             <Typography variant="h6" noWrap>
                                 The Pantry
-                    </Typography>
+                            </Typography>
                         </Toolbar>
                     </AppBar>
+                    <SideNav mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </>
                 :
                 <>
