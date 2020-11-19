@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
+        padding: theme.spacing(3),
+        // marginLeft: 240,
     },
     container: {
         paddingTop: theme.spacing(4),
@@ -20,21 +22,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Profile() {
+export default function Profile(props) {
     const classes = useStyles();
-    const [isOwner, setIsOwner] = useState("");
+    // const [isOwner, setIsOwner] = useState("");
 
-    useEffect(() => {
-        setIsOwner(false);
-    }, []);
+    // useEffect(() => {
+    //     setIsOwner(false);
+    // }, []);
 
     return (
         <>
             <div className={classes.appBarSpacer} />
-            {isOwner ?
+            {props.isOwner ?
                 (<div className={classes.root}>
                     <CssBaseline />
-
                     <main className={classes.content}>
                         <Container maxWidth="lg" className={classes.container}>
                             <Dashboard />
