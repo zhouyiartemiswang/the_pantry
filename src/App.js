@@ -9,6 +9,7 @@ import Logout from './pages/Logout';
 import Shop from './pages/Shop';
 import Profile from './pages/Profile';
 import CakePricing from './pages/CakePricing';
+import Orders from './pages/Orders';
 import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
 import Footer from './components/Footer';
@@ -62,8 +63,8 @@ function App() {
 
     return (
         <BrowserRouter>
-            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner}/>
-            
+            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} />
+
             <Switch>
                 <Route exact path="/">
                     <Home />
@@ -84,19 +85,22 @@ function App() {
                     <Shop />
                 </Route>
                 <Route exact path="/profile">
-                    <Profile isOwner={isOwner}/>
+                    <Profile isOwner={isOwner} />
                 </Route>
                 <Route exact path="/premade">
-                    <CakePricing isPreMade={true}/>
+                    <CakePricing isPreMade={true} />
                 </Route>
                 <Route exact path="/custom">
-                    <CakePricing isPreMade={false}/>
+                    <CakePricing isPreMade={false} />
+                </Route>
+                <Route exact path="/orders">
+                    <Orders />
                 </Route>
                 <Route exact path="/inventory">
-                    <Inventory/>
+                    <Inventory />
                 </Route>
                 <Route exact path="/revenue">
-                    <Revenue/>
+                    <Revenue />
                 </Route>
             </Switch>
 
