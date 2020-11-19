@@ -65,6 +65,9 @@ function InventoryHead(props) {
         onRequestSort(event, property);
     };
 
+    // we removed the exp date on inventory items, the form no longer needs it
+    // should have a default to inform of empty inventory if there is nothing to display
+    // you shouldn't be allowed to access the inventory page if you aren't logged in
     return (
         <TableHead>
             <TableRow>

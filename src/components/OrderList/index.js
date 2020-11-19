@@ -19,6 +19,7 @@ export default function OrderList() {
         })
     }, [])
 
+    // account for the fact the user may not have items (Cannot read property 'map' of null)
     return (
         <TableContainer component={Paper}>
             <Table className={classes.table}>

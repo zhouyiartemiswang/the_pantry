@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// dont cut off page info on desktop
 function SideNav(props) {
     const { window } = props;
     const classes = useStyles();

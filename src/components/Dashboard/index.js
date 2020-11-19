@@ -49,6 +49,7 @@ export default function Dashboard() {
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+    //add default text when nothing is present like "No open orders"
     return (
         <Grid container spacing={3}>
             {/* Monthly Earnings Chart */}

@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
 export default function CakeMasters() {
     const classes = useStyles();
 
+    // we dont save favorites in the database
+	// there should be a filter at the top to filter by bakery
+	// the bakery list in the filter should include the bakery address
+	// there's no reason to have the vertical dots on the cards
+	// the cards should be created based on an array length, not hard coding 3 cards to the page
     return (
         <Container className={classes.container}>
             <div className={classes.appBarSpacer} />

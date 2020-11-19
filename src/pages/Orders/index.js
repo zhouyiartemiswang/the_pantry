@@ -44,7 +44,11 @@ export default function Orders() {
         // console.log(event.target.id)
         // Delete order
     }
-
+    // edit button should be an edit symbol, not a checkbox.
+	// edit button should allow the baker to change the status via a drop down.
+	// orders should have different tables based on the current status. 
+    // each table should have the heading of the status
+    // you shouldn't be allowed to access the orders page if you aren't logged in
     return (
         <>
             <Toolbar />

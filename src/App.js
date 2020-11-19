@@ -29,8 +29,8 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(true);
-        setIsOwner(true);
+        setIsLoggedIn(false);
+        setIsOwner(false);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -60,9 +60,6 @@ function App() {
         //     }
         // });
     }
-    // navbar should be outside the switch
-    // user and owner pages should just send to one profile page that displays content based on user state
-    // need more pages for the owner side bar (inventory, premade, custom, (received) orders, revenue)
     return (
         <BrowserRouter>
             <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} />

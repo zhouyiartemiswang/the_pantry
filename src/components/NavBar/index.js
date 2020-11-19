@@ -27,6 +27,11 @@ export default function NavBar(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+    // add a check on the login button to display login or log out based on user state
+    // dont remove the nav bar from the home page when the user signs in
+    // owner has no way to get back to the site home page after logging in
+    // there shouldn't be options that vanish as you change pages (like the shopping cart icon for a non owner when going from the home page to their profile)
+    // there shouldn't be a profile button if you aren't logged in
     return (
         <>
             { props.isLoggedIn && props.isOwner ?
