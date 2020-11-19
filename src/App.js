@@ -52,7 +52,9 @@ function App() {
         //     }
         // });
     }
-
+    // navbar should be outside the switch
+    // user and owner pages should just send to one profile page that displays content based on user state
+    // need more pages for the owner side bar (inventory, premade, custom, (received) orders, revenue)
     return (
         <BrowserRouter>
 
