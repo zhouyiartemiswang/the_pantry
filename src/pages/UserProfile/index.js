@@ -4,7 +4,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
-import { Paper, Avatar, Button } from '@material-ui/core';
+import { Paper, Avatar, Link } from '@material-ui/core';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SimpleAccordion() {
+export default function Profile(props) {
     const classes = useStyles();
     // we dont have a favorites section in the database for the users currently
-	// we dont allow a user to have multiple addresses
-	// the sign out should be in the navbar, not the middle of the page
-	// we will eventually want to allow the user to change their username, email, password, and address. but the database currently does not give them that power (on purpose, future feature)
+    // we dont allow a user to have multiple addresses
+    // the sign out should be in the navbar, not the middle of the page
+    // we will eventually want to allow the user to change their username, email, password, and address. but the database currently does not give them that power (on purpose, future feature)
     return (
         <div className={classes.root}>
             <Paper>
@@ -57,7 +57,7 @@ export default function SimpleAccordion() {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion>
+                {/* <Accordion>
                     <AccordionSummary
                         expandIcon={
                             <span className="material-icons">expand_more</span>
@@ -76,7 +76,7 @@ export default function SimpleAccordion() {
                             sit amet blandit leo lobortis eget.
                     </Typography>
                     </AccordionDetails>
-                </Accordion>
+                </Accordion> */}
                 <Accordion>
                     <AccordionSummary
                         expandIcon={
@@ -87,17 +87,20 @@ export default function SimpleAccordion() {
                     >
                         <Typography className={classes.heading}>
                             <span className="material-icons">house</span>
-                            My Addresses
+                            My Address
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
                             sit amet blandit leo lobortis eget.
-                    </Typography>
+                        </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Button>Sign Out</Button>
+                {props.isOwner
+                    ? <Link href="/dashboard">Go to Dashboard</Link>
+                    : null
+                }
             </Paper>
         </div>
     );

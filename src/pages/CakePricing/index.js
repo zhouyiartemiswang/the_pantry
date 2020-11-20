@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import SideNav from '../../components/SideNav';
 import PreMadeCakeDialog from '../../components/PreMadeCakeDialog';
 import CustomCakeDialog from '../../components/CustomCakeDialog';
 import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        }
     },
-});
+}));
 
 export default function CakePricing(props) {
     const classes = useStyles();
@@ -81,8 +85,16 @@ export default function CakePricing(props) {
     return (
         <>
             <Toolbar />
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
+                    {/* <colgroup>
+                        <col style={{ width: '20%' }} />
+                        <col style={{ width: '20%' }} />
+                        <col style={{ width: '20%' }} />
+                        <col style={{ width: '20%' }} />
+                        <col style={{ width: '20%' }} />
+                    </colgroup> */}
                     <TableHead>
                         <TableRow>
                             {headList.map(head =>
@@ -127,12 +139,12 @@ export default function CakePricing(props) {
                             </TableRow>
                         ))}
                     </TableBody>
+                    {props.isPreMade
+                        ? <PreMadeCakeDialog />
+                        : <CustomCakeDialog />
+                    }
                 </Table>
             </TableContainer>
-            {props.isPreMade
-                ? <PreMadeCakeDialog />
-                : <CustomCakeDialog />
-            }
         </>
     );
 }

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import SideNav from '../../components/SideNav';
 import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 650,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        }
     },
-});
+}));
 
-export default function Orders() {
+export default function Orders(props) {
     const classes = useStyles();
     const [orderState, setOrderState] = useState([]);
 
@@ -52,6 +56,7 @@ export default function Orders() {
     return (
         <>
             <Toolbar />
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
                     <TableHead>

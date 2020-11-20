@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CakeMasters() {
+export default function CakeMasters(props) {
     const classes = useStyles();
 
     // we dont save favorites in the database
