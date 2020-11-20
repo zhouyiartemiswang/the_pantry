@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: 240,
         }
     },
+    appBarSpacer: theme.mixins.toolbar,
 }));
 
 export default function Orders(props) {
@@ -49,55 +50,63 @@ export default function Orders(props) {
         // Delete order
     }
     // edit button should be an edit symbol, not a checkbox.
-	// edit button should allow the baker to change the status via a drop down.
-	// orders should have different tables based on the current status. 
+    // edit button should allow the baker to change the status via a drop down.
+    // orders should have different tables based on the current status. 
     // each table should have the heading of the status
     // you shouldn't be allowed to access the orders page if you aren't logged in
     return (
         <>
-            <Toolbar />
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
-            <TableContainer component={Paper}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">Order Number</TableCell>
-                            <TableCell align="center">Description</TableCell>
-                            <TableCell align="center">Sale ($)</TableCell>
-                            <TableCell align="center">Deadline</TableCell>
-                            <TableCell align="center">Status</TableCell>
-                            <TableCell align="center">Action</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {orderState.map((row) => (
-                            <TableRow key={row.id}>
-                                <TableCell align="center">{row.id}</TableCell>
-                                <TableCell align="center">{row.description}</TableCell>
-                                <TableCell align="center">{row.sale}</TableCell>
-                                <TableCell align="center">{row.deadline}</TableCell>
-                                <TableCell align="center">{row.status}</TableCell>
-                                <TableCell align="center">
-                                    <span 
-                                        id={row.id}
-                                        className="material-icons"
-                                        onClick={handleStatusChange}
-                                    >
-                                        check_box
+            <div className={classes.appBarSpacer} />
+            {props.isLoggedIn && props.isOwner ?
+                <>
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center">Order Number</TableCell>
+                                    <TableCell align="center">Description</TableCell>
+                                    <TableCell align="center">Sale ($)</TableCell>
+                                    <TableCell align="center">Deadline</TableCell>
+                                    <TableCell align="center">Status</TableCell>
+                                    <TableCell align="center">Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {orderState.map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell align="center">{row.id}</TableCell>
+                                        <TableCell align="center">{row.description}</TableCell>
+                                        <TableCell align="center">{row.sale}</TableCell>
+                                        <TableCell align="center">{row.deadline}</TableCell>
+                                        <TableCell align="center">{row.status}</TableCell>
+                                        <TableCell align="center">
+                                            <span
+                                                id={row.id}
+                                                className="material-icons"
+                                                onClick={handleStatusChange}
+                                            >
+                                                check_box
                                     </span>
-                                    <span 
-                                        id={row.id}
-                                        className="material-icons"
-                                        onClick={handleItemDelete}
-                                    >
-                                        delete
+                                            <span
+                                                id={row.id}
+                                                className="material-icons"
+                                                onClick={handleItemDelete}
+                                            >
+                                                delete
                                     </span>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </>
+                :
+                <div>
+                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page.</h1>
+                </div>
+            }
         </>
     );
 }

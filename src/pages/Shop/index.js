@@ -4,16 +4,6 @@ import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
-    // root: {
-    //     '& > *': {
-    //         margin: theme.spacing(1),
-    //     },
-    // },
-    // root: {
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     minHeight: '100vh',
-    // },
     appBarSpacer: theme.mixins.toolbar,
     container: {
         paddingTop: theme.spacing(4),
@@ -137,9 +127,8 @@ export default function Shop() {
     };
 
     const handleDecorationChange = (event) => {
-
         const { name, checked } = event.target;
-        console.log(name, checked)
+        // console.log(name, checked);
 
         let newArray = decorationState.map(decoration => {
             if (decoration.name === name) {
@@ -147,7 +136,7 @@ export default function Shop() {
             }
             return decoration;
         })
-        console.log(newArray);
+        // console.log(newArray);
         setDecorationState(newArray);
     };
 

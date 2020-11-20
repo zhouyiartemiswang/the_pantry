@@ -40,8 +40,6 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(true);
-        setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -70,6 +68,14 @@ function App() {
         //         console.log("nothing to see here");
         //     }
         // });
+        // setIsLoggedIn(false);
+        // setIsOwner(false);
+
+        setIsLoggedIn(true);
+        setIsOwner(true);
+
+        // setIsLoggedIn(true);
+        // setIsOwner(false);
     }
     const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -84,25 +90,25 @@ function App() {
 
                 <Switch>
                     <Route exact path="/">
-                        <Home isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Home />
                     </Route>
                     <Route exact path="/cakemasters">
-                        <CakeMasters isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <CakeMasters />
                     </Route>
                     <Route exact path="/signup">
-                        <Signup isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Signup />
                     </Route>
                     <Route exact path="/login">
-                        <Login isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Login />
                     </Route>
                     <Route exact path="/logout">
-                        <Logout isLoggedIn={isLoggedIn} />
+                        <Logout />
                     </Route>
                     <Route exact path="/shop">
-                        <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Shop />
                     </Route>
                     <Route exact path="/profile">
-                        <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} />
                     </Route>
                     <Route exact path="/dashboard">
                         <Dashboard isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />

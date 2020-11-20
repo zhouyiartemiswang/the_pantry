@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         marginBottom: theme.spacing(2),
     },
+    appBarSpacer: theme.mixins.toolbar,
     // table: {
     //     minWidth: 750,
     // },
@@ -188,77 +189,85 @@ export default function Inventory(props) {
 
     return (
         <div className={classes.root}>
-            <Toolbar/>
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
-            <Paper className={classes.paper}>
-                <TableContainer>
-                    <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size="medium"
-                        aria-label="enhanced table"
-                    >
-                        <colgroup>
-                            <col style={{ width: '20%' }} />
-                            <col style={{ width: '20%' }} />
-                            <col style={{ width: '20%' }} />
-                            <col style={{ width: '20%' }} />
-                            <col style={{ width: '20%' }} />
-                        </colgroup>
-                        <InventoryHead
-                            classes={classes}
-                            order={order}
-                            orderBy={orderBy}
-                            onRequestSort={handleRequestSort}
-                        />
-                        <TableBody>
-                            {stableSort(inventoryState, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const labelId = `enhanced-table-checkbox-${index}`;
-                                    return (
-                                        <TableRow
-                                            hover
-                                            tabIndex={-1}
-                                            key={row.name}
-                                        >
-                                            <TableCell component="th" id={labelId} scope="row">
-                                                {row.name}
-                                            </TableCell>
-                                            <TableCell align="right">{row.quantity}</TableCell>
-                                            <TableCell align="left">{row.metric}</TableCell>
-                                            <TableCell align="left">{row.expires}</TableCell>
-                                            <TableCell align="left">
-                                                <Dialog isAddItem={false} id={row.id} />
-                                                <span
-                                                    className="material-icons"
-                                                    id={row.id}
-                                                    onClick={handleItemDelete}
+            <div className={classes.appBarSpacer} />
+            {props.isLoggedIn && props.isOwner ?
+                <>
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                    <Paper className={classes.paper}>
+                        <TableContainer>
+                            <Table
+                                className={classes.table}
+                                aria-labelledby="tableTitle"
+                                size="medium"
+                                aria-label="enhanced table"
+                            >
+                                <colgroup>
+                                    <col style={{ width: '20%' }} />
+                                    <col style={{ width: '20%' }} />
+                                    <col style={{ width: '20%' }} />
+                                    <col style={{ width: '20%' }} />
+                                    <col style={{ width: '20%' }} />
+                                </colgroup>
+                                <InventoryHead
+                                    classes={classes}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onRequestSort={handleRequestSort}
+                                />
+                                <TableBody>
+                                    {stableSort(inventoryState, getComparator(order, orderBy))
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row, index) => {
+                                            const labelId = `enhanced-table-checkbox-${index}`;
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    tabIndex={-1}
+                                                    key={row.name}
                                                 >
-                                                    delete</span>
-                                            </TableCell>
+                                                    <TableCell component="th" id={labelId} scope="row">
+                                                        {row.name}
+                                                    </TableCell>
+                                                    <TableCell align="right">{row.quantity}</TableCell>
+                                                    <TableCell align="left">{row.metric}</TableCell>
+                                                    <TableCell align="left">{row.expires}</TableCell>
+                                                    <TableCell align="left">
+                                                        <Dialog isAddItem={false} id={row.id} />
+                                                        <span
+                                                            className="material-icons"
+                                                            id={row.id}
+                                                            onClick={handleItemDelete}
+                                                        >
+                                                            delete</span>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                    {emptyRows > 0 && (
+                                        <TableRow style={{ height: 53 * emptyRows }}>
+                                            <TableCell colSpan={6} />
                                         </TableRow>
-                                    );
-                                })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Dialog isAddItem={true} />
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={inventoryState.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
-            </Paper>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Dialog isAddItem={true} />
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={inventoryState.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                    </Paper>
+                </>
+                :
+                <div>
+                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page.</h1>
+                </div>
+            }
         </div>
     );
 }

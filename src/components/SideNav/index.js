@@ -62,6 +62,7 @@ function SideNav(props) {
                         ['Cake Masters', '/cakemasters', 'near_me'],
                         ['Shop', '/shop', 'shopping_bag'],
                         ['Cart', '/cart', 'shopping_cart'],
+                        ['Account', '/profile', 'account_circle'],
                         ['Logout', '/logout', 'logout']
                     ].map((text) => (
                         <Link href={text[1]}>
