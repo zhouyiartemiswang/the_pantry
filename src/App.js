@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route, Redirect, useHistory } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import CakeMasters from './pages/CakeMasters';
@@ -15,11 +15,19 @@ import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
 import NoAuthorization from './pages/NoAuthorization';
 import Footer from './components/Footer';
-import Box from '@material-ui/core/Box';
+import { Box, makeStyles } from '@material-ui/core';
 import API from './utils/API';
 
-function App() {
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+    },
+}));
 
+function App() {
+    const classes = useStyles();
     const [profileState, setProfileState] = useState({
         name: "",
         email: "",
@@ -99,70 +107,65 @@ function App() {
         setMobileOpen(!mobileOpen);
     };
 
-    // let history = useHistory();
-    // const handleNoAuthorization = () => {
-    //     if (!isLoggedIn) {
-    //         history.push("/noauth");
-    //     }
-    // };
-
     return (
-        <BrowserRouter>
-            <NavBar profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+        <div className={classes.root}>
+            <BrowserRouter>
+                <NavBar profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
-            <Switch>
-                <Route exact path="/">
-                    <Home profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/cakemasters">
-                    <CakeMasters profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/signup">
-                    <Signup profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/login">
-                    <Login profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/logout">
-                    <Logout profile={profileState} setProfileState={setProfileState} />
-                </Route>
-                <Route exact path="/shop">
-                    <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/profile">
-                    <UserProfile profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/dashboard">
-                    <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/premade">
-                    <CakePricing profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
-                </Route>
-                <Route exact path="/custom">
-                    <CakePricing profile={profileState} isPreMade={false} />
-                </Route>
-                <Route exact path="/orders">
-                    <Orders profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/inventory">
-                    <Inventory profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/revenue">
-                    <Revenue profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/noauth">
-                    <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                {/* <Route>
-                    <Home />
-                </Route> */}
-            </Switch>
+                <Switch>
+                    <Route exact path="/">
+                        <Home profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    </Route>
+                    <Route exact path="/cakemasters">
+                        <CakeMasters profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/signup">
+                        <Signup profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    </Route>
+                    <Route exact path="/login">
+                        <Login profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    </Route>
+                    <Route exact path="/logout">
+                        <Logout profile={profileState} setProfileState={setProfileState} />
+                    </Route>
+                    <Route exact path="/shop">
+                        <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    </Route>
+                    <Route exact path="/profile">
+                        <UserProfile profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/dashboard">
+                        <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/premade">
+                        <CakePricing profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
+                    </Route>
+                    <Route exact path="/custom">
+                        <CakePricing profile={profileState} isPreMade={false} />
+                    </Route>
+                    <Route exact path="/orders">
+                        <Orders profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/inventory">
+                        <Inventory profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/revenue">
+                        <Revenue profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/noauth">
+                        <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    {/* <Route>
+                        <Home />
+                    </Route> */}
+                </Switch>
 
-            <Box position="absolute" bottom={0}>
-                <Footer />
-            </Box>
+                <Box position="absolute" bottom={0}>
+                    <Footer />
+                </Box>
 
-        </BrowserRouter>
+            </BrowserRouter>
+        </div>
     );
 }
 

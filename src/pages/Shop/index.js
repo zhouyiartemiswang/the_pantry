@@ -4,11 +4,16 @@ import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
+    // root: {
+    //     '& > *': {
+    //         margin: theme.spacing(1),
+    //     },
+    // },
+    // root: {
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     minHeight: '100vh',
+    // },
     appBarSpacer: theme.mixins.toolbar,
     container: {
         paddingTop: theme.spacing(4),
@@ -23,6 +28,15 @@ const useStyles = makeStyles((theme) => ({
 export default function Shop() {
     const classes = useStyles();
     const [bakeryList, setBakeryList] = useState([]);
+    const [premadeList, setPremadeList] = useState([]);
+    const [customList, setCustomList] = useState([]);
+    const [sizeList, setSizeList] = useState([]);
+    const [baseList, setBaseList] = useState([]);
+    const [fillingList, setFillingList] = useState([]);
+    // const [decorationList, setDecorationList] = useState([]);
+    const [decorationList, setDecorationList] = useState(["Sugar flower", "Chocolate lettering"]);
+    const [decorationState, setDecorationState] = useState([]);
+
     const [cakeState, setCakeState] = useState({
         type: "",
         owner: "",
@@ -33,10 +47,6 @@ export default function Shop() {
         decoration: ""
     });
 
-    const [decorationState, setDecorationState] = useState({
-        sugarFlower: false,
-        chocolateLettering: false,
-    });
 
     useEffect(() => {
         // API call get list of bakeries
@@ -44,7 +54,7 @@ export default function Shop() {
             {
                 id: 1,
                 name: "Bakery1",
-                premadePricing: [
+                premade: [
                     {
                         id: 1,
                         name: "Black Forest Cake",
@@ -74,7 +84,7 @@ export default function Shop() {
             {
                 id: 2,
                 name: "Bakery2",
-                premadePricing: [
+                premade: [
                     {
                         id: 1,
                         name: "Black Forest Cake",
@@ -102,7 +112,20 @@ export default function Shop() {
                 ]
             }
         ])
-    }, [])
+
+        if (decorationList.length > 0) {
+            const decorationArray = decorationList.map(decoration => (
+                {
+                    name: decoration,
+                    value: false
+                }
+            ));
+            console.log(decorationArray);
+            setDecorationState(decorationArray);
+            console.log(decorationState);
+        }
+
+    }, [decorationList])
 
     const handleCakeChange = (event) => {
         // console.log(event.target);
@@ -114,11 +137,18 @@ export default function Shop() {
     };
 
     const handleDecorationChange = (event) => {
+
         const { name, checked } = event.target;
-        setDecorationState({
-            ...decorationState,
-            [name]: checked
-        });
+        console.log(name, checked)
+
+        let newArray = decorationState.map(decoration => {
+            if (decoration.name === name) {
+                decoration.value = checked;
+            }
+            return decoration;
+        })
+        console.log(newArray);
+        setDecorationState(newArray);
     };
 
     const handleButtonClick = (event) => {
@@ -139,8 +169,6 @@ export default function Shop() {
             .catch(err => console.log(err));
 
     }
-
-    const { sugarFlower, chocolateLettering } = decorationState;
 
     return (
         <>
@@ -185,104 +213,128 @@ export default function Shop() {
 
                                 {cakeState.type ?
                                     <>
-                                        {
-                                            cakeState.type === "preMade" ?
-                                                (<Grid item xs={12} md={8} lg={9}>
-                                                    <FormControl required className={classes.formControl}>
-                                                        <InputLabel id="preMadeCake-label">Pre-Made Cake</InputLabel>
-                                                        <Select
-                                                            labelId="preMadeCake-label"
-                                                            id="preMadeCake"
-                                                            onChange={handleCakeChange}
-                                                            value={cakeState.name}
-                                                            name="name"
-                                                        >
-                                                            <MenuItem value="strawberryMousse">Strawberry Mousse Cake</MenuItem>
-                                                            <MenuItem value="blackForest">Black Forest Cake</MenuItem>
-                                                        </Select>
-                                                    </FormControl>
-                                                </Grid>)
-                                                :
-                                                (
-                                                    <>
-                                                        {/* Size Selection */}
-                                                        <Grid item xs={12} md={8} lg={9}>
-                                                            <FormControl required className={classes.formControl}>
-                                                                <InputLabel id="size-label">Size of cake</InputLabel>
-                                                                <Select
-                                                                    labelId="size-label"
-                                                                    id="size"
-                                                                    onChange={handleCakeChange}
-                                                                    value={cakeState.size}
-                                                                    name="size"
-                                                                >
-                                                                    <MenuItem value={6}>6 inch</MenuItem>
-                                                                    <MenuItem value={8}>8 inch</MenuItem>
-                                                                    <MenuItem value={10}>10 inch</MenuItem>
-                                                                </Select>
-                                                            </FormControl>
-                                                        </Grid>
+                                        {cakeState.type === "preMade" ?
+                                            (<Grid item xs={12} md={8} lg={9}>
+                                                <FormControl required className={classes.formControl}>
+                                                    <InputLabel id="preMadeCake-label">Pre-Made Cake</InputLabel>
+                                                    <Select
+                                                        labelId="preMadeCake-label"
+                                                        id="preMadeCake"
+                                                        onChange={handleCakeChange}
+                                                        value={cakeState.name}
+                                                        name="name"
+                                                    >
+                                                        {premadeList.length === 0
+                                                            ? <MenuItem value="none">None</MenuItem>
+                                                            : premadeList.map(cake =>
+                                                                <MenuItem value={cake.id}>{cake.name}</MenuItem>
+                                                            )
+                                                        }
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>)
+                                            :
+                                            (
+                                                <>
+                                                    {/* Size Selection */}
+                                                    <Grid item xs={12} md={8} lg={9}>
+                                                        <FormControl required className={classes.formControl}>
+                                                            <InputLabel id="size-label">Size of cake</InputLabel>
+                                                            <Select
+                                                                labelId="size-label"
+                                                                id="size"
+                                                                onChange={handleCakeChange}
+                                                                value={cakeState.size}
+                                                                name="size"
+                                                            >
+                                                                {sizeList.length === 0
+                                                                    ? <MenuItem value="none">None</MenuItem>
+                                                                    : sizeList.map(size =>
+                                                                        <MenuItem value={size.id}>{size.name}</MenuItem>
+                                                                    )
+                                                                }
+                                                            </Select>
+                                                        </FormControl>
+                                                    </Grid>
 
-                                                        {/* Base Selections */}
-                                                        <Grid item xs={12} md={8} lg={9}>
-                                                            <FormControl required className={classes.formControl}>
-                                                                <InputLabel id="base-label">Pick a cake base</InputLabel>
-                                                                <Select
-                                                                    labelId="base-label"
-                                                                    id="base"
-                                                                    onChange={handleCakeChange}
-                                                                    value={cakeState.base}
-                                                                    name="base"
-                                                                >
-                                                                    <MenuItem value="chocolateBase">Chocolate Cake</MenuItem>
-                                                                    <MenuItem value="vanillaBase">Vanilla Cake</MenuItem>
-                                                                </Select>
-                                                            </FormControl>
-                                                        </Grid>
+                                                    {/* Base Selections */}
+                                                    <Grid item xs={12} md={8} lg={9}>
+                                                        <FormControl required className={classes.formControl}>
+                                                            <InputLabel id="base-label">Pick a cake base</InputLabel>
+                                                            <Select
+                                                                labelId="base-label"
+                                                                id="base"
+                                                                onChange={handleCakeChange}
+                                                                value={cakeState.base}
+                                                                name="base"
+                                                            >
+                                                                {baseList.length === 0
+                                                                    ? <MenuItem value="none">None</MenuItem>
+                                                                    : baseList.map(base =>
+                                                                        <MenuItem value={base.id}>{base.name}</MenuItem>
+                                                                    )
+                                                                }
+                                                            </Select>
+                                                        </FormControl>
+                                                    </Grid>
 
-                                                        {/* Filling Selections */}
-                                                        <Grid item xs={12} md={8} lg={9}>
-                                                            <FormControl required className={classes.formControl}>
-                                                                <InputLabel id="filling-label">Pick a filling</InputLabel>
-                                                                <Select
-                                                                    labelId="filling-label"
-                                                                    id="filling"
-                                                                    onChange={handleCakeChange}
-                                                                    value={cakeState.filling}
-                                                                    name="filling"
-                                                                >
-                                                                    <MenuItem value="chocolateButtercream">Chocolate Buttercream</MenuItem>
-                                                                    <MenuItem value="vanillaButtercream">Vanilla Buttercream</MenuItem>
-                                                                </Select>
-                                                            </FormControl>
-                                                        </Grid>
+                                                    {/* Filling Selections */}
+                                                    <Grid item xs={12} md={8} lg={9}>
+                                                        <FormControl required className={classes.formControl}>
+                                                            <InputLabel id="filling-label">Pick a filling</InputLabel>
+                                                            <Select
+                                                                labelId="filling-label"
+                                                                id="filling"
+                                                                onChange={handleCakeChange}
+                                                                value={cakeState.filling}
+                                                                name="filling"
+                                                            >
+                                                                {fillingList.length === 0
+                                                                    ? <MenuItem value="none">None</MenuItem>
+                                                                    : fillingList.map(filling =>
+                                                                        <MenuItem value={filling.id}>{filling.name}</MenuItem>
+                                                                    )
+                                                                }
+                                                            </Select>
+                                                        </FormControl>
+                                                    </Grid>
 
-                                                        {/* Decoration Checkboxes */}
-                                                        <Grid item xs={12} md={8} lg={9}>
-                                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                                <FormLabel component="legend">Pick decorations</FormLabel>
-                                                                <FormGroup>
-                                                                    <FormControlLabel
+                                                    {/* Decoration Checkboxes */}
+                                                    <Grid item xs={12} md={8} lg={9}>
+                                                        <FormControl component="fieldset" className={classes.formControl}>
+                                                            <FormLabel component="legend">Pick decorations</FormLabel>
+                                                            <FormGroup>
+                                                                {decorationList.length === 0
+                                                                    ? <FormControlLabel
+                                                                        value="disabled"
                                                                         control={
                                                                             <Checkbox
-                                                                                checked={sugarFlower}
-                                                                                onChange={handleDecorationChange}
-                                                                                name="sugarFlower" />}
-                                                                        label="Sugar Flower"
+                                                                                checked
+                                                                                name="none" />}
+                                                                        label="None"
                                                                     />
-                                                                    <FormControlLabel
-                                                                        control={
-                                                                            <Checkbox
-                                                                                checked={chocolateLettering}
-                                                                                onChange={handleDecorationChange}
-                                                                                name="chocolateLettering" />}
-                                                                        label="Chocolate Lettering"
-                                                                    />
-                                                                </FormGroup>
-                                                            </FormControl>
-                                                        </Grid>
-                                                    </>
-                                                )
+                                                                    :
+                                                                    <>
+                                                                        {decorationState.length > 0 ?
+                                                                            decorationState.map(decoration =>
+                                                                                <FormControlLabel
+                                                                                    control={
+                                                                                        <Checkbox
+                                                                                            checked={decoration.value}
+                                                                                            onChange={handleDecorationChange}
+                                                                                            name={decoration.name} />}
+                                                                                    label={decoration.name}
+                                                                                />
+                                                                            )
+                                                                            : null}
+                                                                    </>
+                                                                }
+
+                                                            </FormGroup>
+                                                        </FormControl>
+                                                    </Grid>
+                                                </>
+                                            )
                                         }
                                     </> : null
                                 }
