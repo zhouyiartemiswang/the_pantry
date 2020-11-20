@@ -17,7 +17,6 @@ export default function CustomCakeDialog() {
     const [itemState, setItemState] = useState({
         type: "",
         name: "",
-        // size: "",
         price: ""
     });
 
@@ -66,17 +65,6 @@ export default function CustomCakeDialog() {
                             label="Name"
                             value={itemState.name}
                             name="name"
-                            onChange={handleInputChange}
-                        />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <TextField
-                            required autoFocus
-                            type="number"
-                            id="size"
-                            label="Size (in)"
-                            value={itemState.size}
-                            name="size"
                             onChange={handleInputChange}
                         />
                     </FormControl>
