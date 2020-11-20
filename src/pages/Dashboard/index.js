@@ -11,16 +11,16 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
     },
-    appBarSpacer: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
         padding: theme.spacing(3),
         [theme.breakpoints.up('sm')]: {
-            marginLeft: 240,
+            marginLeft: 0,
         }
     },
+    appBarSpacer: theme.mixins.toolbar,
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
@@ -67,39 +67,47 @@ export default function Dashboard(props) {
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-    //add default text when nothing is present like "No open orders"
     return (
         <div className={classes.root}>
-            <div className={classes.appBarSpacer} />
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
-            <CssBaseline />
-            <main id="content-container" className={classes.content}>
-                <Container maxWidth="lg" className={classes.container}>
+            {props.isLoggedIn && props.isOwner ?
+                <>
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                    <CssBaseline />
+                    <main id="content-container" className={classes.content}>
+                        <div className={classes.appBarSpacer} />
+                        <Container maxWidth="lg" className={classes.container}>
 
-                    <Grid container spacing={3}>
-                        {/* Monthly Earnings Chart */}
-                        <Grid item xs={12} md={8} lg={9}>
-                            <Paper className={fixedHeightPaper}>
-                            </Paper>
-                        </Grid>
+                            <Grid container spacing={3}>
+                                {/* Monthly Earnings Chart */}
+                                <Grid item xs={12} md={8} lg={9}>
+                                    <Paper className={fixedHeightPaper}>
+                                    </Paper>
+                                </Grid>
 
-                        {/* Inventory Alerts */}
-                        <Grid item xs={12} md={4} lg={3}>
-                            <Paper className={fixedHeightPaper}>
-                                {lowStockItem.length > 0 ?
-                                    <InventoryAlert lowStockItem={lowStockItem} />
-                                    : null
-                                }
-                            </Paper>
-                        </Grid>
+                                {/* Inventory Alerts */}
+                                <Grid item xs={12} md={4} lg={3}>
+                                    <Paper className={fixedHeightPaper}>
+                                        {lowStockItem.length > 0 ?
+                                            <InventoryAlert lowStockItem={lowStockItem} />
+                                            : null
+                                        }
+                                    </Paper>
+                                </Grid>
 
-                        {/* Recent Orders */}
-                        <Grid item xs={12}>
-                            <OrderList />
-                        </Grid>
-                    </Grid>
-                </Container>
-            </main>
+                                {/* Recent Orders */}
+                                <Grid item xs={12}>
+                                    <OrderList />
+                                </Grid>
+                            </Grid>
+                        </Container>
+                    </main>
+                </>
+                :
+                <div>
+                    <div className={classes.appBarSpacer} />
+                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page.</h1>
+                </div>
+            }
         </div>
     )
 }
