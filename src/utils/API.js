@@ -11,9 +11,13 @@ const API = {
             return null;
         });
     },
-    // requires: user id(integer)
-    getOneUser: function (id) {
-        return fetch(`${URL_PREFIX}/api/users/${id}`, {
+    // requires: bearer token(string)
+    getProfile: function (token) {
+        return fetch(`${URL_PREFIX}/api/users/profile`, {
+            method: "GET",
+            headers: {
+                "authorization": `Bearer ${token}`
+            },
         }).then(function (res) {
             return res.json();
         }).catch(function (err) {

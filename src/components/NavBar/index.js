@@ -66,7 +66,7 @@ export default function NavBar(props) {
                         </Link>
                         
                         {/* If logged in, logout and account tabs will show up, otherwise sign up and login tabs will show up */}
-                        {props.isLoggedIn ?
+                        {props.profile.isLoggedIn ?
                             <>
                                 <Link href="/logout">
                                     <Button className="nav-tab">
@@ -107,7 +107,7 @@ export default function NavBar(props) {
             
             {/* On mobile screen, SideNav will show up as hidden component and can toggle open and close */}
             {props.mobileOpen ?
-                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
                 : null
             }
 

@@ -31,7 +31,7 @@ function SideNav(props) {
         <>
             <div className={classes.toolbar} />
             <Divider />
-            {props.isLoggedIn && props.isOwner ?
+            {props.profile.isLoggedIn && props.profile.isOwner ?
                 (<>
                     <List>
                         {[
@@ -57,7 +57,7 @@ function SideNav(props) {
             }
             <List className={classes.mobileTab}>
 
-                {props.isLoggedIn ?
+                {props.profile.isLoggedIn ?
                     [
                         ['Cake Masters', '/cakemasters', 'near_me'],
                         ['Shop', '/shop', 'shopping_bag'],

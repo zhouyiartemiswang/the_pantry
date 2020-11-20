@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -28,50 +28,66 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Login() {
+export default function Login(props) {
     const classes = useStyles();
     let history = useHistory();
 
     const [loginFormState, setLoginFormState] = useState({
         email: "",
         password: ""
-    })
+    });
 
-    useEffect(fetchUserData, [])
+    // useEffect(fetchUserData, [])
 
-    function fetchUserData() {
-        const token = localStorage.getItem("token");
-    }
+    // function fetchUserData() {
+    //     const token = localStorage.getItem("token");
+    // }
 
     const handleInputChange = event => {
         const { name, value } = event.target;
         setLoginFormState({
             ...loginFormState,
             [name]: value
-        })
+        });
+        props.setProfileState({
+            ...props.profile,
+            loginError: ""
+        });
     }
 
-    const handleFormSubmit = event => {
+    function handleFormSubmit (event) {
         event.preventDefault();
-        console.log(event.target);
-        API.loginUser(loginFormState)
-            .then(res => {
-                console.log(res.token);
-                localStorage.setItem("token", res.token)
-                API.getOneUser(res.id)
-                    .then(res => {
-                        console.log(res)
-                        if (res.isOwner) {
-                            console.log(res.isOwner)
-                            // history.push("/profile")
-                        } else {
-                            console.log(res.isOwner)
-                            // history.push("/profile")
-                        }
-                    })
-                    .catch(err => console.log(err));
-            })
-            .catch(err => console.log(err));
+
+        API.loginUser(loginFormState).then( function (newToken) {
+            if (newToken) {
+                localStorage.setItem("token", newToken.token);
+                API.getProfile(newToken.token).then( function (profileData){
+                    console.log(profileData);
+                    props.setProfileState({
+                        name: profileData.username,
+                        email: profileData.email,
+                        token: newToken.token,
+                        id: profileData.id,
+                        isOwner: profileData.isOwner,
+                        isLoggedIn: true,
+                        loginError: "",
+                        signUpError: ""
+                    });
+                    //redirect to home page
+                    localStorage.removeItem("LoginError");
+                    localStorage.removeItem("SignUpError");
+                    return history.push("/");
+
+                });
+            }
+            else {
+                // login failed
+                props.setProfileState({
+                    ...props.profile,
+                    loginError: "login failed"
+                });
+            }
+        });
     }
 
     return (
@@ -112,10 +128,11 @@ export default function Login() {
                         id="password"
                         autoComplete="current-password"
                     />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
+                    {props.profile.loginError !== ""
+                    ? <p style={{ textAlign: "center", color: "red" }}> {props.profile.loginError} </p>
+                    : <p> </p>
+                    }
+
                     <Button
                         type="submit"
                         fullWidth
@@ -126,11 +143,11 @@ export default function Login() {
                         Sign In
                     </Button>
                     <Grid container>
-                        <Grid item xs>
-                            {/* <Link href="#" variant="body2">
+                        {/* <Grid item xs>
+                            <Link href="#" variant="body2">
                                 Forgot password?
-                            </Link> */}
-                        </Grid>
+                            </Link>
+                        </Grid> */}
                         <Grid item>
                             <Link href="/signup" variant="body2">
                                 {"Don't have an account? Sign Up"}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,8 +8,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { FormControlLabel, FormControl, FormLabel, RadioGroup, Radio } from '@material-ui/core';
+import { FormControlLabel, Switch  } from '@material-ui/core';
 import './style.css';
+import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -30,13 +32,88 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Signup() {
+export default function Signup(props) {
     const classes = useStyles();
-    const [value, setValue] = useState("");
-
+    let history = useHistory();
+    const [signUpFormState, setSignUpFormState] = useState({
+        username: "",
+        email: "",
+        password: "",
+        address: "",
+        phone: "",
+        isOwner: false,
+        street: "",
+        city: "",
+        state: "",
+        zip: ""
+    })
     const handleChange = (event) => {
-        setValue(event.target.value);
+        const { name, value } = event.target;
+        if(name === "isOwner"){
+            setSignUpFormState({
+                ...signUpFormState,
+                isOwner: !signUpFormState.isOwner
+            });
+        }
+        else{
+            setSignUpFormState({
+                ...signUpFormState,
+                [name]: value,
+                address: `${signUpFormState.street}, ${signUpFormState.city}, ${signUpFormState.state} ${signUpFormState.zip}`
+            });
+        }
+        props.setProfileState({
+            ...props.profile,
+            signUpError: ""
+        });
     };
+
+    function handleSignUp(event){
+        event.preventDefault();
+        //console.log(signUpFormState);
+        const data = {
+            username : signUpFormState.username,
+            email : signUpFormState.email,
+            password : signUpFormState.password,
+            address : signUpFormState.address,
+            phone : signUpFormState.phone,
+            isOwner : signUpFormState.isOwner
+        }
+        console.log(data);
+        API.createUser(data).then( function (newUser) {
+            if(newUser){
+                API.loginUser({email: data.email, password: data.password}).then( function (newToken) {
+                    if (newToken) {
+                        localStorage.setItem("token", newToken.token);
+                        API.getProfile(newToken.token).then( function (profileData){
+                            props.setProfileState({
+                                name: profileData.username,
+                                email: profileData.email,
+                                token: newToken.token,
+                                id: profileData.id,
+                                isOwner: profileData.isOwner,
+                                isLoggedIn: true,
+                                loginError: "",
+                                signUpError: ""
+                            });
+                            //redirect to home page
+                            localStorage.removeItem("LoginError");
+                            localStorage.removeItem("SignUpError");
+                            return history.push("/");
+
+                        });
+                    }
+                });
+            }
+            else {
+                // login failed
+                props.setProfileState({
+                    ...props.profile,
+                    signUpError: "signup failed"
+                });
+            }
+        });
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -45,17 +122,19 @@ export default function Signup() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={handleSignUp}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="name"
+                                id="username"
                                 label="Name"
-                                name="name"
-                                autoComplete="name"
+                                name="username"
+                                value={signUpFormState.username}
+                                autoComplete="username"
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -67,6 +146,8 @@ export default function Signup() {
                                 label="Email Address"
                                 name="email"
                                 autoComplete="email"
+                                value={signUpFormState.email}
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -78,7 +159,9 @@ export default function Signup() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                value={signUpFormState.password}
                                 autoComplete="current-password"
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -89,7 +172,9 @@ export default function Signup() {
                                 name="street"
                                 label="Address"
                                 id="street"
+                                value={signUpFormState.street}
                                 autoComplete="address"
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -97,11 +182,13 @@ export default function Signup() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="zipcode"
+                                name="zip"
                                 label="Zip Code"
                                 type="number"
-                                id="zipcode"
+                                id="zip"
+                                value={signUpFormState.zip}
                                 autoComplete="zipcode"
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -113,6 +200,8 @@ export default function Signup() {
                                 label="State"
                                 id="state"
                                 autoComplete="state"
+                                value={signUpFormState.state}
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -124,6 +213,8 @@ export default function Signup() {
                                 label="City"
                                 id="city"
                                 autoComplete="city"
+                                value={signUpFormState.city}
+                                onChange={handleChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -131,21 +222,30 @@ export default function Signup() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="phoneNumber"
+                                name="phone"
                                 label="Phone Number"
                                 type="number"
-                                id="phone-number"
+                                id="phone"
+                                value={signUpFormState.phone}
                                 autoComplete="phone-number"
+                                onChange={handleChange}
                             />
                         </Grid>
-                        <Grid item xs={12}>
-                            <FormControl component="fieldset">
-                                <RadioGroup name="userType" value={value} onChange={handleChange}>
-                                    <FormControlLabel value="owner" control={<Radio color="primary"/>} label="Bakery Owner" />
-                                    <FormControlLabel value="user" control={<Radio color="primary"/>} label="Customer" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
+                        <FormControlLabel
+                            control={
+                            <Switch
+                                checked={signUpFormState.isOwner}
+                                onChange={handleChange}
+                                name="isOwner"
+                                color="primary"
+                            />
+                            }
+                            label={signUpFormState.isOwner === true ? "Owner" : "Buyer"}
+                        />
+                        {props.profile.signUpError !== ""
+                        ? <p style={{ textAlign: "center", color: "red" }}> {props.profile.signUpError} </p>
+                        : <p> </p>
+                        }
                     </Grid>
                     <Button
                         type="submit"
