@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
             flexShrink: 0,
         },
     },
-    toolbar: theme.mixins.toolbar,
+    toolbar: theme.mixins.toolbar, // Add top spacing so content won't cover by NavBar
     drawerPaper: {
         width: drawerWidth,
     },

@@ -32,7 +32,7 @@ function App() {
 
     function fetchUserData() {
         setIsLoggedIn(true);
-        setIsOwner(false);
+        setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
