@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import CakeMasters from './pages/CakeMasters';
@@ -19,18 +19,58 @@ import API from './utils/API';
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState("");
     const [isOwner, setIsOwner] = useState("");
-    const [loginFormState, setLoginFormState] = useState({
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
-        data: { sale: 15, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc" },
-        token2: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthdEBrYXQua2F0IiwiaWQiOjIsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjpmYWxzZSwiaWF0IjoxNjA1NjM4MDIyLCJleHAiOjE2MDU2NDUyMjJ9.lQrAbrVmcjclGWYOpZ0Fbo_MdV5Io4Ei5q-BnhIIds4",
-        data2: { sale: 25, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc", baker_id: 1 }
-    });
+    // const [loginFormState, setLoginFormState] = useState({
+    //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
+    //     data: { sale: 15, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc" },
+    //     token2: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthdEBrYXQua2F0IiwiaWQiOjIsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjpmYWxzZSwiaWF0IjoxNjA1NjM4MDIyLCJleHAiOjE2MDU2NDUyMjJ9.lQrAbrVmcjclGWYOpZ0Fbo_MdV5Io4Ei5q-BnhIIds4",
+    //     data2: { sale: 25, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc", baker_id: 1 }
+    // });
+
+    // let history = useHistory();
+    // const [historyState, setHistoryState] = useState({
+    //     history: history
+    // });
+
+    const [profileState, setProfileState] = useState({
+        name: "",
+        email: "",
+        token: "",
+        id: "",
+        isOwner: false,
+        isLoggedIn: false
+      });
 
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(false);
-        setIsOwner(false);
+        // setIsLoggedIn(false);
+        // setIsOwner(false);
+        const token = localStorage.getItem("token");
+        API.getProfile(token).then(function(profileData) {
+            if(profileData){
+                setProfileState({
+                    name: profileData.name,
+                    email: profileData.email,
+                    token: token,
+                    id: profileData.id,
+                    isOwner: profileData.isOwner,
+                    isLoggedIn: true
+                });
+            }
+            else{
+                localStorage.removeItem("token");
+                setProfileState({
+                    name: "",
+                    email: "",
+                    token: "",
+                    id: "",
+                    isOwner: false,
+                    isLoggedIn: false
+                });
+                console.log("running login");
+                userLogin({email: "dev@dev.dev", password: "password"})
+            }
+        });
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -59,7 +99,50 @@ function App() {
         //         console.log("nothing to see here");
         //     }
         // });
+
     }
+
+    function userLogin(loginData){
+        API.loginUser(loginData).then( function (newToken) {
+            console.log(newToken);
+            if (newToken) {
+                localStorage.setItem("token", newToken.token);
+                API.getProfile(newToken.token).then( function (profileData){
+                    console.log(profileData);
+                    setProfileState({
+                        name: profileData.name,
+                        email: profileData.email,
+                        token: newToken.token,
+                        id: profileData.id,
+                        isOwner: profileData.isOwner,
+                        isLoggedIn: true
+                    });
+                    //redirect to home page
+                    console.log("if only this worked");
+                    <Redirect to="/" />;
+
+                });
+            }
+            else {
+                // login failed
+            }
+        });
+    }
+
+    function userLogout(){
+        localStorage.removeItem("token");
+        setProfileState({
+            name: "",
+            email: "",
+            token: "",
+            id: "",
+            isOwner: false,
+            isLoggedIn: false
+        });
+        console.log("if only this worked");
+        <Redirect to="/cakemasters" />;
+    }
+
     return (
         <BrowserRouter>
             <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} />
