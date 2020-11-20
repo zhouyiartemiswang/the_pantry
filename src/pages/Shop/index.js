@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Container, Grid, FormControl, InputLabel, Select, MenuItem, FormLabel, FormGroup, FormControlLabel, Checkbox, Button, makeStyles } from '@material-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Container, Grid, FormControl, InputLabel, Select, MenuItem, FormLabel, FormGroup, FormControlLabel, Checkbox, Button, Link, makeStyles } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
 
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Shop() {
     const classes = useStyles();
-
+    const [bakeryList, setBakeryList] = useState([]);
     const [cakeState, setCakeState] = useState({
         type: "",
         owner: "",
@@ -37,6 +37,72 @@ export default function Shop() {
         sugarFlower: false,
         chocolateLettering: false,
     });
+
+    useEffect(() => {
+        // API call get list of bakeries
+        setBakeryList([
+            {
+                id: 1,
+                name: "Bakery1",
+                premadePricing: [
+                    {
+                        id: 1,
+                        name: "Black Forest Cake",
+                        price: 80
+                    },
+                    {
+                        id: 2,
+                        name: "New York Cheesecake",
+                        price: 90
+                    }
+                ],
+                custom: [
+                    {
+                        id: 1,
+                        type: "filling",
+                        name: "Chocolate buttercream",
+                        price: 15
+                    },
+                    {
+                        id: 2,
+                        type: "size",
+                        name: "8",
+                        price: 80
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Bakery2",
+                premadePricing: [
+                    {
+                        id: 1,
+                        name: "Black Forest Cake",
+                        price: 80
+                    },
+                    {
+                        id: 2,
+                        name: "New York Cheesecake",
+                        price: 90
+                    }
+                ],
+                custom: [
+                    {
+                        id: 1,
+                        type: "filling",
+                        name: "Chocolate buttercream",
+                        price: 15
+                    },
+                    {
+                        id: 2,
+                        type: "size",
+                        name: "8",
+                        price: 80
+                    }
+                ]
+            }
+        ])
+    }, [])
 
     const handleCakeChange = (event) => {
         // console.log(event.target);
@@ -57,31 +123,25 @@ export default function Shop() {
 
     const handleButtonClick = (event) => {
         console.log(event.target);
-        if (event.target.name === "addToCart") {
-            const orderInfo = {
-                sales: 100,
-                ingredients: "milk, egg, sugar, flour",
-                deadline: "2020-11-20",
-                status: "pending",
-                description: cakeState.type,
-                baker_id: cakeState.owner
 
-            }
-            const token = localStorage.getItem("token");
-            API.createOrder(token, orderInfo)
-                .then(res => console.log("Order placed!"))
-                .catch(err => console.log(err));
-        } else {
-            // Go back to cake master page
+        const orderInfo = {
+            sales: 100,
+            ingredients: "milk, egg, sugar, flour",
+            deadline: "2020-11-20",
+            status: "pending",
+            description: cakeState.type,
+            baker_id: cakeState.owner
+
         }
+        const token = localStorage.getItem("token");
+        API.createOrder(token, orderInfo)
+            .then(res => console.log("Order placed!"))
+            .catch(err => console.log(err));
+
     }
 
     const { sugarFlower, chocolateLettering } = decorationState;
 
-    // you should be picking whether it's custom or premade before the size
-	// if you pick premade, you should just pick from the premade cakes for the baker, there is no size option
-	// if you pick custom, you then pick size, base, filling, decorations
-	// the cancel button should bring you back to the home page
     return (
         <>
             <div className={classes.appBarSpacer} />
@@ -98,32 +158,14 @@ export default function Shop() {
                                     value={cakeState.owner}
                                     name="owner"
                                 >
-                                    <MenuItem value="1">Bakery1</MenuItem>
-                                    <MenuItem value="2">Bakery2</MenuItem>
-                                    <MenuItem value="3">Bakery3</MenuItem>
+                                    {bakeryList.map(bakery =>
+                                        <MenuItem value={bakery.id}>{bakery.name}</MenuItem>
+                                    )}
                                 </Select>
                             </FormControl>
                         </Grid>
                         {cakeState.owner ?
                             <>
-                                {/* Select Cake Size */}
-                                <Grid item xs={12} md={8} lg={9}>
-                                    <FormControl required className={classes.formControl}>
-                                        <InputLabel id="size-label">Size of cake</InputLabel>
-                                        <Select
-                                            labelId="size-label"
-                                            id="size"
-                                            onChange={handleCakeChange}
-                                            value={cakeState.size}
-                                            name="size"
-                                        >
-                                            <MenuItem value={6}>6 inch</MenuItem>
-                                            <MenuItem value={8}>8 inch</MenuItem>
-                                            <MenuItem value={10}>10 inch</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-
                                 {/* Select Cake Type */}
                                 <Grid item xs={12} md={8} lg={9}>
                                     <FormControl required className={classes.formControl}>
@@ -140,6 +182,7 @@ export default function Shop() {
                                         </Select>
                                     </FormControl>
                                 </Grid>
+
                                 {cakeState.type ?
                                     <>
                                         {
@@ -162,6 +205,24 @@ export default function Shop() {
                                                 :
                                                 (
                                                     <>
+                                                        {/* Size Selection */}
+                                                        <Grid item xs={12} md={8} lg={9}>
+                                                            <FormControl required className={classes.formControl}>
+                                                                <InputLabel id="size-label">Size of cake</InputLabel>
+                                                                <Select
+                                                                    labelId="size-label"
+                                                                    id="size"
+                                                                    onChange={handleCakeChange}
+                                                                    value={cakeState.size}
+                                                                    name="size"
+                                                                >
+                                                                    <MenuItem value={6}>6 inch</MenuItem>
+                                                                    <MenuItem value={8}>8 inch</MenuItem>
+                                                                    <MenuItem value={10}>10 inch</MenuItem>
+                                                                </Select>
+                                                            </FormControl>
+                                                        </Grid>
+
                                                         {/* Base Selections */}
                                                         <Grid item xs={12} md={8} lg={9}>
                                                             <FormControl required className={classes.formControl}>
@@ -233,15 +294,17 @@ export default function Shop() {
                                         color="primary"
                                     >
                                         Add to Cart
-                                </Button>
-                                    <Button
-                                        // onClick={handleButtonClick}
-                                        name="cancelBtn"
-                                        variant="outlined"
-                                        color="primary"
-                                    >
-                                        Cancel
-                                </Button>
+                                    </Button>
+                                    <Link href="/">
+                                        <Button
+
+                                            name="cancelBtn"
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </Link>
                                 </Grid>
                             </> : null
                         }
