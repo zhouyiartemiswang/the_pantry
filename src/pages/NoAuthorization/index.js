@@ -1,12 +1,11 @@
 import React from 'react';
 import { Toolbar } from '@material-ui/core';
-import './style.css';
 
-export default function Home() {
+export default function NoAuthorization() {
     return (
         <div>
             <Toolbar/>
-            <h1 style={{textAlign: "center"}}>Home page</h1>
+            <h1>You are not authorized to view this page.</h1>
         </div>
     )
 }

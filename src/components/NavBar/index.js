@@ -8,7 +8,6 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     appBar: {
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
         },
     },
@@ -18,89 +17,100 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    mobileTab: {
+        [theme.breakpoints.down('xs')]: {
+            display: 'none',
+        },
+    }
 }));
 
 export default function NavBar(props) {
     const classes = useStyles();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-    // add a check on the login button to display login or log out based on user state
-    // dont remove the nav bar from the home page when the user signs in
-    // owner has no way to get back to the site home page after logging in
-    // there shouldn't be options that vanish as you change pages (like the shopping cart icon for a non owner when going from the home page to their profile)
-    // there shouldn't be a profile button if you aren't logged in
     return (
         <>
-            { props.isLoggedIn && props.isOwner ?
-                <>
-                    <AppBar position="fixed" className={classes.appBar}>
-                        <Toolbar>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="start"
-                                onClick={handleDrawerToggle}
-                                className={classes.menuButton}
-                            >
-                                <span className="material-icons">menu</span>
-                            </IconButton>
-                            <Typography variant="h6" noWrap>
-                                    The Pantry
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <SideNav mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </>
-                :
-                <>
-                    <AppBar position="fixed">
-                        <Toolbar>
-                            <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
-                                <Link href="/">
-                                    The Pantry
-                                </Link>
-                            </Typography>
+            <AppBar position="fixed" className={classes.appBar}>
+                <Toolbar>
+
+                    {/* Menu Icon - shows up on mobile screen */}
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={props.handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <span className="material-icons">menu</span>
+                    </IconButton>
+
+                    {/* Logo */}
+                    <Typography variant="h6" className="logo" noWrap style={{ flex: 1 }}>
+                        <Link href="/" underline="none">
+                            The Pantry
+                        </Link>
+                    </Typography>
+
+                    {/* NavBar Tabs - hide on mobile screen */}
+                    <div className={classes.mobileTab}>
+
+                        <Link href="/cakemasters">
                             <Button className="nav-tab">
-                                <Link href="/cakemasters">
-                                    Cake Masters
-                                </Link>
+                                Cake Masters
                             </Button>
+                        </Link>
+
+                        <Link href="/shop">
                             <Button className="nav-tab">
-                                <Link href="/shop">
-                                    Shop
-                                </Link>
+                                Shop
                             </Button>
-                            {props.isLoggedIn ? null :
-                                <>
+                        </Link>
+                        
+                        {/* If logged in, logout and account tabs will show up, otherwise sign up and login tabs will show up */}
+                        {props.isLoggedIn ?
+                            <>
+                                <Link href="/logout">
                                     <Button className="nav-tab">
-                                        <Link href="/signup">
-                                            Sign Up
-                                    </Link>
+                                        Logout
                                     </Button>
-                                    <Button className="nav-tab">
-                                        <Link href="/login">
-                                            Login
-                                        </Link>
-                                    </Button>
-                                </>
-                            }
-                            <Button className="nav-tab">
+                                </Link>
                                 <Link href="/profile">
-                                    <span className="material-icons">account_circle</span>
+                                    <Button className="nav-tab">
+                                        <span className="material-icons">account_circle</span>
+                                    </Button>
                                 </Link>
-                            </Button>
+                            </>
+                            :
+                            <>
+                                <Link href="/signup">
+                                    <Button className="nav-tab">
+                                        Sign Up
+                                    </Button>
+                                </Link>
+                                <Link href="/login">
+                                    <Button className="nav-tab">
+                                        Login
+                                    </Button>
+                                </Link>
+                            </>
+                        }
+
+                        {/* Shopping Cart Tab */}
+                        <Link href="/cart">
                             <Button className="nav-tab">
-                                <Link href="/cart">
-                                    <span className="material-icons">shopping_cart</span>
-                                </Link>
+                                <span className="material-icons">shopping_cart</span>
                             </Button>
-                        </Toolbar>
-                    </AppBar>
-                </>
+                        </Link>
+
+                    </div>
+                </Toolbar>
+            </AppBar>
+            
+            {/* On mobile screen, SideNav will show up as hidden component and can toggle open and close */}
+            {props.mobileOpen ?
+                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                : null
             }
+
         </>
     )
 }

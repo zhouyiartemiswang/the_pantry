@@ -1,8 +1,12 @@
-button.nav-tab span a {
+button.nav-tab span {
     color: white;
-    margin-left: 5vw;
+    margin: 0 1vw; 
 }
 
-h6.nav-tab a {
+button.nav-tab span span {
+    margin: 0;
+}
+
+h6.logo a {
     color: white;
 }

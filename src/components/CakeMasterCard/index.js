@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import {  } from '@material-ui/core';
+// import {} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CakeMasterCard() {
+export default function CakeMasterCard({ cake }) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
 
@@ -45,41 +45,50 @@ export default function CakeMasterCard() {
         setExpanded(!expanded);
     };
 
-    // cards should be populated based on state data
-	// cards should have an option to have an order created from it
+    const handleButtonClick = (event) => {
+        event.preventDefault();
+        // console.log(event.target.id);
+        // Add to card
+    }
+
     return (
         <Card className={classes.root}>
+
             <CardHeader
                 avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                        R
+                    <Avatar className={classes.avatar} alt={cake.bakeryName}>
                     </Avatar>
                 }
                 action={
-                    <IconButton aria-label="settings">
-                        <span className="material-icons">more_vert</span>
+                    <IconButton onClick={handleButtonClick}>
+                        <span
+                            id={cake.id}
+                            className="material-icons"
+                        >
+                            add_shopping_cart
+                        </span>
                     </IconButton>
                 }
-                title="Bakery1"
-                subheader="Something"
+                title={cake.name}
+                subheader={"By " + cake.bakeryName}
             />
+
             <CardMedia
                 className={classes.media}
-                image="http://placekitten.com/200/100"
-                title="Bakery1"
+                image={cake.img}
+                title={cake.name}
             />
+
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Address: 123 Street, Seattle, WA 
+                    Address: {cake.bakeryAddress}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Phone: 123-456-7890
+                    Phone: {cake.bakeryPhone}
                 </Typography>
             </CardContent>
+
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <span className="material-icons">favorite</span>
-                </IconButton>
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -91,13 +100,15 @@ export default function CakeMasterCard() {
                     <span className="material-icons">expand_more</span>
                 </IconButton>
             </CardActions>
+
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>
-                        More info: 
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed cursus felis, et molestie dui. Maecenas ultricies egestas ipsum, quis dictum ligula volutpat quis. Proin tristique, dui quis malesuada volutpat, est urna iaculis turpis, et imperdiet felis nunc quis mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus fermentum dui ac dolor interdum, id laoreet quam convallis. Sed placerat nulla nec metus aliquet pellentesque. Maecenas maximus sed est nec dapibus. Nam mollis iaculis nisi, in malesuada velit lobortis at.
+                    <Typography variant="body2" color="textSecondary" component="p">
+                        Price: ${cake.price}
                     </Typography>
-                    
+                    <Typography paragraph>
+                        Description: {cake.description}
+                    </Typography>
                 </CardContent>
             </Collapse>
         </Card>

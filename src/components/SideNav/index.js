@@ -11,13 +11,17 @@ const useStyles = makeStyles((theme) => ({
             flexShrink: 0,
         },
     },
-    toolbar: theme.mixins.toolbar,
+    toolbar: theme.mixins.toolbar, // Add top spacing so content won't cover by NavBar
     drawerPaper: {
         width: drawerWidth,
     },
+    mobileTab: {
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    }
 }));
 
-// dont cut off page info on desktop
 function SideNav(props) {
     const { window } = props;
     const classes = useStyles();
@@ -27,34 +31,62 @@ function SideNav(props) {
         <>
             <div className={classes.toolbar} />
             <Divider />
-            <List>
-                <Link href="/cakemasters">
-                    <ListItem button key="cake">
-                        <span className="material-icons">near_me</span>
-                        <ListItemText primary="Cake Masters" />
-                    </ListItem>
-                </Link>
-            </List>
-            <Divider />
-            <List>
-                {[
-                    ['Dashboard', '/profile', 'dashboard'],
-                    // ['My Products', '#', 'dashboard'],
-                    ['Pre-made Cakes', '/premade', 'cake'],
-                    ['Custom Cakes', '/custom', 'cake'],
-                    ['Orders', '/orders', 'assignment'],
-                    ['Inventory', '/inventory', 'list_alt'],
-                    ['Revenue', '/revenue', 'bar_chart'],
-                    ['Cart', '/cart', 'shopping_cart'],
-                    ['Logout', '/logout', 'logout']
-                ].map((text) => (
-                    <Link href={text[1]}>
-                        <ListItem button key={text[0]}>
-                            <span className="material-icons">{text[2]}</span>
-                            <ListItemText primary={text[0]} />
-                        </ListItem>
-                    </Link>
-                ))}
+            {props.isLoggedIn && props.isOwner ?
+                (<>
+                    <List>
+                        {[
+                            ['Dashboard', '/profile', 'dashboard'],
+                            ['Pre-made Cakes', '/premade', 'cake'],
+                            ['Custom Cakes', '/custom', 'cake'],
+                            ['Orders', '/orders', 'assignment'],
+                            ['Inventory', '/inventory', 'list_alt'],
+                            ['Revenue', '/revenue', 'bar_chart']
+                        ].map((text) => (
+                            <Link href={text[1]}>
+                                <ListItem button key={text[0]}>
+                                    <span className="material-icons">{text[2]}</span>
+                                    <ListItemText primary={text[0]} />
+                                </ListItem>
+                            </Link>
+                        ))}
+                    </List>
+                    <Divider />
+                </>)
+                :
+                null
+            }
+            <List className={classes.mobileTab}>
+
+                {props.isLoggedIn ?
+                    [
+                        ['Cake Masters', '/cakemasters', 'near_me'],
+                        ['Shop', '/shop', 'shopping_bag'],
+                        ['Cart', '/cart', 'shopping_cart'],
+                        ['Logout', '/logout', 'logout']
+                    ].map((text) => (
+                        <Link href={text[1]}>
+                            <ListItem button key={text[0]}>
+                                <span className="material-icons">{text[2]}</span>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
+                    ))
+                    :
+                    [
+                        ['Cake Masters', '/cakemasters', 'near_me'],
+                        ['Shop', '/shop', 'shopping_bag'],
+                        ['Signup', '/signup', 'how_to_reg'],
+                        ['Login', '/login', 'login'],
+                        ['Cart', '/cart', 'shopping_cart']
+                    ].map((text) => (
+                        <Link href={text[1]}>
+                            <ListItem button key={text[0]}>
+                                <span className="material-icons">{text[2]}</span>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
+                    ))
+                }
             </List>
         </>
     );
