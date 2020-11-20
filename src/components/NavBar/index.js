@@ -8,7 +8,6 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     appBar: {
         [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
         },
     },
@@ -18,6 +17,11 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    mobileTab: {
+        [theme.breakpoints.down('xs')]: {
+            display: 'none',
+        },
+    }
 }));
 
 export default function NavBar(props) {
@@ -32,16 +36,11 @@ export default function NavBar(props) {
     // owner has no way to get back to the site home page after logging in
     // there shouldn't be options that vanish as you change pages (like the shopping cart icon for a non owner when going from the home page to their profile)
     // there shouldn't be a profile button if you aren't logged in
-    console.log(props);
+    // console.log(props);
     return (
         <>
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    {/* <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
-                        <Link href="/">
-                            The Pantry
-                        </Link>
-                    </Typography> */}
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -54,73 +53,56 @@ export default function NavBar(props) {
                     <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
                         The Pantry
                     </Typography>
-                    <Button className="nav-tab">
+                    <div className={classes.mobileTab}>
                         <Link href="/cakemasters">
-                            Cake Masters
-                        </Link>
-                    </Button>
-                    <Button className="nav-tab">
-                        <Link href="/shop">
-                            Shop
-                        </Link>
-                    </Button>
-                    {props.isLoggedIn && !props.isOwner ?
-                        <Button className="nav-tab">
-                            <Link href="/logout">
-                                Logout
-                            </Link>
+                            <Button className="nav-tab">
+                                Cake Masters
                         </Button>
-                        :
-                        <>
+                        </Link>
+                        <Link href="/shop">
                             <Button className="nav-tab">
+                                Shop
+                        </Button>
+                        </Link>
+                        {props.isLoggedIn ?
+                            <Link href="/logout">
+                                <Button className="nav-tab">
+                                    Logout
+                            </Button>
+                            </Link>
+                            :
+                            <>
                                 <Link href="/signup">
-                                    Sign Up
+                                    <Button className="nav-tab">
+                                        Sign Up
+                                </Button>
                                 </Link>
-                            </Button>
-                            <Button className="nav-tab">
                                 <Link href="/login">
-                                    Login
+                                    <Button className="nav-tab">
+                                        Login
+                                </Button>
                                 </Link>
-                            </Button>
-                        </>
-                    }
-                    <Button className="nav-tab">
+                            </>
+                        }
                         <Link href="/profile">
-                            <span className="material-icons">account_circle</span>
+                            <Button className="nav-tab">
+                                <span className="material-icons">account_circle</span>
+                            </Button>
                         </Link>
-                    </Button>
-                    <Button className="nav-tab">
                         <Link href="/cart">
-                            <span className="material-icons">shopping_cart</span>
+                            <Button className="nav-tab">
+                                <span className="material-icons">shopping_cart</span>
+                            </Button>
                         </Link>
-                    </Button>
+                    </div>
                 </Toolbar>
             </AppBar>
-            {/* { props.isLoggedIn && props.isOwner ? */}
-            <>
-                {/* <AppBar position="fixed" className={classes.appBar}>
-                        <Toolbar>
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="start"
-                                onClick={handleDrawerToggle}
-                                className={classes.menuButton}
-                            >
-                                <span className="material-icons">menu</span>
-                            </IconButton>
-                            <Typography variant="h6" noWrap>
-                                The Pantry
-                            </Typography>
-                        </Toolbar>
-                    </AppBar> */}
-                {props.mobileOpen ?
-                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
-                    : null
-                }
-            </>
-            {/* : null
-            } */}
+
+            {props.mobileOpen ?
+                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                : null
+            }
+
         </>
     )
 }

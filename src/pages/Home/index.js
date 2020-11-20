@@ -6,7 +6,7 @@ export default function Home() {
     return (
         <div>
             <Toolbar/>
-            <h1>Home page</h1>
+            <h1 style={{textAlign: "center"}}>Home page</h1>
         </div>
     )
 }

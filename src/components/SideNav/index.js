@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// dont cut off page info on desktop
 function SideNav(props) {
     const { window } = props;
     const classes = useStyles();
@@ -57,19 +56,37 @@ function SideNav(props) {
                 null
             }
             <List className={classes.mobileTab}>
-                {[
-                    ['Cake Masters', '/cakemasters', 'near_me'],
-                    ['Shop', '/shop', 'shopping_bag'],
-                    ['Cart', '/cart', 'shopping_cart'],
-                    ['Logout', '/logout', 'logout']
-                ].map((text) => (
-                    <Link href={text[1]}>
-                        <ListItem button key={text[0]}>
-                            <span className="material-icons">{text[2]}</span>
-                            <ListItemText primary={text[0]} />
-                        </ListItem>
-                    </Link>
-                ))}
+
+                {props.isLoggedIn ?
+                    [
+                        ['Cake Masters', '/cakemasters', 'near_me'],
+                        ['Shop', '/shop', 'shopping_bag'],
+                        ['Cart', '/cart', 'shopping_cart'],
+                        ['Logout', '/logout', 'logout']
+                    ].map((text) => (
+                        <Link href={text[1]}>
+                            <ListItem button key={text[0]}>
+                                <span className="material-icons">{text[2]}</span>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
+                    ))
+                    :
+                    [
+                        ['Cake Masters', '/cakemasters', 'near_me'],
+                        ['Shop', '/shop', 'shopping_bag'],
+                        ['Signup', '/signup', 'how_to_reg'],
+                        ['Login', '/login', 'login'],
+                        ['Cart', '/cart', 'shopping_cart']
+                    ].map((text) => (
+                        <Link href={text[1]}>
+                            <ListItem button key={text[0]}>
+                                <span className="material-icons">{text[2]}</span>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
+                    ))
+                }
             </List>
         </>
     );

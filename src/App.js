@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import CakeMasters from './pages/CakeMasters';
@@ -31,7 +31,7 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(false);
+        setIsLoggedIn(true);
         setIsOwner(false);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
@@ -68,28 +68,35 @@ function App() {
         setMobileOpen(!mobileOpen);
     };
 
+    // let history = useHistory();
+    // const handleNoAuthorization = () => {
+    //     if (!isLoggedIn) {
+    //         history.push("/noauth");
+    //     }
+    // };
+
     return (
         <BrowserRouter>
             <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
             <Switch>
                 <Route exact path="/">
-                    <Home />
+                    <Home isLoggedIn={isLoggedIn} isOwner={isOwner}mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/cakemasters">
-                    <CakeMasters mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <CakeMasters isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/signup">
-                    <Signup />
+                    <Signup isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/login">
-                    <Login />
+                    <Login isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/logout">
                     <Logout isLoggedIn={isLoggedIn} />
                 </Route>
                 <Route exact path="/shop">
-                    <Shop />
+                    <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/profile">
                     <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
@@ -115,9 +122,9 @@ function App() {
                 <Route exact path="/noauth">
                     <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
-                <Route>
+                {/* <Route>
                     <Home />
-                </Route>
+                </Route> */}
             </Switch>
 
             <Box position="absolute" bottom={0}>
