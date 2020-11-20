@@ -56,7 +56,7 @@ export default function Orders(props) {
     return (
         <>
             <Toolbar />
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
             <TableContainer component={Paper}>
                 <Table className={classes.table}>
                     <TableHead>

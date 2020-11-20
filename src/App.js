@@ -19,19 +19,6 @@ import Box from '@material-ui/core/Box';
 import API from './utils/API';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState("");
-    const [isOwner, setIsOwner] = useState("");
-    // const [loginFormState, setLoginFormState] = useState({
-    //     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
-    //     data: { sale: 15, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc" },
-    //     token2: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthdEBrYXQua2F0IiwiaWQiOjIsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjpmYWxzZSwiaWF0IjoxNjA1NjM4MDIyLCJleHAiOjE2MDU2NDUyMjJ9.lQrAbrVmcjclGWYOpZ0Fbo_MdV5Io4Ei5q-BnhIIds4",
-    //     data2: { sale: 25, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc", baker_id: 1 }
-    // });
-
-    // let history = useHistory();
-    // const [historyState, setHistoryState] = useState({
-    //     history: history
-    // });
 
     const [profileState, setProfileState] = useState({
         name: "",
@@ -39,14 +26,14 @@ function App() {
         token: "",
         id: "",
         isOwner: false,
-        isLoggedIn: false
+        isLoggedIn: false,
+        loginError: "",
+        signUpError: ""
       });
 
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        // setIsLoggedIn(false);
-        // setIsOwner(false);
         const token = localStorage.getItem("token");
         API.getProfile(token).then(function(profileData) {
             if(profileData){
@@ -56,7 +43,9 @@ function App() {
                     token: token,
                     id: profileData.id,
                     isOwner: profileData.isOwner,
-                    isLoggedIn: true
+                    isLoggedIn: true,
+                    loginError: "",
+                    signUpError: ""
                 });
             }
             else{
@@ -67,10 +56,10 @@ function App() {
                     token: "",
                     id: "",
                     isOwner: false,
-                    isLoggedIn: false
+                    isLoggedIn: false,
+                    loginError: "",
+                    signUpError: ""
                 });
-                console.log("running login");
-                userLogin({email: "dev@dev.dev", password: "password"})
             }
         });
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
@@ -103,47 +92,7 @@ function App() {
         // });
 
     }
-
-    function userLogin(loginData){
-        API.loginUser(loginData).then( function (newToken) {
-            console.log(newToken);
-            if (newToken) {
-                localStorage.setItem("token", newToken.token);
-                API.getProfile(newToken.token).then( function (profileData){
-                    console.log(profileData);
-                    setProfileState({
-                        name: profileData.name,
-                        email: profileData.email,
-                        token: newToken.token,
-                        id: profileData.id,
-                        isOwner: profileData.isOwner,
-                        isLoggedIn: true
-                    });
-                    //redirect to home page
-                    console.log("if only this worked");
-                    <Redirect to="/" />;
-
-                });
-            }
-            else {
-                // login failed
-            }
-        });
-    }
-
-    function userLogout(){
-        localStorage.removeItem("token");
-        setProfileState({
-            name: "",
-            email: "",
-            token: "",
-            id: "",
-            isOwner: false,
-            isLoggedIn: false
-        });
-        console.log("if only this worked");
-        <Redirect to="/cakemasters" />;
-    }
+    
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
@@ -159,47 +108,47 @@ function App() {
 
     return (
         <BrowserRouter>
-            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <NavBar profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
             <Switch>
                 <Route exact path="/">
-                    <Home isLoggedIn={isLoggedIn} isOwner={isOwner}mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    <Home profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/cakemasters">
-                    <CakeMasters isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <CakeMasters profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/signup">
-                    <Signup isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    <Signup profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/login">
-                    <Login isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
+                    <Login profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/logout">
-                    <Logout isLoggedIn={isLoggedIn} />
+                    <Logout profile={profileState} setProfileState={setProfileState} />
                 </Route>
                 <Route exact path="/shop">
                     <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                 </Route>
                 <Route exact path="/profile">
-                    <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <UserProfile profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/dashboard">
-                    <Dashboard isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/premade">
-                    <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
+                    <CakePricing profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
                 </Route>
                 <Route exact path="/custom">
-                    <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} isPreMade={false} />
+                    <CakePricing profile={profileState} isPreMade={false} />
                 </Route>
                 <Route exact path="/orders">
-                    <Orders isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <Orders profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/inventory">
-                    <Inventory isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <Inventory profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/revenue">
-                    <Revenue isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <Revenue profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/noauth">
                     <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
