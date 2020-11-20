@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, FormControl, TextField, DialogActions, makeStyles } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, FormControl, TextField, InputLabel, Select, MenuItem, DialogActions, makeStyles } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
 
@@ -17,7 +17,6 @@ export default function CustomCakeDialog() {
     const [itemState, setItemState] = useState({
         type: "",
         name: "",
-        // size: "",
         price: ""
     });
 
@@ -30,6 +29,8 @@ export default function CustomCakeDialog() {
     };
 
     const handleInputChange = (event) => {
+        // console.log(event.target.name);
+        // console.log(event.target.value);
         const { name, value } = event.target;
         setItemState({
             ...itemState,
@@ -39,29 +40,47 @@ export default function CustomCakeDialog() {
 
     const handleInputSubmit = (event) => {
         event.preventDefault();
+        // const token = localStorage.getItem("token");
+        // console.log(itemState);
         handleClose();
-        const token = localStorage.getItem("token");
     }
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleOpen}>Add Custom Components</Button>
+            <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleOpen}
+            >
+                Add Custom Components
+            </Button>
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+
                 <DialogTitle id="form-dialog-title">Add a custom component to your pricing list</DialogTitle>
+
                 <DialogContent>
-                <FormControl className={classes.formControl}>
-                        <TextField
-                            required autoFocus
+
+                    <FormControl required className={classes.formControl}>
+                        <InputLabel id="type-label">Type</InputLabel>
+                        <Select
+                            labelId="type-label"
                             id="type"
-                            label="Type"
                             value={itemState.type}
                             name="type"
                             onChange={handleInputChange}
-                        />
+                        >
+                            <MenuItem value="size">Size</MenuItem>
+                            <MenuItem value="base">Cake Base</MenuItem>
+                            <MenuItem value="filling">Filling</MenuItem>
+                            <MenuItem value="decoration">Decoration</MenuItem>
+                        </Select>
                     </FormControl>
+
                     <FormControl className={classes.formControl}>
                         <TextField
-                            required autoFocus
+                            required
+                            multiline={true}
                             id="name"
                             label="Name"
                             value={itemState.name}
@@ -69,20 +88,11 @@ export default function CustomCakeDialog() {
                             onChange={handleInputChange}
                         />
                     </FormControl>
+
                     <FormControl className={classes.formControl}>
                         <TextField
-                            required autoFocus
-                            type="number"
-                            id="size"
-                            label="Size (in)"
-                            value={itemState.size}
-                            name="size"
-                            onChange={handleInputChange}
-                        />
-                    </FormControl>
-                    <FormControl className={classes.formControl}>
-                        <TextField
-                            required autoFocus
+                            required
+                            multiline={true}
                             type="number"
                             id="price"
                             label="Price&nbsp;($)"
@@ -91,6 +101,7 @@ export default function CustomCakeDialog() {
                             onChange={handleInputChange}
                         />
                     </FormControl>
+
                 </DialogContent>
 
                 <DialogActions>
@@ -101,6 +112,7 @@ export default function CustomCakeDialog() {
                         Submit
                     </Button>
                 </DialogActions>
+                
             </Dialog>
         </div >
     );
