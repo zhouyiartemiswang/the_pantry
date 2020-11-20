@@ -7,11 +7,13 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Shop from './pages/Shop';
-import Profile from './pages/Profile';
+import UserProfile from './pages/UserProfile';
+import Dashboard from './pages/Dashboard';
 import CakePricing from './pages/CakePricing';
 import Orders from './pages/Orders';
 import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
+import NoAuthorization from './pages/NoAuthorization';
 import Footer from './components/Footer';
 import Box from '@material-ui/core/Box';
 import API from './utils/API';
@@ -29,8 +31,8 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(true);
-        setIsOwner(true);
+        setIsLoggedIn(false);
+        setIsOwner(false);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -90,7 +92,10 @@ function App() {
                     <Shop />
                 </Route>
                 <Route exact path="/profile">
-                    <Profile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                </Route>
+                <Route exact path="/dashboard">
+                    <Dashboard isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/premade">
                     <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
@@ -106,6 +111,12 @@ function App() {
                 </Route>
                 <Route exact path="/revenue">
                     <Revenue isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                </Route>
+                <Route exact path="/noauth">
+                    <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                </Route>
+                <Route>
+                    <Home />
                 </Route>
             </Switch>
 

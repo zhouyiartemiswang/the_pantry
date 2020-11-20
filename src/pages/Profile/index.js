@@ -39,7 +39,9 @@ export default function Profile(props) {
     return (
         <>
             <div className={classes.appBarSpacer} />
-            {props.isOwner ?
+            <UserProfile />
+            {props.isOwner ? 
+            
                 (<div className={classes.root}>
                     <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
                     <CssBaseline />
@@ -49,7 +51,6 @@ export default function Profile(props) {
                         </Container>
                     </main>
                 </div>)
-                : <UserProfile />
             }
         </>
     )
