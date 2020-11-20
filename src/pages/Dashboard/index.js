@@ -71,7 +71,7 @@ export default function Dashboard(props) {
     return (
         <div className={classes.root}>
             <div className={classes.appBarSpacer} />
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
             <CssBaseline />
             <main id="content-container" className={classes.content}>
                 <Container maxWidth="lg" className={classes.container}>

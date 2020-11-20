@@ -28,20 +28,48 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
     const classes = useStyles();
-    const [isLoggedIn, setIsLoggedIn] = useState("");
-    const [isOwner, setIsOwner] = useState("");
-    const [loginFormState, setLoginFormState] = useState({
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
-        data: { sale: 15, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc" },
-        token2: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthdEBrYXQua2F0IiwiaWQiOjIsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjpmYWxzZSwiaWF0IjoxNjA1NjM4MDIyLCJleHAiOjE2MDU2NDUyMjJ9.lQrAbrVmcjclGWYOpZ0Fbo_MdV5Io4Ei5q-BnhIIds4",
-        data2: { sale: 25, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc", baker_id: 1 }
-    });
+    const [profileState, setProfileState] = useState({
+        name: "",
+        email: "",
+        token: "",
+        id: "",
+        isOwner: false,
+        isLoggedIn: false,
+        loginError: "",
+        signUpError: ""
+      });
 
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(true);
-        setIsOwner(true);
+        const token = localStorage.getItem("token");
+        API.getProfile(token).then(function(profileData) {
+            if(profileData){
+                setProfileState({
+                    name: profileData.name,
+                    email: profileData.email,
+                    token: token,
+                    id: profileData.id,
+                    isOwner: profileData.isOwner,
+                    isLoggedIn: true,
+                    loginError: "",
+                    signUpError: ""
+                });
+            }
+            else{
+                localStorage.removeItem("token");
+                setProfileState({
+                    name: "",
+                    email: "",
+                    token: "",
+                    id: "",
+                    isOwner: false,
+                    isLoggedIn: false,
+                    loginError: "",
+                    signUpError: ""
+                });
+            }
+        });
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
         //     console.log("users", data);
@@ -70,7 +98,9 @@ function App() {
         //         console.log("nothing to see here");
         //     }
         // });
+
     }
+    
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
@@ -80,54 +110,54 @@ function App() {
     return (
         <div className={classes.root}>
             <BrowserRouter>
-                <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                <NavBar profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
                 <Switch>
                     <Route exact path="/">
-                        <Home isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Home profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                     </Route>
                     <Route exact path="/cakemasters">
-                        <CakeMasters isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <CakeMasters profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/signup">
-                        <Signup isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Signup profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                     </Route>
                     <Route exact path="/login">
-                        <Login isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Login profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                     </Route>
                     <Route exact path="/logout">
-                        <Logout isLoggedIn={isLoggedIn} />
+                        <Logout profile={profileState} setProfileState={setProfileState} />
                     </Route>
                     <Route exact path="/shop">
-                        <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
                     </Route>
                     <Route exact path="/profile">
-                        <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <UserProfile profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/dashboard">
-                        <Dashboard isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/premade">
-                        <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
+                        <CakePricing profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
                     </Route>
                     <Route exact path="/custom">
-                        <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} isPreMade={false} />
+                        <CakePricing profile={profileState} isPreMade={false} />
                     </Route>
                     <Route exact path="/orders">
-                        <Orders isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Orders profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/inventory">
-                        <Inventory isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Inventory profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/revenue">
-                        <Revenue isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Revenue profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/noauth">
                         <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     {/* <Route>
-                    <Home />
-                </Route> */}
+                        <Home />
+                    </Route> */}
                 </Switch>
 
                 <Box position="absolute" bottom={0}>

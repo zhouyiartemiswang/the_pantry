@@ -7,7 +7,7 @@ export default function Revenue(props) {
     return (
         <div>
             <Toolbar/>
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
             <h1 style={{textAlign: "center"}}>Revenue page</h1>
         </div>
     )

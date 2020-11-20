@@ -189,7 +189,7 @@ export default function Inventory(props) {
     return (
         <div className={classes.root}>
             <Toolbar/>
-            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
             <Paper className={classes.paper}>
                 <TableContainer>
                     <Table

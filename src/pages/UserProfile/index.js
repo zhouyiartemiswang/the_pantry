@@ -97,7 +97,7 @@ export default function Profile(props) {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                {props.isOwner
+                {props.profile.isOwner
                     ? <Link href="/dashboard">Go to Dashboard</Link>
                     : null
                 }
