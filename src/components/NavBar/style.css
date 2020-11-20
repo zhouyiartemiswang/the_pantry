@@ -1,8 +1,14 @@
 button.nav-tab span a {
     color: white;
-    margin-left: 5vw;
+    margin-left: 5vw; 
 }
 
 h6.nav-tab a {
     color: white;
+}
+
+@media screen and (max-width: 600px) {
+    button.nav-tab span a {
+        display: none;
+    }
 }

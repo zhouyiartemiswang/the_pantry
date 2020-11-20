@@ -87,17 +87,16 @@ export default function SimpleAccordion() {
                     >
                         <Typography className={classes.heading}>
                             <span className="material-icons">house</span>
-                            My Addresses
+                            My Address
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Typography>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
                             sit amet blandit leo lobortis eget.
-                    </Typography>
+                        </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Button>Sign Out</Button>
             </Paper>
         </div>
     );

@@ -29,7 +29,7 @@ function App() {
     useEffect(fetchUserData, []);
 
     function fetchUserData() {
-        setIsLoggedIn(false);
+        setIsLoggedIn(true);
         setIsOwner(true);
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {
@@ -60,16 +60,22 @@ function App() {
         //     }
         // });
     }
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
+
     return (
         <BrowserRouter>
-            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} />
+            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
             <Switch>
                 <Route exact path="/">
                     <Home />
                 </Route>
                 <Route exact path="/cakemasters">
-                    <CakeMasters />
+                    <CakeMasters mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/signup">
                     <Signup />
@@ -78,28 +84,28 @@ function App() {
                     <Login />
                 </Route>
                 <Route exact path="/logout">
-                    <Logout />
+                    <Logout isLoggedIn={isLoggedIn} />
                 </Route>
                 <Route exact path="/shop">
                     <Shop />
                 </Route>
                 <Route exact path="/profile">
-                    <Profile isOwner={isOwner} />
+                    <Profile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/premade">
-                    <CakePricing isPreMade={true} />
+                    <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
                 </Route>
                 <Route exact path="/custom">
-                    <CakePricing isPreMade={false} />
+                    <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} isPreMade={false} />
                 </Route>
                 <Route exact path="/orders">
-                    <Orders />
+                    <Orders isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/inventory">
-                    <Inventory />
+                    <Inventory isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
                 <Route exact path="/revenue">
-                    <Revenue />
+                    <Revenue isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                 </Route>
             </Switch>
 

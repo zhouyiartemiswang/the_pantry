@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '../../components/Dialog';
+import SideNav from '../../components/SideNav';
+
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles, Toolbar } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
@@ -112,7 +114,9 @@ InventoryHead.propTypes = {
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        marginLeft: 240,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        }
     },
     paper: {
         width: '100%',
@@ -134,7 +138,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Inventory() {
+export default function Inventory(props) {
     const classes = useStyles();
     const [tokenState, setTokenState] = useState("");
     const [order, setOrder] = useState('asc');
@@ -185,6 +189,7 @@ export default function Inventory() {
     return (
         <div className={classes.root}>
             <Toolbar/>
+            <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
             <Paper className={classes.paper}>
                 <TableContainer>
                     <Table

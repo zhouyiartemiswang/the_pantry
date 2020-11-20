@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import UserProfile from '../../components/UserProfile';
 import Dashboard from '../../components/Dashboard';
+import SideNav from '../../components/SideNav';
+
 import { CssBaseline, Container, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -39,6 +41,7 @@ export default function Profile(props) {
             <div className={classes.appBarSpacer} />
             {props.isOwner ?
                 (<div className={classes.root}>
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
                     <CssBaseline />
                     <main id="content-container" className={classes.content}>
                         <Container maxWidth="lg" className={classes.container}>

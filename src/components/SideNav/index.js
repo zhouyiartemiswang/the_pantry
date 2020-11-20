@@ -15,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: drawerWidth,
     },
+    mobileTab: {
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    }
 }));
 
 // dont cut off page info on desktop
@@ -27,24 +32,34 @@ function SideNav(props) {
         <>
             <div className={classes.toolbar} />
             <Divider />
-            <List>
-                <Link href="/cakemasters">
-                    <ListItem button key="cake">
-                        <span className="material-icons">near_me</span>
-                        <ListItemText primary="Cake Masters" />
-                    </ListItem>
-                </Link>
-            </List>
-            <Divider />
-            <List>
+            {props.isLoggedIn && props.isOwner ?
+                (<>
+                    <List>
+                        {[
+                            ['Dashboard', '/profile', 'dashboard'],
+                            ['Pre-made Cakes', '/premade', 'cake'],
+                            ['Custom Cakes', '/custom', 'cake'],
+                            ['Orders', '/orders', 'assignment'],
+                            ['Inventory', '/inventory', 'list_alt'],
+                            ['Revenue', '/revenue', 'bar_chart']
+                        ].map((text) => (
+                            <Link href={text[1]}>
+                                <ListItem button key={text[0]}>
+                                    <span className="material-icons">{text[2]}</span>
+                                    <ListItemText primary={text[0]} />
+                                </ListItem>
+                            </Link>
+                        ))}
+                    </List>
+                    <Divider />
+                </>)
+                :
+                null
+            }
+            <List className={classes.mobileTab}>
                 {[
-                    ['Dashboard', '/profile', 'dashboard'],
-                    // ['My Products', '#', 'dashboard'],
-                    ['Pre-made Cakes', '/premade', 'cake'],
-                    ['Custom Cakes', '/custom', 'cake'],
-                    ['Orders', '/orders', 'assignment'],
-                    ['Inventory', '/inventory', 'list_alt'],
-                    ['Revenue', '/revenue', 'bar_chart'],
+                    ['Cake Masters', '/cakemasters', 'near_me'],
+                    ['Shop', '/shop', 'shopping_bag'],
                     ['Cart', '/cart', 'shopping_cart'],
                     ['Logout', '/logout', 'logout']
                 ].map((text) => (

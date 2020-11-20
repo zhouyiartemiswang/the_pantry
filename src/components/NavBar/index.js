@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SideNav from '../SideNav';
 import { AppBar, Toolbar, Typography, Button, Link } from '@material-ui/core';
 import { IconButton, makeStyles } from '@material-ui/core';
@@ -22,46 +22,65 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar(props) {
     const classes = useStyles();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    // const [mobileOpen, setMobileOpen] = useState(false);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+    // const handleDrawerToggle = () => {
+    //     setMobileOpen(!mobileOpen);
+    // };
     // add a check on the login button to display login or log out based on user state
     // dont remove the nav bar from the home page when the user signs in
     // owner has no way to get back to the site home page after logging in
     // there shouldn't be options that vanish as you change pages (like the shopping cart icon for a non owner when going from the home page to their profile)
     // there shouldn't be a profile button if you aren't logged in
+    console.log(props);
     return (
         <>
-            <AppBar position="fixed">
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
+                    {/* <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
                         <Link href="/">
                             The Pantry
-                                </Link>
+                        </Link>
+                    </Typography> */}
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={props.handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <span className="material-icons">menu</span>
+                    </IconButton>
+                    <Typography variant="h6" className="nav-tab" noWrap style={{ flex: 1 }}>
+                        The Pantry
                     </Typography>
                     <Button className="nav-tab">
                         <Link href="/cakemasters">
                             Cake Masters
-                                </Link>
+                        </Link>
                     </Button>
                     <Button className="nav-tab">
                         <Link href="/shop">
                             Shop
-                                </Link>
+                        </Link>
                     </Button>
-                    {props.isLoggedIn ? null :
+                    {props.isLoggedIn && !props.isOwner ?
+                        <Button className="nav-tab">
+                            <Link href="/logout">
+                                Logout
+                            </Link>
+                        </Button>
+                        :
                         <>
                             <Button className="nav-tab">
                                 <Link href="/signup">
                                     Sign Up
-                                    </Link>
+                                </Link>
                             </Button>
                             <Button className="nav-tab">
                                 <Link href="/login">
                                     Login
-                                        </Link>
+                                </Link>
                             </Button>
                         </>
                     }
@@ -77,9 +96,9 @@ export default function NavBar(props) {
                     </Button>
                 </Toolbar>
             </AppBar>
-            { props.isLoggedIn && props.isOwner ?
-                <>
-                    <AppBar position="fixed" className={classes.appBar}>
+            {/* { props.isLoggedIn && props.isOwner ? */}
+            <>
+                {/* <AppBar position="fixed" className={classes.appBar}>
                         <Toolbar>
                             <IconButton
                                 color="inherit"
@@ -94,11 +113,14 @@ export default function NavBar(props) {
                                 The Pantry
                             </Typography>
                         </Toolbar>
-                    </AppBar>
-                    <SideNav mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </>
-                : null
-            }
+                    </AppBar> */}
+                {props.mobileOpen ?
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                    : null
+                }
+            </>
+            {/* : null
+            } */}
         </>
     )
 }
