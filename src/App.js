@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Switch, Route, useHistory } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import CakeMasters from './pages/CakeMasters';
@@ -15,10 +15,19 @@ import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
 import NoAuthorization from './pages/NoAuthorization';
 import Footer from './components/Footer';
-import Box from '@material-ui/core/Box';
+import { Box, makeStyles } from '@material-ui/core';
 import API from './utils/API';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+    },
+}));
+
 function App() {
+    const classes = useStyles();
     const [isLoggedIn, setIsLoggedIn] = useState("");
     const [isOwner, setIsOwner] = useState("");
     const [loginFormState, setLoginFormState] = useState({
@@ -68,70 +77,65 @@ function App() {
         setMobileOpen(!mobileOpen);
     };
 
-    // let history = useHistory();
-    // const handleNoAuthorization = () => {
-    //     if (!isLoggedIn) {
-    //         history.push("/noauth");
-    //     }
-    // };
-
     return (
-        <BrowserRouter>
-            <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+        <div className={classes.root}>
+            <BrowserRouter>
+                <NavBar isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
-            <Switch>
-                <Route exact path="/">
-                    <Home isLoggedIn={isLoggedIn} isOwner={isOwner}mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/cakemasters">
-                    <CakeMasters isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/signup">
-                    <Signup isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/login">
-                    <Login isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/logout">
-                    <Logout isLoggedIn={isLoggedIn} />
-                </Route>
-                <Route exact path="/shop">
-                    <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}/>
-                </Route>
-                <Route exact path="/profile">
-                    <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/dashboard">
-                    <Dashboard isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/premade">
-                    <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
-                </Route>
-                <Route exact path="/custom">
-                    <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} isPreMade={false} />
-                </Route>
-                <Route exact path="/orders">
-                    <Orders isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/inventory">
-                    <Inventory isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/revenue">
-                    <Revenue isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                <Route exact path="/noauth">
-                    <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                </Route>
-                {/* <Route>
+                <Switch>
+                    <Route exact path="/">
+                        <Home isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/cakemasters">
+                        <CakeMasters isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/signup">
+                        <Signup isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/login">
+                        <Login isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/logout">
+                        <Logout isLoggedIn={isLoggedIn} />
+                    </Route>
+                    <Route exact path="/shop">
+                        <Shop mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/profile">
+                        <UserProfile isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/dashboard">
+                        <Dashboard isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/premade">
+                        <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
+                    </Route>
+                    <Route exact path="/custom">
+                        <CakePricing isLoggedIn={isLoggedIn} isOwner={isOwner} isPreMade={false} />
+                    </Route>
+                    <Route exact path="/orders">
+                        <Orders isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/inventory">
+                        <Inventory isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/revenue">
+                        <Revenue isLoggedIn={isLoggedIn} isOwner={isOwner} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/noauth">
+                        <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    {/* <Route>
                     <Home />
                 </Route> */}
-            </Switch>
+                </Switch>
 
-            <Box position="absolute" bottom={0}>
-                <Footer />
-            </Box>
+                <Box position="absolute" bottom={0}>
+                    <Footer />
+                </Box>
 
-        </BrowserRouter>
+            </BrowserRouter>
+        </div>
     );
 }
 
