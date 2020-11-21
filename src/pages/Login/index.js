@@ -61,6 +61,7 @@ export default function Login(props) {
         API.loginUser(loginFormState).then( function (newToken) {
             if (newToken) {
                 localStorage.setItem("token", newToken.token);
+                console.log(newToken.token);
                 API.getProfile(newToken.token).then( function (profileData){
                     console.log(profileData);
                     props.setProfileState({

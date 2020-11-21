@@ -37,7 +37,7 @@ function App() {
         isLoggedIn: false,
         loginError: "",
         signUpError: ""
-      });
+    });
 
     useEffect(fetchUserData, []);
 
@@ -134,7 +134,7 @@ function App() {
                         <UserProfile profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/dashboard">
-                        <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} /> 
                     </Route>
                     <Route exact path="/premade">
                         <CakePricing profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
