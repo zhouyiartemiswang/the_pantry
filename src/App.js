@@ -123,6 +123,7 @@ function App() {
     function fetchUserData() {
         const token = localStorage.getItem("token");
         API.getProfile(token).then(function(profileData) {
+            console.log(profileData);
             if(profileData){
                 setProfileState({
                     name: profileData.username,
@@ -148,6 +149,7 @@ function App() {
                     signUpError: ""
                 });
             }
+            console.log(profileState);
         });
         // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
         //   if (data) {

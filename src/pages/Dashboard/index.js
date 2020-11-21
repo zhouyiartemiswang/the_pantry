@@ -40,8 +40,9 @@ export default function Dashboard(props) {
     const classes = useStyles();
     const [inventoryState, setInventoryState] = useState([]);
     const [lowStockItem, setLowStockItem] = useState("");
-
+    
     useEffect(() => {
+        console.log(props.profile)
         const token = localStorage.getItem("token");
         API.getBaker(token).then(res => {
             if (res) {
