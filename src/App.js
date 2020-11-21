@@ -39,7 +39,86 @@ function App() {
         signUpError: ""
     });
 
-    useEffect(fetchUserData, []);
+    const [cakeState, setCakeState] = useState({
+        allCakes: [],
+        filteredCakes: []
+    });
+
+    const [customState, setCustomState] = useState({
+        allCustom: [],
+        filteredCustom: []
+    });
+
+    const [bakerState, setBakerState] = useState({
+        allBakers: [],
+        filteredBakers: []
+    });
+
+    useEffect( function() {
+        fetchUserData();
+        fetchCakes();
+        fetchCustom();
+        fetchBakers();
+    }, []);
+
+    function fetchBakers(){
+        API.getAllUsers().then(data => {
+            if (data) {
+                let newArray = [];
+                let newArray2 = [];
+                for(let i=0; i < data.length; i++){
+                    if(data[i].isOwner){
+                        newArray.push({id: data[i].id, username: data[i].username, address: data[i].address, phone: data[i].phone, email: data[i].email});
+                        newArray2.push({id: data[i].id, username: data[i].username, address: data[i].address, phone: data[i].phone, email: data[i].email});
+                    }
+                }
+                setBakerState({
+                    allBakers: newArray,
+                    filteredBakers: newArray2
+                });
+            } else {
+                console.log("nothing to see here");
+            }
+        });
+    }
+    
+    function fetchCakes(){
+        API.getAllPreMade().then(data => {
+            if (data) {
+                let newArray = [];
+                let newArray2 = [];
+                for(let i=0; i < data.length; i++){
+                    newArray.push(data[i]);
+                    newArray2.push(data[i]);
+                }
+                setCakeState({
+                    allCakes: newArray,
+                    filteredCakes: newArray2
+                });
+            } else {
+                console.log("nothing to see here");
+            }
+        });
+    }
+
+    function fetchCustom(){
+        API.getAllPricing().then(data => {
+            if (data) {
+                let newArray3 = [];
+                let newArray4 = [];
+                for(let i=0; i < data.length; i++){
+                    newArray3.push(data[i]);
+                    newArray4.push(data[i]);
+                }
+                setCustomState({
+                    allCustom: newArray3,
+                    filteredCustom: newArray4
+                });
+            } else {
+                console.log("nothing to see here");
+            }
+        });
+    }
 
     function fetchUserData() {
         const token = localStorage.getItem("token");
@@ -47,7 +126,7 @@ function App() {
             console.log(profileData);
             if(profileData){
                 setProfileState({
-                    name: profileData.name,
+                    name: profileData.username,
                     email: profileData.email,
                     token: token,
                     id: profileData.id,
