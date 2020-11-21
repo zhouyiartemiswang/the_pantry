@@ -77,6 +77,7 @@ export default function Login(props) {
                     //redirect to home page
                     localStorage.removeItem("LoginError");
                     localStorage.removeItem("SignUpError");
+                    props.fillProfile();
                     return history.push("/");
 
                 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Toolbar, Link } from '@material-ui/core';
 import './style.css';
 
@@ -16,6 +16,12 @@ export default function Logout(props) {
             isLoggedIn: false,
             loginError: "",
             signUpError: ""
+        });
+        props.setBuyerProfileState({
+            message: "please log in"
+        });
+        props.setBakerProfileState({
+            message: "please log in"
         });
     }
 
