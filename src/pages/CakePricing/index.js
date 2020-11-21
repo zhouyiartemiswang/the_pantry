@@ -77,9 +77,9 @@ export default function CakePricing(props) {
     return (
         <>
             <div className={classes.appBarSpacer} />
-            {props.isLoggedIn && props.isOwner ?
+            {props.profile.isLoggedIn && props.profile.isOwner ?
                 <>
-                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
                     <TableContainer component={Paper}>
                         <Table className={classes.table}>
                             {/* <colgroup>

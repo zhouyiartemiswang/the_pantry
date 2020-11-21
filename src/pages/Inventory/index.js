@@ -192,7 +192,7 @@ export default function Inventory(props) {
             <div className={classes.appBarSpacer} />
             {props.profile.isLoggedIn && props.profile.isOwner ?
                 <>
-                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} isLoggedIn={props.isLoggedIn} isOwner={props.isOwner} />
+                    <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
                     <Paper className={classes.paper}>
                         <TableContainer>
                             <Table
