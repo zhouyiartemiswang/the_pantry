@@ -57,7 +57,6 @@ const headCells = [
     { id: 'item', label: 'Item' },
     { id: 'quantity', label: 'Quantity' },
     { id: 'unit', label: 'Unit' },
-    { id: 'expires', label: 'Expiration Date' },
     { id: 'action', label: 'Action' },
 ];
 
@@ -67,9 +66,6 @@ function InventoryHead(props) {
         onRequestSort(event, property);
     };
 
-    // we removed the exp date on inventory items, the form no longer needs it
-    // should have a default to inform of empty inventory if there is nothing to display
-    // you shouldn't be allowed to access the inventory page if you aren't logged in
     return (
         <TableHead>
             <TableRow>
@@ -201,13 +197,12 @@ export default function Inventory(props) {
                                 size="medium"
                                 aria-label="enhanced table"
                             >
-                                <colgroup>
+                                {/* <colgroup>
                                     <col style={{ width: '20%' }} />
                                     <col style={{ width: '20%' }} />
                                     <col style={{ width: '20%' }} />
                                     <col style={{ width: '20%' }} />
-                                    <col style={{ width: '20%' }} />
-                                </colgroup>
+                                </colgroup> */}
                                 <InventoryHead
                                     classes={classes}
                                     order={order}
@@ -215,34 +210,39 @@ export default function Inventory(props) {
                                     onRequestSort={handleRequestSort}
                                 />
                                 <TableBody>
-                                    {stableSort(inventoryState, getComparator(order, orderBy))
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row, index) => {
-                                            const labelId = `enhanced-table-checkbox-${index}`;
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    tabIndex={-1}
-                                                    key={row.name}
-                                                >
-                                                    <TableCell component="th" id={labelId} scope="row">
-                                                        {row.name}
-                                                    </TableCell>
-                                                    <TableCell align="right">{row.quantity}</TableCell>
-                                                    <TableCell align="left">{row.metric}</TableCell>
-                                                    <TableCell align="left">{row.expires}</TableCell>
-                                                    <TableCell align="left">
-                                                        <Dialog isAddItem={false} id={row.id} />
-                                                        <span
-                                                            className="material-icons"
-                                                            id={row.id}
-                                                            onClick={handleItemDelete}
+                                    {inventoryState.length > 0 ?
+                                        <>
+                                            {stableSort(inventoryState, getComparator(order, orderBy))
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row, index) => {
+                                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                                    return (
+                                                        <TableRow
+                                                            hover
+                                                            tabIndex={-1}
+                                                            key={row.name}
                                                         >
-                                                            delete</span>
-                                                    </TableCell>
-                                                </TableRow>
-                                            );
-                                        })}
+                                                            <TableCell component="th" id={labelId} scope="row">
+                                                                {row.name}
+                                                            </TableCell>
+                                                            <TableCell align="right">{row.quantity}</TableCell>
+                                                            <TableCell align="left">{row.metric}</TableCell>
+                                                            <TableCell align="left">
+                                                                <Dialog isAddItem={false} id={row.id} />
+                                                                <span
+                                                                    className="material-icons"
+                                                                    id={row.id}
+                                                                    onClick={handleItemDelete}
+                                                                >
+                                                                    delete</span>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                        </>
+                                        :
+                                        <h1 style={{ textAlign: "center" }}>No inventory items.</h1>
+                                    }
                                     {emptyRows > 0 && (
                                         <TableRow style={{ height: 53 * emptyRows }}>
                                             <TableCell colSpan={6} />

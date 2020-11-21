@@ -107,7 +107,7 @@ export default function NavBar(props) {
             
             {/* On mobile screen, SideNav will show up as hidden component and can toggle open and close */}
             {props.mobileOpen ?
-                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
+                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile}/>
                 : null
             }
 
