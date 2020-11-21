@@ -177,7 +177,6 @@ function App() {
         //         console.log("nothing to see here");
         //     }
         // });
-
     }
     
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -214,7 +213,7 @@ function App() {
                         <UserProfile profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/dashboard">
-                        <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Dashboard profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} /> 
                     </Route>
                     <Route exact path="/premade">
                         <CakePricing profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
