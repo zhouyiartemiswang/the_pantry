@@ -55,7 +55,9 @@ export default function OrderTable(props) {
                         <TableCell align="center">Action</TableCell>
                     </TableRow>
                 </TableHead>
-                {props.orders.length === 0
+                {!props.orders
+                    ? <h4 style={{ textAlign: "center" }}>No orders.</h4>
+                    : props.orders.length === 0
                     ? <h4 style={{ textAlign: "center" }}>No orders.</h4>
                     :
                     <TableBody>
