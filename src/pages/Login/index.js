@@ -67,6 +67,8 @@ export default function Login(props) {
                         email: profileData.email,
                         token: newToken.token,
                         id: profileData.id,
+                        phone: profileData.phone,
+                        address: profileData.address,
                         isOwner: profileData.isOwner,
                         isLoggedIn: true,
                         loginError: "",
