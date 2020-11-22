@@ -11,6 +11,8 @@ const useStyles = makeStyles((theme) => ({
         width: "100vw",
         marginTop: 10,
         zIndex: 100,
+        position: "fixed",
+        bottom: 0,
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
     },

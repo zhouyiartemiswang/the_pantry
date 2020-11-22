@@ -225,8 +225,8 @@ function App() {
             });
         }
         else if (type === "custom") {
-            API.deleteCustom(token, id).then(function (res) {
-                if (res) {
+            API.deletePricing(token, id).then(function(res) {
+                if(res){
                     fetchCustom();
                     fillProfile();
                 }
@@ -294,7 +294,7 @@ function App() {
             });
         }
         else if (type === "custom") {
-            API.createCustom(token, data).then(function (res) {
+            API.createPricing(token, data).then(function(res) {
                 if (res) {
                     fetchCustom();
                     fillProfile();
@@ -363,7 +363,7 @@ function App() {
             });
         }
         else if (type === "custom") {
-            API.editCustom(token, id, data).then(function (res) {
+            API.editPricing(token, id, data).then(function(res) {
                 if (res) {
                     fetchCustom();
                     fillProfile();
@@ -478,7 +478,7 @@ function App() {
                 </Switch>
 
             </div>
-            <Box position="fixed" bottom={0}>
+            <Box >
                 <Footer />
             </Box>
 
