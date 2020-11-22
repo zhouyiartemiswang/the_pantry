@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, FormControl, Select, MenuItem, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -14,32 +14,39 @@ const useStyles = makeStyles((theme) => ({
 export default function OrderTable(props) {
     const classes = useStyles();
 
-    const [editButtonState, setEditButtonState] = useState({
-        id: "",
-        status: "",
-        clicked: false
-    });
-
-    const handleItemEdit = event => {
-        // console.log(event.target.id)
-        setEditButtonState({
-            ...editButtonState,
-            id: event.target.id,
+    function handleItemEdit(data) {
+        props.setEditButtonState({
+            ...props.editButtonState,
+            id: data.id,
+            status: data.status,
             clicked: true
         });
-        console.log(editButtonState);
+    }
+
+    function handleItemSave(data) {
+        props.setEditButtonState({
+            ...props.editButtonState,
+            clicked: false
+        });
+        const info ={
+            sale: data.sale,
+            ingredients: data.ingredients,
+            deadline: data.deadline,
+            status: props.editButtonState.status,
+            description: data.description
+        }
+        props.editOne("order", data.id, info);
     }
 
     const handleStatusChange = event => {
-        setEditButtonState({
-            ...editButtonState,
+        props.setEditButtonState({
+            ...props.editButtonState,
             status: event.target.value
         });
     }
 
     const handleItemDelete = event => {
-        // console.log(event.target.id)
-        // Delete order
+        props.deleteOne("order", event.target.id);
     }
 
     return (
@@ -55,7 +62,9 @@ export default function OrderTable(props) {
                         <TableCell align="center">Action</TableCell>
                     </TableRow>
                 </TableHead>
-                {props.orders.length === 0
+                {!props.orders
+                    ? <h4 style={{ textAlign: "center" }}>No orders.</h4>
+                    : props.orders.length === 0
                     ? <h4 style={{ textAlign: "center" }}>No orders.</h4>
                     :
                     <TableBody>
@@ -65,14 +74,14 @@ export default function OrderTable(props) {
                                 <TableCell align="center">{row.description}</TableCell>
                                 <TableCell align="center">{row.sale}</TableCell>
                                 <TableCell align="center">{row.deadline}</TableCell>
-                                {editButtonState.clicked && editButtonState.id === row.id ?
+                                {props.editButtonState.clicked && parseInt(props.editButtonState.id) === row.id ?
                                     <>
                                         <FormControl className={classes.formControl}>
 
                                             <Select
                                                 labelId="status-label"
                                                 id="status"
-                                                value={editButtonState.status}
+                                                value={props.editButtonState.status}
                                                 onChange={handleStatusChange}
                                             >
                                                 <MenuItem value="Pending">Pending</MenuItem>
@@ -84,11 +93,11 @@ export default function OrderTable(props) {
                                     : <TableCell align="center">{row.status}</TableCell>
                                 }
                                 <TableCell align="center">
-                                    {editButtonState.clicked && editButtonState.id === row.id ?
+                                    {props.editButtonState.clicked && parseInt(props.editButtonState.id) === row.id ?
                                         <span
                                             id={row.id}
                                             className="material-icons"
-                                            onClick={props.handleItemSave}
+                                            onClick={function () {handleItemSave(row)}}
                                         >
                                             save
                                                 </span>
@@ -96,7 +105,7 @@ export default function OrderTable(props) {
                                         <span
                                             id={row.id}
                                             className="material-icons"
-                                            onClick={handleItemEdit}
+                                            onClick={function () {handleItemEdit(row)}}
                                         >
                                             edit
                                                 </span>
