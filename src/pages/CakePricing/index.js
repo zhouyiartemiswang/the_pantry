@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SideNav from '../../components/SideNav';
 import PreMadeCakeDialog from '../../components/PreMadeCakeDialog';
 import CustomCakeDialog from '../../components/CustomCakeDialog';
-import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,55 +19,26 @@ export default function CakePricing(props) {
     const classes = useStyles();
     const [cakeListState, setCakeListState] = useState([]);
 
-    useEffect(() => {
-        props.isPreMade ?
-            setCakeListState([
-                {
-                    id: 1,
-                    image: "http://placekitten.com/100/100",
-                    name: "Black Forest Cake, 6 in",
-                    price: "80",
-                    ingredients: "milk, egg, flour",
-                    description: "something"
-                },
-                {
-                    id: 2,
-                    image: "http://placekitten.com/100/100",
-                    name: "Black Forest Cake, 6 in",
-                    price: "80",
-                    ingredients: "milk, egg, flour",
-                    description: "something"
-                }
-            ])
-            :
-            setCakeListState([
-                {
-                    id: 1,
-                    type: "filling",
-                    name: "vanilla buttercream",
-                    price: "10"
-                },
-                {
-                    id: 2,
-                    type: "filling",
-                    name: "strawberry buttercream",
-                    price: "8"
-                }
-            ])
-    }, [])
+    useEffect( function() {
+        if(props.isPreMade){
+            if(props.baker.preMade){
+                setCakeListState(props.baker.preMade);
+            }
+        }
+        else{
+            if(props.baker.pricing){
+                setCakeListState(props.baker.pricing);
+            }
+        }
+    }, [props.baker]);
 
-    const handleItemEdit = event => {
-
-    }
-
-    const handleItemDelete = (event) => {
-        // console.log(event.target.id);
-        // API.deleteInventory(tokenState, event.target.id)
-        //     .then(res => {
-        //         console.log("Item deleted!");
-        //         window.location.reload();
-        //     })
-        //     .catch(err => console.log(err));
+    function handleItemDelete (event) {
+        if(props.isPreMade){
+            props.deleteOne("premade", event.target.id);
+        }
+        else{
+            props.deleteOne("custom", event.target.id);
+        }
     };
 
     const headList = props.isPreMade
@@ -101,8 +72,8 @@ export default function CakePricing(props) {
                                     <TableRow key={row.id}>
                                         {props.isPreMade ?
                                             <>
-                                                <TableCell component="th" scope="row">
-                                                    <img src={row.image} alt={row.name} />
+                                                <TableCell component="th" scope="row" style={{ textAlign: "center" }}>
+                                                    <img src={row.img} alt={row.name} style={{height: "100px"}}/>
                                                 </TableCell>
                                                 <TableCell align="center">{row.name}</TableCell>
                                                 <TableCell align="center">{row.price}</TableCell>
@@ -117,12 +88,10 @@ export default function CakePricing(props) {
                                             </>
                                         }
                                         <TableCell align="center">
-                                            <span
-                                                className="material-icons"
-                                                id={row.id}
-                                                onClick={handleItemEdit}
-                                            >
-                                                edit</span>
+                                            {props.isPreMade
+                                                ? <PreMadeCakeDialog isPreMade={props.isPreMade} isAddItem={false} data={row} editOne={props.editOne}/>
+                                                : <CustomCakeDialog isPreMade={props.isPreMade} isAddItem={false} data={row} editOne={props.editOne}/>
+                                            }
                                             <span
                                                 className="material-icons"
                                                 id={row.id}
@@ -134,8 +103,8 @@ export default function CakePricing(props) {
                                 ))}
                             </TableBody>
                             {props.isPreMade
-                                ? <PreMadeCakeDialog />
-                                : <CustomCakeDialog />
+                                ? <PreMadeCakeDialog isPreMade={props.isPreMade} isAddItem={true} addOne={props.addOne} />
+                                : <CustomCakeDialog isPreMade={props.isPreMade} isAddItem={true} addOne={props.addOne} />
                             }
                         </Table>
                     </TableContainer>

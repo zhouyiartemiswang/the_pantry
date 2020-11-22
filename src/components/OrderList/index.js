@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
-import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles({
@@ -9,30 +8,15 @@ const useStyles = makeStyles({
     },
 });
 
-export default function OrderList() {
+export default function OrderList(props) {
     const classes = useStyles();
     const [orderState, setOrderState] = useState([]);
 
-    useEffect(() => {
-        // API.getAllOrders().then(res => {
-        setOrderState([
-            {
-                id: 1,
-                description: "asdfasdf",
-                sale: "80",
-                deadline: "2020-11-30",
-                status: "pending"
-            },
-            {
-                id: 2,
-                description: "asdfasdf",
-                sale: "50",
-                deadline: "2020-11-27",
-                status: "pending"
-            },
-        ])
-        // })
-    }, [])
+    useEffect( function() {
+        if(props.baker.orders){
+            setOrderState(props.baker.orders);
+        }
+    }, [props.baker]);
 
     // account for the fact the user may not have items (Cannot read property 'map' of null)
     return (

@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, FormControl, TextField, InputLabel, Select, MenuItem, DialogActions, makeStyles } from '@material-ui/core';
-import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,15 +9,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CustomCakeDialog() {
+export default function CustomCakeDialog(props) {
     const classes = useStyles();
-
     const [open, setOpen] = useState(false);
     const [itemState, setItemState] = useState({
         type: "",
         name: "",
         price: ""
     });
+
+    useEffect( function() {
+        if(props.data){
+            setItemState({ ...itemState, name: props.data.name, price: props.data.price, type: props.data.type });
+        }
+    }, [props.data]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -29,8 +33,6 @@ export default function CustomCakeDialog() {
     };
 
     const handleInputChange = (event) => {
-        // console.log(event.target.name);
-        // console.log(event.target.value);
         const { name, value } = event.target;
         setItemState({
             ...itemState,
@@ -40,40 +42,42 @@ export default function CustomCakeDialog() {
 
     const handleInputSubmit = (event) => {
         event.preventDefault();
-        // const token = localStorage.getItem("token");
-        // console.log(itemState);
         handleClose();
+        if (props.isAddItem) {
+            props.addOne("custom", itemState);
+        }
+        else{
+            props.editOne("custom", props.data.id, itemState);
+        }
     }
 
     return (
         <div>
-            <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleOpen}
-            >
-                Add Custom Components
-            </Button>
+            {props.isAddItem
+                ? <Button variant="outlined" color="primary" onClick={handleOpen} > Add Custom Components </Button>
+                : <span className="material-icons" onClick={handleOpen}>edit</span>
+            }
 
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-
-                <DialogTitle id="form-dialog-title">Add a custom component to your pricing list</DialogTitle>
+                {props.isAddItem
+                    ? <DialogTitle id="form-dialog-title">Add a custom component to your pricing list</DialogTitle>
+                    : <DialogTitle id="form-dialog-title">Edit custom component</DialogTitle>
+                }
 
                 <DialogContent>
 
                     <FormControl required className={classes.formControl}>
-                        <InputLabel id="type-label">Type</InputLabel>
+                        <InputLabel id="type">Type</InputLabel>
                         <Select
-                            labelId="type-label"
                             id="type"
                             value={itemState.type}
                             name="type"
                             onChange={handleInputChange}
                         >
-                            <MenuItem value="size">Size</MenuItem>
-                            <MenuItem value="base">Cake Base</MenuItem>
-                            <MenuItem value="filling">Filling</MenuItem>
-                            <MenuItem value="decoration">Decoration</MenuItem>
+                            <MenuItem value="Size">Size</MenuItem>
+                            <MenuItem value="Base">Cake Base</MenuItem>
+                            <MenuItem value="Filling">Filling</MenuItem>
+                            <MenuItem value="Decoration">Decoration</MenuItem>
                         </Select>
                     </FormControl>
 

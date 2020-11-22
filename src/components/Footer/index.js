@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme) => ({
         // color: "white",
         padding: theme.spacing(3, 2),
         width: "100vw",
-        marginTop: 'auto',
+        marginTop: 10,
+        zIndex: 100,
+        position: "fixed",
+        bottom: 0,
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
     },
@@ -33,8 +36,8 @@ function Footer(props) {
             setIsHomePage(true);
             // console.log("homepage")
         } else {
-            // setIsHomePage(false)
-            console.log(props.location.pathname);
+            setIsHomePage(false)
+            // console.log(props.location.pathname);
         }
 
     }, [])
