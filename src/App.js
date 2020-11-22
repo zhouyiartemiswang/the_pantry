@@ -476,9 +476,9 @@ function App() {
                     </Route> */}
                 </Switch>
 
-                <Box position="absolute" bottom={0}>
+                {/* <Box position="absolute" bottom={0}>
                     <Footer />
-                </Box>
+                </Box> */}
 
             </BrowserRouter>
         </div>

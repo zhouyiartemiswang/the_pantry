@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import SideNav from '../../components/SideNav';
 import OrderTable from '../../components/OrderTable';
 import { Container, Grid, Typography, TableContainer, Paper, makeStyles } from '@material-ui/core';
-import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,65 +33,29 @@ export default function Orders(props) {
         status: "",
         clicked: false
     });
-    const [pendingOrdersState, setPendingOrdersState] = useState([]);
-    const [inProgressOrdersState, setInProgressOrdersState] = useState([]);
-    const [completedOrdersState, setCompletedOrdersState] = useState([]);
 
-    useEffect(() => {
-        // API.getAllOrders().then(res => {
-        setOrderState([
-            {
-                id: "1",
-                description: "pre-made",
-                sale: 100,
-                deadline: "December 4, 2020",
-                status: "In Progress"
-            },
-            {
-                id: "2",
-                description: "pre-made",
-                sale: 90,
-                deadline: "December 1, 2020",
-                status: "In Progress"
-            },
-
-        ])
-        filterTable(orderState);
-        // console.log(pendingOrders, inProgressOrders, completedOrders);
-        // })
-    }, [])
-
-    const filterTable = (orderList) => {
-        let pendingOrders = orderList.filter(order => order.status === "Pending");
-        let inProgressOrders = orderList.filter(order => order.status === "In Progress");
-        let completedOrders = orderList.filter(order => order.status === "Completed");
-        setPendingOrdersState(pendingOrders);
-        setInProgressOrdersState(inProgressOrders);
-        setCompletedOrdersState(completedOrders);
-        // console.log(inProgressOrdersState);
-    }
-
-    const handleItemSave = event => {
-        let newArray = orderState.map(order => {
-            console.log(event.target);
-            console.log(event.target.id, editButtonState.status);
-            if (order.id === event.target.id) {
-                order.status = editButtonState.status;
+    useEffect( function() {
+        let allArray = [];
+        let pendingArray = [];
+        let inProgressArray = [];
+        let completedArray = [];
+        if(props.baker.orders){
+            for(let i = 0; i < props.baker.orders.length; i++){
+                allArray.push(props.baker.orders[i]);
+                if(props.baker.orders[i].status.toLowerCase() === "pending"){
+                    pendingArray.push(props.baker.orders[i]);
+                }
+                if(props.baker.orders[i].status.toLowerCase() === "in progress"){
+                    inProgressArray.push(props.baker.orders[i]);
+                }
+                if(props.baker.orders[i].status.toLowerCase() === "completed"){
+                    completedArray.push(props.baker.orders[i]);
+                }
             }
-            return order;
-        })
-
-        setEditButtonState({
-            id: "",
-            status: "",
-            clicked: false
-        })
-
-        // console.log(newArray);
-        setOrderState(newArray)
-        // console.log("Save button clicked", editButtonState);
-        // API call to save changes
-    }
+            setOrderState({list: allArray, pending: pendingArray, progress: inProgressArray, completed: completedArray});
+        }
+        
+    }, [props.baker]);
 
     return (
         <>
@@ -110,7 +73,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         Pending Orders
                                     </Typography>
-                                    <OrderTable orders={pendingOrdersState} handleItemSave={handleItemSave} />
+                                    <OrderTable orders={orderState.pending} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
                                 </TableContainer>
                             </Grid>
 
@@ -120,7 +83,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         In Progress Orders
                                     </Typography>
-                                    <OrderTable orders={inProgressOrdersState} handleItemSave={handleItemSave} />
+                                    <OrderTable orders={orderState.progress} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
                                 </TableContainer>
                             </Grid>
 
@@ -130,7 +93,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         Completed Orders
                                     </Typography>
-                                    <OrderTable orders={completedOrdersState} handleItemSave={handleItemSave} />
+                                    <OrderTable orders={orderState.completed} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
                                 </TableContainer>
                             </Grid>
                         </Grid>
