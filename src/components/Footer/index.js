@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import clsx from 'clsx';
 import { Container, Typography, Link, makeStyles } from '@material-ui/core';
+import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     main: {
@@ -15,13 +18,29 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
     },
+    footerHome: {
+        display: "none",
+    },
 }));
 
-export default function Footer() {
+function Footer(props) {
     const classes = useStyles();
 
+    const [isHomePage, setIsHomePage] = useState("");
+
+    useEffect(() => {
+        if (props.location.pathname === "/") {
+            setIsHomePage(true);
+            // console.log("homepage")
+        } else {
+            // setIsHomePage(false)
+            console.log(props.location.pathname);
+        }
+
+    }, [])
+
     return (
-        < footer className={classes.footer} >
+        < footer className={clsx(classes.footer, {[classes.footerHome]: isHomePage})} >
             <Container maxWidth="sm">
                 <Typography variant="body2" color="textSecondary" align="center">
                     {'Copyright © '}
@@ -36,3 +55,5 @@ export default function Footer() {
         </footer >
     )
 }
+
+export default withRouter(Footer);

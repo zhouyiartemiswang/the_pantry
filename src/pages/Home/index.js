@@ -9,7 +9,7 @@ export default function Home() {
                 <Toolbar />
             </div>
             <div className="tagline">
-                <h1 style={{ textAlign: "center" }}>The Pantry</h1>
+                <h1 style={{ textAlign: "center" }}>THE PANTRY</h1>
                 <p>A platform for small-scale bakery owners to promote and manage their businesses.</p>
             </div>
         </>

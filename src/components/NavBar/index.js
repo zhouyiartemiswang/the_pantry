@@ -37,7 +37,7 @@ function NavBar(props) {
     useEffect(() => {
         console.log(props)
         if (props.location.pathname === "/") {
-            setIsHomePage(true)
+            setIsHomePage(true);
             console.log("homepage")
         } else {
             setIsHomePage(false)
