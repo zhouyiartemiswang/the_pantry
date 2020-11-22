@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, FormControl, TextField, DialogActions, makeStyles } from '@material-ui/core';
-import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,18 +9,22 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function PreMadeCakeDialog() {
+export default function PreMadeCakeDialog(props) {
     const classes = useStyles();
-
     const [open, setOpen] = useState(false);
     const [itemState, setItemState] = useState({
         name: "",
-        image: "",
         price: "",
-        image: "",
+        img: "",
         ingredients: "",
         description: "",
     });
+
+    useEffect( function() {
+        if(props.data){
+            setItemState({ ...itemState, name: props.data.name, price: props.data.price, img: props.data.img, ingredients: props.data.ingredients, description: props.data.description });
+        }
+    }, [props.data]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -32,8 +35,6 @@ export default function PreMadeCakeDialog() {
     };
 
     const handleInputChange = (event) => {
-        // console.log(event.target.name);
-        // console.log(event.target.value);
         const { name, value } = event.target;
         setItemState({
             ...itemState,
@@ -41,27 +42,60 @@ export default function PreMadeCakeDialog() {
         });
     };
 
-    const handleInputSubmit = (event) => {
+    function handleInputSubmit(event) {
         event.preventDefault();
-        // const token = localStorage.getItem("token");
-        // console.log(itemState);
         handleClose();
+        if(props.isPreMade){
+            if (props.isAddItem) {
+                props.addOne("premade", itemState);
+            }
+            else{
+                props.editOne("premade", props.data.id, itemState);
+            }
+        }
+        else if(!props.isPreMade){
+            if (props.isAddItem) {
+                props.addOne("custom", itemState);
+            }
+            else{
+                props.editOne("custom", props.data.id, itemState);
+            }
+        }
+        else{
+            console.log("hi?");
+        }
+    }
+
+    var myWidget = window.cloudinary.createUploadWidget({
+        cloudName: process.env.REACT_APP_CLOUDINARY_NAME, 
+        uploadPreset: process.env.REACT_APP_CLOUDINARY_PRESET}, (error, result) => { 
+          if (!error && result && result.event === "success") { 
+            // console.log('Done! Here is the image info: ', result.info);
+            // console.log(result.info.url); 
+            setItemState({
+                ...itemState,
+                img: result.info.url
+            });
+          }
+        }
+      )
+
+    function handleCloud () {
+        myWidget.open();
     }
 
     return (
         <div>
-            <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleOpen}
-            >
-                Add Pre-Made Cakes
-            </Button>
+            {props.isAddItem
+                ? <Button variant="outlined" color="primary" onClick={handleOpen} > Add Pre-Made Cakes </Button>
+                : <span className="material-icons" onClick={handleOpen}>edit</span>
+            }
 
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-
-                <DialogTitle id="form-dialog-title">Add a pre-made cake to your cake master page</DialogTitle>
-
+                {props.isAddItem
+                    ? <DialogTitle id="form-dialog-title">Add a pre-made cake to your cake master page</DialogTitle>
+                    : <DialogTitle id="form-dialog-title">Edit pre-made cake</DialogTitle>
+                }
                 <DialogContent>
 
                     <FormControl className={classes.formControl}>
@@ -119,7 +153,7 @@ export default function PreMadeCakeDialog() {
                             multiline={true}
                             id="image"
                             label="Image URL"
-                            value={itemState.image}
+                            value={itemState.img}
                             name="image"
                             onChange={handleInputChange}
                         />
@@ -128,9 +162,9 @@ export default function PreMadeCakeDialog() {
                 </DialogContent>
 
                 <DialogActions>
-                    {/* <Button color="primary">
+                    <Button onClick={handleCloud} color="primary">
                         Upload Image
-                    </Button> */}
+                    </Button>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
