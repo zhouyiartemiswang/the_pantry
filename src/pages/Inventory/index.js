@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '../../components/Dialog';
 import SideNav from '../../components/SideNav';
+import ConfirmationSnackBar from '../../components/ConfirmationSnackBar';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -143,6 +144,7 @@ export default function Inventory(props) {
     };
 
     const handleItemDelete = (event) => {
+        // console.log(event.target.id);
         props.deleteOne("inventory", event.target.id);
     };
 
@@ -194,12 +196,7 @@ export default function Inventory(props) {
                                                             <TableCell align="left">{row.metric}</TableCell>
                                                             <TableCell align="left">
                                                                 <Dialog isAddItem={false} data={row} editOne={props.editOne} />
-                                                                <span
-                                                                    className="material-icons"
-                                                                    id={row.id}
-                                                                    onClick={handleItemDelete}
-                                                                >
-                                                                    delete</span>
+                                                                <ConfirmationSnackBar id={row.id} name={row.name} handleItemDelete={handleItemDelete}/>
                                                             </TableCell>
                                                         </TableRow>
                                                     );
