@@ -1,0 +1,17 @@
+.cover-img {
+    background-image: url("https://res.cloudinary.com/artemiswang/image/upload/v1606038979/the-pantry-cover-by-jacob-schwartz.jpg");
+    background-color: saddlebrown;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    opacity: 80%;
+}
+
+.tagline {
+    background-color: black;
+    /* background-image: url() */
+    height: 50vh;
+    color: white;
+}

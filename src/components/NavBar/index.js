@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import clsx from 'clsx';
 import SideNav from '../SideNav';
 import { AppBar, Toolbar, Typography, Button, Link } from '@material-ui/core';
 import { IconButton, makeStyles } from '@material-ui/core';
@@ -7,10 +9,13 @@ import './style.css';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     appBar: {
-        marginLeft: drawerWidth,
         [theme.breakpoints.up('sm')]: {
             marginLeft: drawerWidth,
         },
+    },
+    appBarHome: {
+        background: "transparent",
+        boxShadow: "none",
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -25,12 +30,25 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function NavBar(props) {
+function NavBar(props) {
     const classes = useStyles();
+    const [isHomePage, setIsHomePage] = useState("");
+
+    useEffect(() => {
+        console.log(props)
+        if (props.location.pathname === "/") {
+            setIsHomePage(true)
+            console.log("homepage")
+        } else {
+            setIsHomePage(false)
+            console.log(props.location.pathname);
+        }
+
+    }, [])
 
     return (
         <>
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarHome]: isHomePage})}>
                 <Toolbar>
 
                     {/* Menu Icon - shows up on mobile screen */}
@@ -47,7 +65,7 @@ export default function NavBar(props) {
                     {/* Logo */}
                     <Typography variant="h6" className="logo" noWrap style={{ flex: 1 }}>
                         <Link href="/" underline="none">
-                            The Pantry
+                            <img src="https://res.cloudinary.com/artemiswang/image/upload/v1606086097/white_logo_transparent_background_iln8pl.png" alt="the pantry" height="80" />
                         </Link>
                     </Typography>
 
@@ -65,7 +83,7 @@ export default function NavBar(props) {
                                 Shop
                             </Button>
                         </Link>
-                        
+
                         {/* If logged in, logout and account tabs will show up, otherwise sign up and login tabs will show up */}
                         {props.profile.isLoggedIn ?
                             <>
@@ -105,13 +123,15 @@ export default function NavBar(props) {
                     </div>
                 </Toolbar>
             </AppBar>
-            
+
             {/* On mobile screen, SideNav will show up as hidden component and can toggle open and close */}
             {props.mobileOpen ?
-                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile}/>
+                <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
                 : null
             }
 
         </>
     )
 }
+
+export default withRouter(NavBar);

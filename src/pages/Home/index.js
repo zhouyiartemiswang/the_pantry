@@ -4,9 +4,14 @@ import './style.css';
 
 export default function Home() {
     return (
-        <div>
-            <Toolbar/>
-            <h1 style={{textAlign: "center"}}>Home page</h1>
-        </div>
+        <>
+            <div className="cover-img">
+                <Toolbar />
+            </div>
+            <div className="tagline">
+                <h1 style={{ textAlign: "center" }}>The Pantry</h1>
+                <p>A platform for small-scale bakery owners to promote and manage their businesses.</p>
+            </div>
+        </>
     )
 }
