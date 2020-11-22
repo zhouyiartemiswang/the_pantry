@@ -16,66 +16,106 @@ export default function CakeMasters(props) {
     const classes = useStyles();
     const [cakeList, setCakeList] = useState([]);
     const [inputValue, setInputValue] = useState(""); // input displayed/entered in the search box 
+    const [bakeryList, setBakeryList] = useState({});
+    const [errorState, setErrorState] = useState({
+        message: ""
+    });
 
-    useEffect(() => {
-        setCakeList([
-            {
-                id: "1",
-                name: "Black Forest Cake",
-                price: "50",
-                description: "6 in, something",
-                img: "http://placekitten.com/200/100",
-                bakeryName: "Bakery1",
-                bakeryAddress: "Bakery 1 address",
-                bakeryPhone: "(123) 456-7890"
-            },
-            {
-                id: 2,
-                name: "Chocolate Mousse Cake",
-                price: "70",
-                description: "6 in, something chocolate",
-                img: "http://placekitten.com/200/100",
-                bakeryName: "Bakery2",
-                bakeryAddress: "Bakery 2 address",
-                bakeryPhone: "(111) 111-1111"
+    useEffect( function() {
+        if(!props.profile.isLoggedIn){
+            setErrorState({message: "You need to log in before you can place an order"});
+        }
+        if(props.profile.isLoggedIn){
+            setErrorState({message: ""});
+        }
+        let bakerArray = [];
+        let premadeArray = [];
+        if(props.bakers.allBakers){
+            for(let i = 0; i < props.bakers.allBakers.length; i++){
+                bakerArray.push(props.bakers.allBakers[i]);
             }
-        ]);
-    }, [])
+        }
+        if(props.cakes.allCakes){
+            for(let i = 0; i < props.cakes.allCakes.length; i++){
+                premadeArray.push(props.cakes.allCakes[i]);
+            }
+        }
 
-    const handleInputChange = event => {
-        console.log(event.target);
-        console.log(inputValue);
+        setBakeryList({all: bakerArray, filtered: bakerArray });
+        setCakeList({all: premadeArray, filtered: premadeArray });
+
+            
+    }, [props.bakers, props.premade]);
+
+    const handleInputChange = (event, data) => {
+        // console.log(event.target);
+        // console.log(data);
+        // console.log(inputValue);
         const bakeryName = inputValue.split(",")[0];
-        console.log(bakeryName);
+        // console.log(bakeryName);
+        if(data){
+            filterCakes(data.id);
+        }
+        else{
+            filterCakes(0);
+        }
         // Call API to get all cakes from bakeryName
         // Then setCakeList = new list
+    }
+
+    function filterCakes(id){
+        let premadeArray = [];
+        if(id === 0){
+            for(let i = 0; i < props.cakes.allCakes.length; i++){
+                premadeArray.push(props.cakes.allCakes[i]);
+            }
+        }
+        else{
+            for(let i = 0; i < cakeList.all.length; i++){
+                if(cakeList.all[i].baker_id === id){
+                    premadeArray.push(cakeList.all[i]);
+                }
+            }
+        }
+        
+        setCakeList({ ...cakeList, filtered: premadeArray });
     }
 
     return (
         <Container className={classes.container}>
             <div className={classes.appBarSpacer} />
+            {errorState.message
+                        ? <h2 style={{ textAlign: "center", color: "red" }}> {errorState.message}</h2>
+                        : null
+                    }
 
-            <Autocomplete
-                inputValue={inputValue}
-                onInputChange={(event, newInputValue) => {
-                    setInputValue(newInputValue);
-                }}
-                onChange={handleInputChange}
-                id="search-box"
-                options={cakeList}
-                getOptionLabel={(option) => {
-                    return `${option.bakeryName}, ${option.bakeryAddress}`
-                }}
-                style={{ width: 500 }}
-                renderInput={(params) => <TextField {...params} label="Search a bakery" variant="outlined" />}
-            />
+            {bakeryList
+                ? <Autocomplete
+                        inputValue={inputValue}
+                        onInputChange={(event, newInputValue) => {
+                            setInputValue(newInputValue);
+                        }}
+                        onChange={handleInputChange}
+                        id="search-box"
+                        options={bakeryList.all}
+                        getOptionLabel={(option) => {
+                            return `${option.username}, ${option.address}`
+                        }}
+                        style={{ width: 500 }}
+                        renderInput={(params) => <TextField {...params} label="Search a bakery" variant="outlined" />}
+                    />
+                : null
+            }
 
             <Grid container spacing={3}>
-                {cakeList.map(cake =>
-                    <Grid item xs={12} md={4} lg={4}>
-                        <CakeMasterCard key={cake.id} cake={cake} />
-                    </Grid>
-                )}
+                {cakeList.filtered
+                    ? cakeList.filtered.map(cake =>
+                        <Grid item xs={12} md={4} lg={4}>
+                            <CakeMasterCard key={cake.id} cake={cake} baker={bakeryList.filtered} />
+                        </Grid>
+                    )
+                    : null
+                }
             </Grid>
 
         </Container>
