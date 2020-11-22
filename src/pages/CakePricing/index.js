@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SideNav from '../../components/SideNav';
-import ConfirmationSnackBar from '../../components/ConfirmationSnackBar';
 import PreMadeCakeDialog from '../../components/PreMadeCakeDialog';
 import CustomCakeDialog from '../../components/CustomCakeDialog';
 import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
@@ -124,7 +123,12 @@ export default function CakePricing(props) {
                                                 onClick={handleItemEdit}
                                             >
                                                 edit</span>
-                                            <ConfirmationSnackBar id={row.id} name={row.name} handleItemDelete={handleItemDelete} />
+                                            <span
+                                                className="material-icons"
+                                                id={row.id}
+                                                onClick={handleItemDelete}
+                                            >
+                                                delete</span>
                                         </TableCell>
                                     </TableRow>
                                 ))}

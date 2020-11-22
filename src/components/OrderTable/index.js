@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ConfirmationSnackBar from '../../components/ConfirmationSnackBar';
 import { Table, TableHead, TableRow, TableCell, TableBody, FormControl, Select, MenuItem, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -102,7 +101,13 @@ export default function OrderTable(props) {
                                             edit
                                                 </span>
                                     }
-                                    <ConfirmationSnackBar id={row.id} name={row.name} handleItemDelete={handleItemDelete}/>
+                                    <span
+                                        id={row.id}
+                                        className="material-icons"
+                                        onClick={handleItemDelete}
+                                    >
+                                        delete
+                                            </span>
                                 </TableCell>
                             </TableRow>
                         ))}
