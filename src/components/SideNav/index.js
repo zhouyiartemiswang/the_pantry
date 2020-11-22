@@ -26,7 +26,7 @@ function SideNav(props) {
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
-    console.log(props)
+
     const drawer = (
         <>
             <div className={classes.toolbar} />
