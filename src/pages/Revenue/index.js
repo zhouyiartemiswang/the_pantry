@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import SideNav from '../../components/SideNav';
 import Chart from '../../components/Chart';
+import RevenueDataForm from '../../components/RevenueDataForm';
 import { Container, Grid, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
 
@@ -52,11 +53,11 @@ export default function Revenue(props) {
                                         <Chart />
                                     </Paper>
                                 </Grid>
-                                
+
                                 {/* Insert data form */}
                                 <Grid item xs={12}>
                                     <Paper>
-
+                                        <RevenueDataForm />
                                     </Paper>
                                 </Grid>
                             </Grid>

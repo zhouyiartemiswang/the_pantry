@@ -31,7 +31,7 @@ export default function Chart() {
     const classes = useStyles();
 
     return (
-        <React.Fragment>
+        <>
             <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                 Monthly Earnings
             </Typography>
@@ -58,6 +58,6 @@ export default function Chart() {
                     <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
                 </LineChart>
             </ResponsiveContainer>
-        </React.Fragment>
+        </>
     );
 }
