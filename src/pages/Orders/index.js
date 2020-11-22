@@ -40,7 +40,6 @@ export default function Orders(props) {
         let inProgressArray = [];
         let completedArray = [];
         if(props.baker.orders){
-            console.log("hi");
             for(let i = 0; i < props.baker.orders.length; i++){
                 allArray.push(props.baker.orders[i]);
                 if(props.baker.orders[i].status.toLowerCase() === "pending"){
@@ -58,28 +57,6 @@ export default function Orders(props) {
         
     }, [props.baker]);
 
-    const handleItemSave = event => {
-        let newArray = orderState.map(order => {
-            console.log(event.target);
-            console.log(event.target.id, editButtonState.status);
-            if (order.id === event.target.id) {
-                order.status = editButtonState.status;
-            }
-            return order;
-        })
-
-        setEditButtonState({
-            id: "",
-            status: "",
-            clicked: false
-        })
-
-        // console.log(newArray);
-        setOrderState(newArray)
-        // console.log("Save button clicked", editButtonState);
-        // API call to save changes
-    }
-
     return (
         <>
             <div className={classes.appBarSpacer} />
@@ -96,7 +73,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         Pending Orders
                                     </Typography>
-                                    <OrderTable orders={orderState.pending} handleItemSave={handleItemSave} />
+                                    <OrderTable orders={orderState.pending} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
                                 </TableContainer>
                             </Grid>
 
@@ -106,7 +83,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         In Progress Orders
                                     </Typography>
-                                    <OrderTable orders={orderState.progress} handleItemSave={handleItemSave} />
+                                    <OrderTable orders={orderState.progress} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
                                 </TableContainer>
                             </Grid>
 
@@ -116,7 +93,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         Completed Orders
                                     </Typography>
-                                    <OrderTable orders={orderState.completed} handleItemSave={handleItemSave} />
+                                    <OrderTable orders={orderState.completed} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
                                 </TableContainer>
                             </Grid>
                         </Grid>
