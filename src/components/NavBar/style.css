@@ -9,4 +9,11 @@ button.nav-tab span span {
 
 h6.logo a {
     color: white;
+    margin-left: 240px;
+}
+
+@media screen and (max-width: 600px) {
+    h6.logo a {
+        margin-left: 0;
+    }
 }

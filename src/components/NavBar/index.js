@@ -7,6 +7,7 @@ import './style.css';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     appBar: {
+        marginLeft: drawerWidth,
         [theme.breakpoints.up('sm')]: {
             marginLeft: drawerWidth,
         },
