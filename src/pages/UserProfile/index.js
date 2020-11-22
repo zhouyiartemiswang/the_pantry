@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Avatar, Accordion, AccordionSummary, AccordionDetails, Typography, Link, Toolbar, makeStyles } from '@material-ui/core';
 import './style.css';
+import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -15,24 +16,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Profile(props) {
     const classes = useStyles();
-    const [userState, setUserState] = useState({
-        username: "",
-        email: "",
-        phone: "",
-        address: "",
-        orders: ""
+
+    const [orderListState, setOrderListState] = useState({
+        list: []
     });
 
-    useEffect(() => {
-        setUserState({
-            username: "Jane Doe",
-            email: "janedoe@gmail.com",
-            phone: "(123) 456-7890",
-            address: "123 Main St, Seattle, WA",
-            orders: "order details here"
-        });
-    }, [])
-
+    useEffect( function() {
+        let newArray = [];
+        if(props.buyer.orders){
+            for (let i = 0; i < props.buyer.orders.length; i++){
+                newArray.push(<PlacedOrderList data={props.buyer.orders[i]} key={props.buyer.orders[i].id} classes={classes} />)
+            }
+            setOrderListState({ list: newArray });
+        }
+    }, [props.buyer]);
+    console.log(props.buyer.orders);
     return (
         <>
             <Toolbar />
@@ -40,84 +38,30 @@ export default function Profile(props) {
                 <div className={classes.root}>
 
                     <Paper>
-                        <Avatar alt={userState.username} src="#" />
+                        <Avatar alt={props.profile.name} src="#" />
                         <Typography className={classes.heading}>
-                            {userState.username}
+                            {props.profile.name}
                         </Typography>
                         <Typography className={classes.heading}>
-                            {userState.email}
+                            {props.profile.email}
                         </Typography>
                         <Typography className={classes.heading}>
-                            {userState.phone}
+                            {props.profile.phone}
+                        </Typography>
+                        <Typography className={classes.heading}>
+                            {props.profile.address}
                         </Typography>
 
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={
-                                    <span className="material-icons">expand_more</span>
-                                }
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className={classes.heading}>
-                                    <span className="material-icons">shopping_basket</span>
-                                    My Orders
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>
-                                    {userState.orders}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                        {orderListState.list}
 
-                        {/* <Accordion>
-                    <AccordionSummary
-                        expandIcon={
-                            <span className="material-icons">expand_more</span>
-                        }
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                    >
-                        <Typography className={classes.heading}>
-                            <span className="material-icons">favorite</span>
-                            My Favorites
-                        </Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget.
-                    </Typography>
-                    </AccordionDetails>
-                </Accordion> */}
-
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={
-                                    <span className="material-icons">expand_more</span>
-                                }
-                                aria-controls="panel2a-content"
-                                id="panel2a-header"
-                            >
-                                <Typography className={classes.heading}>
-                                    <span className="material-icons">house</span>
-                                    My Address
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>
-                                    {userState.address}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
+                        <br />
 
                         {props.profile.isOwner
                             ? <Link href="/dashboard">Go to Dashboard</Link>
                             : null
                         }
                     </Paper>
-                    
+
                 </div>
                 :
                 <div>

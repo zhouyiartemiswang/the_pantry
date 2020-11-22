@@ -33,6 +33,8 @@ function App() {
         email: "",
         token: "",
         id: "",
+        phone: "",
+        address: "",
         isOwner: false,
         isLoggedIn: false,
         loginError: "",
@@ -73,7 +75,6 @@ function App() {
         const token = localStorage.getItem("token");
         API.getBuyer(token).then(function(buyerData) {
             if(buyerData){
-                console.log("entered buyer");
                 setBuyerProfileState({orders: buyerData.Orders});
                 API.getBaker(token).then(function(bakerData){
                     if(bakerData){
@@ -174,7 +175,9 @@ function App() {
                 setProfileState({
                     name: profileData.username,
                     email: profileData.email,
+                    phone: profileData.phone,
                     token: token,
+                    address: profileData.address,
                     id: profileData.id,
                     isOwner: profileData.isOwner,
                     isLoggedIn: true,
@@ -190,6 +193,8 @@ function App() {
                     email: "",
                     token: "",
                     id: "",
+                    address: "",
+                    phone: "",
                     isOwner: false,
                     isLoggedIn: false,
                     loginError: "",
