@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import SideNav from '../../components/SideNav';
+import Chart from '../../components/Chart';
 import InventoryAlert from '../../components/InventoryAlert';
 import OrderList from '../../components/OrderList';
 import { CssBaseline, Container, Grid, Paper, makeStyles } from '@material-ui/core';
@@ -40,7 +41,7 @@ export default function Dashboard(props) {
     const classes = useStyles();
     const [inventoryState, setInventoryState] = useState([]);
     const [lowStockItem, setLowStockItem] = useState("");
-    
+
     useEffect(() => {
         console.log(props.profile)
         const token = localStorage.getItem("token");
@@ -82,6 +83,7 @@ export default function Dashboard(props) {
                                 {/* Monthly Earnings Chart */}
                                 <Grid item xs={12} md={8} lg={9}>
                                     <Paper className={fixedHeightPaper}>
+                                        <Chart />
                                     </Paper>
                                 </Grid>
 
