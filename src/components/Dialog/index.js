@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, FormControl, TextField, InputLabel, Select, MenuItem, DialogActions, makeStyles } from '@material-ui/core';
-import 'date-fns';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,15 +11,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddItemForm(props) {
     const classes = useStyles();
-
     const [open, setOpen] = useState(false);
     const [itemState, setItemState] = useState({
         name: "",
         quantity: "",
-        metric: "",
-        expires: ""
+        metric: ""
     });
-    const [selectedDate, setSelectedDate] = useState(new Date('2020-11-18'));
+
+    useEffect( function() {
+        if(props.data){
+            setItemState({ ...itemState, name: props.data.name, quantity: props.data.quantity, metric: props.data.metric });
+        }
+    }, [props.data]);
 
     const handleOpen = () => {
         setOpen(true);
@@ -35,8 +33,6 @@ export default function AddItemForm(props) {
     };
 
     const handleInputChange = (event) => {
-        // console.log(event.target.name);
-        // console.log(event.target.value);
         const { name, value } = event.target;
         setItemState({
             ...itemState,
@@ -44,32 +40,14 @@ export default function AddItemForm(props) {
         });
     };
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        setItemState({
-            ...itemState,
-            expires: selectedDate
-        })
-    };
-
     const handleInputSubmit = (event) => {
         event.preventDefault();
         handleClose();
-        const token = localStorage.getItem("token");
         if (props.isAddItem) {
-            API.createInventory(token, itemState)
-                .then(res => {
-                    console.log("Item added!");
-                    window.location.reload();
-                })
-                .catch(err => console.log(err));
-        } else {
-            API.editInventory(token, props.id, itemState)
-                .then(res => {
-                    console.log("Item edited!");
-                    window.location.reload();
-                })
-                .catch(err => console.log(err));
+            props.addOne("inventory", itemState);
+        }
+        else{
+            props.editOne("inventory", props.data.id, itemState);
         }
     }
 
@@ -124,23 +102,6 @@ export default function AddItemForm(props) {
                         </Select>
                     </FormControl>
                 </DialogContent>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="MM/dd/yyyy"
-                            margin="normal"
-                            id="date-picker-inline"
-                            label="Expiration Date"
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                            KeyboardButtonProps={{
-                                'aria-label': 'change date',
-                            }}
-                        />
-                    </Grid>
-                </MuiPickersUtilsProvider>
 
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

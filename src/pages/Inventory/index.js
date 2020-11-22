@@ -2,30 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Dialog from '../../components/Dialog';
 import SideNav from '../../components/SideNav';
-
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles, Toolbar } from '@material-ui/core';
-import API from '../../utils/API';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Paper, makeStyles } from '@material-ui/core';
 import './style.css';
-
-// function createData(item, quantity, unit) {
-//     return { item, quantity, unit };
-// }
-
-// const rows = [
-//     createData("Milk, whole", 5, "gal"),
-//     createData("Egg", 10, "dozen"),
-//     createData("Butter, unsalted", 10, "lb"),
-//     createData("Flour, cake", 50, "lb"),
-//     createData("Flour, all-purpose", 73, "lb"),
-//     createData("Sugar, granulated", 24, "lb"),
-//     createData("Sugar, powered", 10, "lb"),
-//     createData("Cream, heavy whipping", 4, "gal"),
-//     createData("Vanilla bean, pod", 50, "each"),
-//     createData("Chocolate, dark", 14, "lb"),
-//     createData("Almond, sliced, toasted", 1, "lb"),
-//     createData("Chocolate, milk", 10, "lb"),
-//     createData("Coconut, shredded, sweetened", 2, "lb"),
-// ];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -137,7 +115,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Inventory(props) {
     const classes = useStyles();
-    const [tokenState, setTokenState] = useState("");
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('quantity');
     const [inventoryState, setInventoryState] = useState([]);
@@ -145,16 +122,10 @@ export default function Inventory(props) {
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        setTokenState(token);
-        // console.log(token);
-        API.getBaker(token).then(res => {
-            console.log(res)
-            if (res) {
-                setInventoryState(res.Inventories)
-            }
-        })
-    }, [])
+        if(props.baker.inventory){
+            setInventoryState(props.baker.inventory);
+        }
+    }, [props.baker.inventory])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -172,13 +143,7 @@ export default function Inventory(props) {
     };
 
     const handleItemDelete = (event) => {
-        // console.log(event.target.id);
-        API.deleteInventory(tokenState, event.target.id)
-            .then(res => {
-                console.log("Item deleted!");
-                window.location.reload();
-            })
-            .catch(err => console.log(err));
+        props.deleteOne("inventory", event.target.id);
     };
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, inventoryState.length - page * rowsPerPage);
@@ -228,7 +193,7 @@ export default function Inventory(props) {
                                                             <TableCell align="right">{row.quantity}</TableCell>
                                                             <TableCell align="left">{row.metric}</TableCell>
                                                             <TableCell align="left">
-                                                                <Dialog isAddItem={false} id={row.id} />
+                                                                <Dialog isAddItem={false} data={row} editOne={props.editOne} />
                                                                 <span
                                                                     className="material-icons"
                                                                     id={row.id}
@@ -251,7 +216,7 @@ export default function Inventory(props) {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        <Dialog isAddItem={true} />
+                        <Dialog isAddItem={true} addOne={props.addOne} />
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25]}
                             component="div"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Avatar, Accordion, AccordionSummary, AccordionDetails, Typography, Link, Toolbar, makeStyles } from '@material-ui/core';
+import { Paper, Avatar, Typography, Link, Toolbar, makeStyles } from '@material-ui/core';
 import './style.css';
 import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList'
 
@@ -30,7 +30,7 @@ export default function Profile(props) {
             setOrderListState({ list: newArray });
         }
     }, [props.buyer]);
-    console.log(props.buyer.orders);
+    
     return (
         <>
             <Toolbar />
