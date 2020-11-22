@@ -264,7 +264,7 @@ const API = {
     },
     // expects: baker to be logged in
     // requires: bearer token(string), inventory id(integer), name(string), quantity(integer), metric(string), expires(date)
-    editInventory: function (token, info, id) {
+    editInventory: function (token, id, info) {
         return fetch(`${URL_PREFIX}/api/inventory/${id}`, {
             method: "PUT",
             headers: {
@@ -394,7 +394,7 @@ const API = {
     },
     // expects: baker to be logged in
     // requires: bearer token(string), pricing id(integer), name(string), price(decimal), type(string)
-    editPricing: function (token, info, id) {
+    editPricing: function (token, id, info) {
         return fetch(`${URL_PREFIX}/api/pricing/${id}`, {
             method: "PUT",
             headers: {
@@ -459,7 +459,7 @@ const API = {
     },
     // expects: baker to be logged in
     // requires: bearer token(string), revenue id(integer), ingredients(decimal), sales(decimal), month(string)
-    editRevenue: function (token, info, id) {
+    editRevenue: function (token, id, info) {
         return fetch(`${URL_PREFIX}/api/revenue/${id}`, {
             method: "PUT",
             headers: {
