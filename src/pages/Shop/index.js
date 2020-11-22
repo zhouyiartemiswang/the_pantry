@@ -204,7 +204,7 @@ export default function Shop(props) {
         }
         // console.log(newArray);
         setDecorationState({...decorationState, filtered: newArray});
-    };
+    }
 
     function getDeadline(change){
         let newDate = new Date();
