@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import SideNav from '../../components/SideNav';
-import { Toolbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, makeStyles } from '@material-ui/core';
+import OrderTable from '../../components/OrderTable';
+import { Container, Grid, Typography, TableContainer, Paper, makeStyles } from '@material-ui/core';
 import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
+    container: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+    },
+    title: {
+        marginTop: 10,
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        }
+    },
     table: {
         minWidth: 650,
         [theme.breakpoints.up('sm')]: {
@@ -16,91 +27,114 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders(props) {
     const classes = useStyles();
+
     const [orderState, setOrderState] = useState([]);
+    const [editButtonState, setEditButtonState] = useState({
+        id: "",
+        status: "",
+        clicked: false
+    });
+    const [pendingOrdersState, setPendingOrdersState] = useState([]);
+    const [inProgressOrdersState, setInProgressOrdersState] = useState([]);
+    const [completedOrdersState, setCompletedOrdersState] = useState([]);
 
     useEffect(() => {
         // API.getAllOrders().then(res => {
         setOrderState([
             {
-                id: "000001",
+                id: "1",
                 description: "pre-made",
                 sale: 100,
                 deadline: "December 4, 2020",
-                status: "in progress"
+                status: "In Progress"
             },
             {
-                id: "000002",
+                id: "2",
                 description: "pre-made",
                 sale: 90,
                 deadline: "December 1, 2020",
-                status: "in progress"
+                status: "In Progress"
             },
 
         ])
+        filterTable(orderState);
+        // console.log(pendingOrders, inProgressOrders, completedOrders);
         // })
     }, [])
 
-    const handleStatusChange = event => {
-        // console.log(event.target.id)
-        // Set status to complete
+    const filterTable = (orderList) => {
+        let pendingOrders = orderList.filter(order => order.status === "Pending");
+        let inProgressOrders = orderList.filter(order => order.status === "In Progress");
+        let completedOrders = orderList.filter(order => order.status === "Completed");
+        setPendingOrdersState(pendingOrders);
+        setInProgressOrdersState(inProgressOrders);
+        setCompletedOrdersState(completedOrders);
+        // console.log(inProgressOrdersState);
     }
 
-    const handleItemDelete = event => {
-        // console.log(event.target.id)
-        // Delete order
+    const handleItemSave = event => {
+        let newArray = orderState.map(order => {
+            console.log(event.target);
+            console.log(event.target.id, editButtonState.status);
+            if (order.id === event.target.id) {
+                order.status = editButtonState.status;
+            }
+            return order;
+        })
+
+        setEditButtonState({
+            id: "",
+            status: "",
+            clicked: false
+        })
+
+        // console.log(newArray);
+        setOrderState(newArray)
+        // console.log("Save button clicked", editButtonState);
+        // API call to save changes
     }
-    // edit button should be an edit symbol, not a checkbox.
-    // edit button should allow the baker to change the status via a drop down.
-    // orders should have different tables based on the current status. 
-    // each table should have the heading of the status
-    // you shouldn't be allowed to access the orders page if you aren't logged in
+
     return (
         <>
             <div className={classes.appBarSpacer} />
             {props.profile.isLoggedIn && props.profile.isOwner ?
                 <>
                     <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
-                    <TableContainer component={Paper}>
-                        <Table className={classes.table}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center">Order Number</TableCell>
-                                    <TableCell align="center">Description</TableCell>
-                                    <TableCell align="center">Sale ($)</TableCell>
-                                    <TableCell align="center">Deadline</TableCell>
-                                    <TableCell align="center">Status</TableCell>
-                                    <TableCell align="center">Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {orderState.map((row) => (
-                                    <TableRow key={row.id}>
-                                        <TableCell align="center">{row.id}</TableCell>
-                                        <TableCell align="center">{row.description}</TableCell>
-                                        <TableCell align="center">{row.sale}</TableCell>
-                                        <TableCell align="center">{row.deadline}</TableCell>
-                                        <TableCell align="center">{row.status}</TableCell>
-                                        <TableCell align="center">
-                                            <span
-                                                id={row.id}
-                                                className="material-icons"
-                                                onClick={handleStatusChange}
-                                            >
-                                                check_box
-                                    </span>
-                                            <span
-                                                id={row.id}
-                                                className="material-icons"
-                                                onClick={handleItemDelete}
-                                            >
-                                                delete
-                                    </span>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <Container maxWidth="lg" className={classes.container}>
+
+                        <Grid container spacing={3}>
+
+                            {/* Pending Orders */}
+                            <Grid item xs={12}>
+                                <TableContainer component={Paper}>
+                                    <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
+                                        Pending Orders
+                                    </Typography>
+                                    <OrderTable orders={pendingOrdersState} handleItemSave={handleItemSave} />
+                                </TableContainer>
+                            </Grid>
+
+                            {/* In Progress Orders */}
+                            <Grid item xs={12}>
+                                <TableContainer component={Paper}>
+                                    <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
+                                        In Progress Orders
+                                    </Typography>
+                                    <OrderTable orders={inProgressOrdersState} handleItemSave={handleItemSave} />
+                                </TableContainer>
+                            </Grid>
+
+                            {/* Completed Orders */}
+                            <Grid item xs={12}>
+                                <TableContainer component={Paper}>
+                                    <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
+                                        Completed Orders
+                                    </Typography>
+                                    <OrderTable orders={completedOrdersState} handleItemSave={handleItemSave} />
+                                </TableContainer>
+                            </Grid>
+                        </Grid>
+                    </Container>
                 </>
                 :
                 <div>
