@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
     footer: {
         padding: theme.spacing(3, 2),
         width: "100vw",
-        marginTop: 'auto',
+        marginTop: 10,
+        zIndex: 100,
         backgroundColor:
             theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
     },
@@ -19,7 +20,7 @@ export default function Footer() {
     const classes = useStyles();
 
     return (
-        < footer className={classes.footer} >
+        <footer className={classes.footer} >
             <Container maxWidth="sm">
                 <Typography variant="body2" color="textSecondary" align="center">
                     {'Copyright © '}
