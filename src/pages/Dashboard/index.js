@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import SideNav from '../../components/SideNav';
-import Chart from '../../components/Chart';
 import InventoryAlert from '../../components/InventoryAlert';
 import OrderList from '../../components/OrderList';
 import { CssBaseline, Container, Grid, Paper, makeStyles } from '@material-ui/core';
-import API from '../../utils/API';
 import './style.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,33 +37,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard(props) {
     const classes = useStyles();
-    const [inventoryState, setInventoryState] = useState([]);
-    const [lowStockItem, setLowStockItem] = useState("");
+    const [lowStockItem, setLowStockItem] = useState([]);
 
     useEffect(() => {
-        // console.log(props.profile)
-        const token = localStorage.getItem("token");
-        API.getBaker(token).then(res => {
-            if (res) {
-                setInventoryState(res.Inventories);
-                checkStock(res.Inventories);
-            }
-        })
-    }, [])
-
-    const checkStock = (inventory) => {
         let lowStockItemArray = [];
-        inventory.map(item => {
-            // console.log(parseFloat(item.quantity));
-            if (parseFloat(item.quantity) < 5) {
-                console.log(item.name);
-                lowStockItemArray.push(item.name);
-                console.log(lowStockItemArray);
+        if(props.baker.inventory){
+            for( let i = 0; i < props.baker.inventory.length; i++){
+                if (props.baker.inventory[i].quantity < 5){
+                    lowStockItemArray.push(props.baker.inventory[i].name);
+                }
             }
-            return lowStockItemArray;
-        })
-        setLowStockItem(lowStockItemArray);
-    }
+            setLowStockItem(lowStockItemArray);
+        }
+    }, [props.baker])
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -99,7 +83,7 @@ export default function Dashboard(props) {
 
                                 {/* Recent Orders */}
                                 <Grid item xs={12}>
-                                    <OrderList />
+                                    <OrderList baker={props.baker}/>
                                 </Grid>
                             </Grid>
                         </Container>
