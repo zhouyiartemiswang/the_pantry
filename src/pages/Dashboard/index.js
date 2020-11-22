@@ -43,7 +43,7 @@ export default function Dashboard(props) {
     const [lowStockItem, setLowStockItem] = useState("");
 
     useEffect(() => {
-        console.log(props.profile)
+        // console.log(props.profile)
         const token = localStorage.getItem("token");
         API.getBaker(token).then(res => {
             if (res) {
@@ -56,7 +56,7 @@ export default function Dashboard(props) {
     const checkStock = (inventory) => {
         let lowStockItemArray = [];
         inventory.map(item => {
-            console.log(parseFloat(item.quantity));
+            // console.log(parseFloat(item.quantity));
             if (parseFloat(item.quantity) < 5) {
                 console.log(item.name);
                 lowStockItemArray.push(item.name);
@@ -83,7 +83,7 @@ export default function Dashboard(props) {
                                 {/* Monthly Earnings Chart */}
                                 <Grid item xs={12} md={8} lg={9}>
                                     <Paper className={fixedHeightPaper}>
-                                        <Chart />
+                                        {/* <Chart /> */}
                                     </Paper>
                                 </Grid>
 

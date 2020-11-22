@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import SideNav from '../../components/SideNav';
 import Chart from '../../components/Chart';
@@ -34,8 +34,67 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Revenue(props) {
     const classes = useStyles();
+    const [monthlyEarning, setMonthlyEarning] = useState({
+        January: "",
+        February: "",
+        March: ""
+    });
+    const [dataState, setDataState] = useState([]);
+
+    useEffect(() => {
+        // Get all revenue data
+        const res = [
+            {
+                month: "January",
+                year: "2020",
+                sales: 50,
+                ingredients: 30,
+                description: "something"
+            },
+            {
+                month: "January",
+                year: "2020",
+                sales: 45,
+                ingredients: 35,
+                description: "something2"
+            }
+        ]
+        let janData = res.filter(data => data.month === "January");
+        let sum = 0;
+        let janSum = janData.map(data => {
+            sum += data.sales - data.ingredients
+            return sum;
+        })
+        console.log(janSum[janSum.length - 1]);
+
+        setMonthlyEarning({
+            ...monthlyEarning,
+            January: janSum[janSum.length - 1]
+        })
+        
+        const data = [
+            {
+                month: "January",
+                earning: 30
+            },
+            {
+                month: "February",
+                earning: 100
+            },
+            {
+                month: "March",
+                earning: 200
+            },
+            {
+                month: "April",
+                earning: 180
+            }
+        ]
+        setDataState(data);
+    }, [])
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
 
     return (
         <div>
@@ -50,7 +109,7 @@ export default function Revenue(props) {
                                 {/* Monthly Earnings Chart */}
                                 <Grid item xs={12}>
                                     <Paper className={fixedHeightPaper}>
-                                        <Chart />
+                                        <Chart data={dataState}/>
                                     </Paper>
                                 </Grid>
 
