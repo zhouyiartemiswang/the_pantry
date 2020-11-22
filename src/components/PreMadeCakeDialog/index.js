@@ -45,24 +45,11 @@ export default function PreMadeCakeDialog(props) {
     function handleInputSubmit(event) {
         event.preventDefault();
         handleClose();
-        if(props.isPreMade){
-            if (props.isAddItem) {
-                props.addOne("premade", itemState);
-            }
-            else{
-                props.editOne("premade", props.data.id, itemState);
-            }
-        }
-        else if(!props.isPreMade){
-            if (props.isAddItem) {
-                props.addOne("custom", itemState);
-            }
-            else{
-                props.editOne("custom", props.data.id, itemState);
-            }
+        if (props.isAddItem) {
+            props.addOne("premade", itemState);
         }
         else{
-            console.log("hi?");
+            props.editOne("premade", props.data.id, itemState);
         }
     }
 

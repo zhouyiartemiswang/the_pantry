@@ -224,7 +224,7 @@ function App() {
             });
         }
         else if (type === "custom") {
-            API.deleteCustom(token, id).then(function(res) {
+            API.deletePricing(token, id).then(function(res) {
                 if(res){
                     fetchCustom();
                     fillProfile();
@@ -362,7 +362,7 @@ function App() {
             }); 
         }
         else if (type === "custom") {
-            API.editCustom(token, id, data).then(function(res) {
+            API.editPricing(token, id, data).then(function(res) {
                 if (res) {
                     fetchCustom();
                     fillProfile();
