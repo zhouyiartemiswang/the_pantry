@@ -446,7 +446,7 @@ function App() {
                         <Logout profile={profileState} setProfileState={setProfileState} setBuyerProfileState={setBuyerProfileState} setBakerProfileState={setBakerProfileState} />
                     </Route>
                     <Route exact path="/shop">
-                        <Shop custom={customState} setCustomState={setCustomState} cakes={cakeState} setCakeState={setCakeState} bakers={bakerState} setBakerState={setBakerState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <Shop profile={profileState} fillProfile={fillProfile} custom={customState} setCustomState={setCustomState} cakes={cakeState} setCakeState={setCakeState} bakers={bakerState} setBakerState={setBakerState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/profile">
                         <UserProfile buyer={buyerProfileState} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
