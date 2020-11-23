@@ -3,8 +3,6 @@ import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +12,7 @@ import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(20),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -25,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: "grey",
+        color: "white",
     },
 }));
 
@@ -36,12 +36,6 @@ export default function Login(props) {
         email: "",
         password: ""
     });
-
-    // useEffect(fetchUserData, [])
-
-    // function fetchUserData() {
-    //     const token = localStorage.getItem("token");
-    // }
 
     const handleInputChange = event => {
         const { name, value } = event.target;
@@ -55,13 +49,13 @@ export default function Login(props) {
         });
     }
 
-    function handleFormSubmit (event) {
+    function handleFormSubmit(event) {
         event.preventDefault();
 
-        API.loginUser(loginFormState).then( function (newToken) {
+        API.loginUser(loginFormState).then(function (newToken) {
             if (newToken) {
                 localStorage.setItem("token", newToken.token);
-                API.getProfile(newToken.token).then( function (profileData){
+                API.getProfile(newToken.token).then(function (profileData) {
                     props.setProfileState({
                         name: profileData.username,
                         email: profileData.email,
@@ -131,8 +125,8 @@ export default function Login(props) {
                         autoComplete="current-password"
                     />
                     {props.profile.loginError !== ""
-                    ? <p style={{ textAlign: "center", color: "red" }}> {props.profile.loginError} </p>
-                    : <p> </p>
+                        ? <p style={{ textAlign: "center", color: "red" }}> {props.profile.loginError} </p>
+                        : <p> </p>
                     }
 
                     <Button
@@ -151,7 +145,7 @@ export default function Login(props) {
                             </Link>
                         </Grid> */}
                         <Grid item>
-                            <Link href="/signup" variant="body2">
+                            <Link href="/signup" variant="body2" className="helper-text">
                                 {"Don't have an account? Sign Up"}
                             </Link>
                         </Grid>

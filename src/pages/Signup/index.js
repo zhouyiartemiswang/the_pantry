@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { FormControlLabel, Switch  } from '@material-ui/core';
+import { FormControlLabel, Switch } from '@material-ui/core';
 import './style.css';
 import API from '../../utils/API';
 
@@ -51,13 +51,13 @@ export default function Signup(props) {
     })
     const handleChange = (event) => {
         const { name, value } = event.target;
-        if(name === "isOwner"){
+        if (name === "isOwner") {
             setSignUpFormState({
                 ...signUpFormState,
                 isOwner: !signUpFormState.isOwner
             });
         }
-        else{
+        else {
             setSignUpFormState({
                 ...signUpFormState,
                 [name]: value,
@@ -70,24 +70,24 @@ export default function Signup(props) {
         });
     };
 
-    function handleSignUp(event){
+    function handleSignUp(event) {
         event.preventDefault();
         //console.log(signUpFormState);
         const data = {
-            username : signUpFormState.username,
-            email : signUpFormState.email,
-            password : signUpFormState.password,
-            address : signUpFormState.address,
-            phone : signUpFormState.phone,
-            isOwner : signUpFormState.isOwner
+            username: signUpFormState.username,
+            email: signUpFormState.email,
+            password: signUpFormState.password,
+            address: signUpFormState.address,
+            phone: signUpFormState.phone,
+            isOwner: signUpFormState.isOwner
         }
         console.log(data);
-        API.createUser(data).then( function (newUser) {
-            if(newUser){
-                API.loginUser({email: data.email, password: data.password}).then( function (newToken) {
+        API.createUser(data).then(function (newUser) {
+            if (newUser) {
+                API.loginUser({ email: data.email, password: data.password }).then(function (newToken) {
                     if (newToken) {
                         localStorage.setItem("token", newToken.token);
-                        API.getProfile(newToken.token).then( function (profileData){
+                        API.getProfile(newToken.token).then(function (profileData) {
                             props.setProfileState({
                                 name: profileData.username,
                                 email: profileData.email,
@@ -235,17 +235,17 @@ export default function Signup(props) {
                         </Grid>
                         <FormControlLabel
                             control={
-                            <Switch
-                                checked={signUpFormState.isOwner}
-                                onChange={handleChange}
-                                name="isOwner"
-                            />
+                                <Switch
+                                    checked={signUpFormState.isOwner}
+                                    onChange={handleChange}
+                                    name="isOwner"
+                                />
                             }
                             label={signUpFormState.isOwner === true ? "Owner" : "Buyer"}
                         />
                         {props.profile.signUpError !== ""
-                        ? <p style={{ textAlign: "center", color: "red" }}> {props.profile.signUpError} </p>
-                        : <p> </p>
+                            ? <p style={{ textAlign: "center", color: "red" }}> {props.profile.signUpError} </p>
+                            : <p> </p>
                         }
                     </Grid>
                     <Button
