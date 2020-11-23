@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Avatar, Typography, Link, Toolbar, makeStyles } from '@material-ui/core';
+import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList';
 import './style.css';
-import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList'
-import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: "auto",
         marginTop: theme.spacing(20),
-        width: "50vw",
+        width: "40vw",
         textAlign: "center",
 
     },
