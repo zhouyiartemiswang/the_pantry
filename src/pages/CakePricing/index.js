@@ -7,7 +7,7 @@ import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     table: {
-        minWidth: 650,
+        maxWidth: "80%",
         [theme.breakpoints.up('sm')]: {
             marginLeft: 240,
         }
@@ -53,13 +53,6 @@ export default function CakePricing(props) {
                     <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
                     <TableContainer component={Paper}>
                         <Table className={classes.table}>
-                            {/* <colgroup>
-                        <col style={{ width: '20%' }} />
-                        <col style={{ width: '20%' }} />
-                        <col style={{ width: '20%' }} />
-                        <col style={{ width: '20%' }} />
-                        <col style={{ width: '20%' }} />
-                    </colgroup> */}
                             <TableHead>
                                 <TableRow>
                                     {headList.map(head =>

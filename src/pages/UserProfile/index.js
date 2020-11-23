@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Paper, Avatar, Typography, Link, Toolbar, makeStyles } from '@material-ui/core';
+import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList';
 import './style.css';
-import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList'
-import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         margin: "auto",
         marginTop: theme.spacing(20),
-        width: "50vw",
+        width: "40vw",
         textAlign: "center",
 
     },
@@ -44,7 +43,7 @@ export default function Profile(props) {
                 <div className={classes.root}>
 
                     <Paper className="profile-container">
-                        <Avatar alt={props.profile.name} src="#" />
+                        <Avatar alt={props.profile.name} src="#" className="avatar"/>
                         <Typography className={classes.heading}>
                             {props.profile.name}
                         </Typography>
@@ -59,13 +58,7 @@ export default function Profile(props) {
                         </Typography>
 
                         {orderListState.list}
-
-                        <br />
-
-                        {props.profile.isOwner
-                            ? <Link href="/dashboard">Go to Dashboard</Link>
-                            : null
-                        }
+                        
                     </Paper>
 
                 </div>

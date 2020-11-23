@@ -94,10 +94,18 @@ function NavBar(props) {
                         {/* If logged in, logout and account tabs will show up, otherwise sign up and login tabs will show up */}
                         {props.profile.isLoggedIn ?
                             <>
+                                {props.profile.isOwner ?
+                                    <Link href="/dashboard">
+                                        <Button className="nav-tab">
+                                            Dashboard
+                                        </Button>
+                                    </Link>
+                                    : null
+                                }
                                 <Link href="/logout">
                                     <Button className="nav-tab">
                                         Logout
-                                    </Button>
+                                            </Button>
                                 </Link>
                                 <Link href="/profile">
                                     <Button className="nav-tab">
