@@ -43,7 +43,6 @@ export default function Profile(props) {
                 <div className={classes.root}>
 
                     <Paper className="profile-container">
-                        <Avatar alt={props.profile.name} src="#" className="avatar"/>
                         <Typography className={classes.heading}>
                             {props.profile.name}
                         </Typography>
