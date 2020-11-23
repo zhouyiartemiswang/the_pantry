@@ -61,7 +61,6 @@ function SideNav(props) {
                     [
                         ['Cake Masters', '/cakemasters', 'near_me'],
                         ['Shop', '/shop', 'shopping_bag'],
-                        ['Cart', '/cart', 'shopping_cart'],
                         ['Account', '/profile', 'account_circle'],
                         ['Logout', '/logout', 'logout']
                     ].map((text) => (
@@ -77,8 +76,7 @@ function SideNav(props) {
                         ['Cake Masters', '/cakemasters', 'near_me'],
                         ['Shop', '/shop', 'shopping_bag'],
                         ['Signup', '/signup', 'how_to_reg'],
-                        ['Login', '/login', 'login'],
-                        ['Cart', '/cart', 'shopping_cart']
+                        ['Login', '/login', 'login']
                     ].map((text) => (
                         <Link href={text[1]}>
                             <ListItem button key={text[0]}>

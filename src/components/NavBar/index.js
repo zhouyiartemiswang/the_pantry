@@ -113,13 +113,6 @@ function NavBar(props) {
                             </>
                         }
 
-                        {/* Shopping Cart Tab */}
-                        <Link href="/cart">
-                            <Button className="nav-tab">
-                                <span className="material-icons">shopping_cart</span>
-                            </Button>
-                        </Link>
-
                     </div>
                 </Toolbar>
             </AppBar>
