@@ -1,3 +1,37 @@
-#search-box {
+.cake-masters-cover-img {
+    background-image: url("https://res.cloudinary.com/artemiswang/image/upload/v1606110504/caramel_cake_md_r0vuro.jpg");
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    opacity: 70%;
     justify-content: center;
+}
+
+.title-container {
+    background-color: white;
+    opacity: 75%;
+    width: 50vw;
+    padding: 10vh;
+    margin: auto;
+    margin-top: 20vh;
+    text-align: center;
+}
+
+.title-container h1 {
+    font-family: 'Cuprum', sans-serif;
+    font-size: 3vmax;
+}
+
+.title-container p {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.4vmax;
+}
+
+.search-box {
+    margin: auto;
+    margin-bottom: 8vh;
 }

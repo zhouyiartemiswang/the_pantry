@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
         background: "transparent",
         boxShadow: "none",
     },
+    appBarSignup: {
+        backgroundColor: "grey",
+    },
     menuButton: {
         marginRight: theme.spacing(2),
         [theme.breakpoints.up('sm')]: {
@@ -33,22 +36,26 @@ const useStyles = makeStyles((theme) => ({
 function NavBar(props) {
     const classes = useStyles();
     const [isHomePage, setIsHomePage] = useState("");
+    const [isSignUpPage, setIsSignUpPage] = useState("");
 
     useEffect(() => {
-        console.log(props)
-        if (props.location.pathname === "/") {
+        // console.log(props)
+        if (props.location.pathname === "/" || props.location.pathname === "/cakemasters" || props.location.pathname === "/shop") {
             setIsHomePage(true);
             console.log("homepage")
+        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login") {
+            setIsSignUpPage(true);
         } else {
-            setIsHomePage(false)
-            console.log(props.location.pathname);
+            setIsHomePage(false);
+            setIsSignUpPage(false);
+            // console.log(props.location.pathname);
         }
 
     }, [])
 
     return (
         <>
-            <AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarHome]: isHomePage})}>
+            <AppBar position="fixed" className={clsx(classes.appBar, { [classes.appBarHome]: isHomePage }, {[classes.appBarSignup]: isSignUpPage})}>
                 <Toolbar>
 
                     {/* Menu Icon - shows up on mobile screen */}
@@ -112,13 +119,6 @@ function NavBar(props) {
                                 </Link>
                             </>
                         }
-
-                        {/* Shopping Cart Tab */}
-                        <Link href="/cart">
-                            <Button className="nav-tab">
-                                <span className="material-icons">shopping_cart</span>
-                            </Button>
-                        </Link>
 
                     </div>
                 </Toolbar>
