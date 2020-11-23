@@ -1,0 +1,39 @@
+.cover-img {
+    background-image: url("https://res.cloudinary.com/artemiswang/image/upload/v1606038979/the-pantry-cover-by-jacob-schwartz.jpg");
+    background-color: saddlebrown;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    opacity: 80%;
+}
+
+.tagline {
+    background-color: black;
+    /* background-image: url() */
+    padding: 10vw;
+    height: 40vh;
+    color: white;
+    text-align: center;
+}
+
+.tagline h1 {
+    font-family: 'Cuprum', sans-serif;
+    font-size: 3vmax;
+}
+
+.tagline p {
+    font-family: 'IBM Plex Serif', serif;
+    font-size: 1.4vmax;
+}
+
+.tagline a button {
+    margin-top: 5vh;
+    color: white;
+    border-color: white;
+}
+
+.tagline a button span {
+    font-size: 2vmax;
+}

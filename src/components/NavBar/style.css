@@ -7,6 +7,13 @@ button.nav-tab span span {
     margin: 0;
 }
 
-h6.logo a {
-    color: white;
+h6.logo a img {
+    margin-top: 10px;
+    margin-left: 240px;
+}
+
+@media screen and (max-width: 600px) {
+    h6.logo a img {
+        margin-left: 0;
+    }
 }
