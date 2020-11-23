@@ -48,19 +48,12 @@ export default function CakeMasters(props) {
     }, [props.bakers, props.premade]);
 
     const handleInputChange = (event, data) => {
-        // console.log(event.target);
-        // console.log(data);
-        // console.log(inputValue);
-        const bakeryName = inputValue.split(",")[0];
-        // console.log(bakeryName);
         if(data){
             filterCakes(data.id);
         }
         else{
             filterCakes(0);
         }
-        // Call API to get all cakes from bakeryName
-        // Then setCakeList = new list
     }
 
     function filterCakes(id){
@@ -111,7 +104,7 @@ export default function CakeMasters(props) {
                 {cakeList.filtered
                     ? cakeList.filtered.map(cake =>
                         <Grid item xs={12} md={4} lg={4}>
-                            <CakeMasterCard key={cake.id} cake={cake} baker={bakeryList.filtered} />
+                            <CakeMasterCard key={cake.id} cake={cake} baker={bakeryList.filtered} profile={props.profile} errorState={errorState} setErrorState={setErrorState} fillProfile={props.fillProfile}/>
                         </Grid>
                     )
                     : null
