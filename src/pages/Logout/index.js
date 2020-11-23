@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import { Toolbar, Link } from '@material-ui/core';
+import { Toolbar, Link, Button } from '@material-ui/core';
 import './style.css';
 
 export default function Logout(props) {
     useEffect(logoutUser, []);
 
-    function logoutUser(){
+    function logoutUser() {
         localStorage.clear();
         props.setProfileState({
             name: "",
@@ -26,12 +26,9 @@ export default function Logout(props) {
     }
 
     return (
-        <div>
-            <Toolbar/>
-            <h1>You have successfully logged out.</h1>
-            <Link href="/">
-                Go to Home Page
-            </Link>
+        <div className="container">
+            <Toolbar />
+            <h1 className="logout-message">You have successfully logged out.</h1>
         </div>
     )
 }

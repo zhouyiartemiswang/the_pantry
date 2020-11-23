@@ -1,6 +1,7 @@
 .cover-img {
     /* background-image: url("https://res.cloudinary.com/artemiswang/image/upload/v1606038979/the-pantry-cover-by-jacob-schwartz.jpg"); */
     background-image: url("https://res.cloudinary.com/hvhnztl4n/image/upload/v1606128904/jacob-schwartz-enVg_Vtsw1c-unsplash_pue4kk.jpg");
+    /* background-image: url(`${process.env.PUBLIC_URL}/assets/img/homepage_cover.jpg`); */
     background-color: black;
     height: 100vh;
     background-position: center;
