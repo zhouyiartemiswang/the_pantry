@@ -469,9 +469,9 @@ function App() {
                     <Route exact path="/revenue">
                         <Revenue baker={bakerProfileState} editOne={editOne} addOne={addOne} deleteOne={deleteOne} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
-                    <Route exact path="/noauth">
+                    {/* <Route exact path="/noauth">
                         <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-                    </Route>
+                    </Route> */}
                     {/* <Route>
                         <Home />
                     </Route> */}

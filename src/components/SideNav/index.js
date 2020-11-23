@@ -15,6 +15,10 @@ const useStyles = makeStyles((theme) => ({
     drawerPaper: {
         width: drawerWidth,
     },
+    sideNavTab: {
+        color: "#444444",
+        marginLeft: "1vw",
+    },
     mobileTab: {
         [theme.breakpoints.up('sm')]: {
             display: 'none',
@@ -42,10 +46,10 @@ function SideNav(props) {
                             ['Inventory', '/inventory', 'list_alt'],
                             ['Revenue', '/revenue', 'bar_chart']
                         ].map((text) => (
-                            <Link href={text[1]}>
+                            <Link href={text[1]} underline="none">
                                 <ListItem button key={text[0]}>
-                                    <span className="material-icons">{text[2]}</span>
-                                    <ListItemText primary={text[0]} />
+                                    <span id="sidenav-icon" className="material-icons sidenav-icon">{text[2]}</span>
+                                    <ListItemText primary={text[0]} className={classes.sideNavTab} />
                                 </ListItem>
                             </Link>
                         ))}
@@ -64,10 +68,10 @@ function SideNav(props) {
                         ['Account', '/profile', 'account_circle'],
                         ['Logout', '/logout', 'logout']
                     ].map((text) => (
-                        <Link href={text[1]}>
+                        <Link href={text[1]} underline="none">
                             <ListItem button key={text[0]}>
                                 <span className="material-icons">{text[2]}</span>
-                                <ListItemText primary={text[0]} />
+                                <ListItemText primary={text[0]} className={classes.sideNavTab} />
                             </ListItem>
                         </Link>
                     ))
@@ -78,10 +82,10 @@ function SideNav(props) {
                         ['Signup', '/signup', 'how_to_reg'],
                         ['Login', '/login', 'login']
                     ].map((text) => (
-                        <Link href={text[1]}>
+                        <Link href={text[1]} underline="none">
                             <ListItem button key={text[0]}>
                                 <span className="material-icons">{text[2]}</span>
-                                <ListItemText primary={text[0]} />
+                                <ListItemText primary={text[0]} className={classes.sideNavTab} />
                             </ListItem>
                         </Link>
                     ))

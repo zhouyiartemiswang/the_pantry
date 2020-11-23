@@ -1,0 +1,10 @@
+.cover-img {
+    background-image: url("https://res.cloudinary.com/hvhnztl4n/image/upload/v1606138002/chocolate_tiramisu_kovvsv.jpg");
+    background-color: black;
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    opacity: 80%;
+}

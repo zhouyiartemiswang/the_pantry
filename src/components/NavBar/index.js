@@ -43,7 +43,7 @@ function NavBar(props) {
         if (props.location.pathname === "/" || props.location.pathname === "/cakemasters" || props.location.pathname === "/shop") {
             setIsHomePage(true);
             console.log("homepage")
-        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login" || props.location.pathname === "/profile") {
+        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login" || props.location.pathname === "/profile" || props.location.pathname === "/dashboard" || props.location.pathname === "/premade" || props.location.pathname === "/custom" || props.location.pathname === "/orders" || props.location.pathname === "/inventory" || props.location.pathname === "/revenue") {
             setIsSignUpPage(true);
         } else {
             setIsHomePage(false);
@@ -79,13 +79,13 @@ function NavBar(props) {
                     {/* NavBar Tabs - hide on mobile screen */}
                     <div className={classes.mobileTab}>
 
-                        <Link href="/cakemasters">
+                        <Link href="/cakemasters" underline="none">
                             <Button className="nav-tab">
                                 Cake Masters
                             </Button>
                         </Link>
 
-                        <Link href="/shop">
+                        <Link href="/shop" underline="none">
                             <Button className="nav-tab">
                                 Shop
                             </Button>
@@ -95,19 +95,19 @@ function NavBar(props) {
                         {props.profile.isLoggedIn ?
                             <>
                                 {props.profile.isOwner ?
-                                    <Link href="/dashboard">
+                                    <Link href="/dashboard" underline="none">
                                         <Button className="nav-tab">
                                             Dashboard
                                         </Button>
                                     </Link>
                                     : null
                                 }
-                                <Link href="/logout">
+                                <Link href="/logout" underline="none">
                                     <Button className="nav-tab">
                                         Logout
                                             </Button>
                                 </Link>
-                                <Link href="/profile">
+                                <Link href="/profile" underline="none">
                                     <Button className="nav-tab">
                                         <span className="material-icons">account_circle</span>
                                     </Button>
@@ -115,12 +115,12 @@ function NavBar(props) {
                             </>
                             :
                             <>
-                                <Link href="/signup">
+                                <Link href="/signup" underline="none">
                                     <Button className="nav-tab">
                                         Sign Up
                                     </Button>
                                 </Link>
-                                <Link href="/login">
+                                <Link href="/login" underline="none">
                                     <Button className="nav-tab">
                                         Login
                                     </Button>

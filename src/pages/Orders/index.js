@@ -6,22 +6,23 @@ import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     container: {
+        width: "100%",
+        // textAlign: "center",
+        marginTop: theme.spacing(13),
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
+        paddingLeft: theme.spacing(4),
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: 240,
+        },
+        [theme.breakpoints.up('lg')]: {
+            marginLeft: 480,
+        }
     },
     title: {
         marginTop: 10,
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: 240,
-        }
+        marginLeft: 18,
     },
-    table: {
-        minWidth: 650,
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: 240,
-        }
-    },
-    appBarSpacer: theme.mixins.toolbar,
 }));
 
 export default function Orders(props) {
@@ -34,32 +35,31 @@ export default function Orders(props) {
         clicked: false
     });
 
-    useEffect( function() {
+    useEffect(function () {
         let allArray = [];
         let pendingArray = [];
         let inProgressArray = [];
         let completedArray = [];
-        if(props.baker.orders){
-            for(let i = 0; i < props.baker.orders.length; i++){
+        if (props.baker.orders) {
+            for (let i = 0; i < props.baker.orders.length; i++) {
                 allArray.push(props.baker.orders[i]);
-                if(props.baker.orders[i].status.toLowerCase() === "pending"){
+                if (props.baker.orders[i].status.toLowerCase() === "pending") {
                     pendingArray.push(props.baker.orders[i]);
                 }
-                if(props.baker.orders[i].status.toLowerCase() === "in progress"){
+                if (props.baker.orders[i].status.toLowerCase() === "in progress") {
                     inProgressArray.push(props.baker.orders[i]);
                 }
-                if(props.baker.orders[i].status.toLowerCase() === "completed"){
+                if (props.baker.orders[i].status.toLowerCase() === "completed") {
                     completedArray.push(props.baker.orders[i]);
                 }
             }
-            setOrderState({list: allArray, pending: pendingArray, progress: inProgressArray, completed: completedArray});
+            setOrderState({ list: allArray, pending: pendingArray, progress: inProgressArray, completed: completedArray });
         }
-        
+
     }, [props.baker]);
 
     return (
         <>
-            <div className={classes.appBarSpacer} />
             {props.profile.isLoggedIn && props.profile.isOwner ?
                 <>
                     <SideNav mobileOpen={props.mobileOpen} handleDrawerToggle={props.handleDrawerToggle} profile={props.profile} />
@@ -73,7 +73,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         Pending Orders
                                     </Typography>
-                                    <OrderTable orders={orderState.pending} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
+                                    <OrderTable orders={orderState.pending} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState} />
                                 </TableContainer>
                             </Grid>
 
@@ -83,7 +83,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         In Progress Orders
                                     </Typography>
-                                    <OrderTable orders={orderState.progress} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
+                                    <OrderTable orders={orderState.progress} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState} />
                                 </TableContainer>
                             </Grid>
 
@@ -93,7 +93,7 @@ export default function Orders(props) {
                                     <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
                                         Completed Orders
                                     </Typography>
-                                    <OrderTable orders={orderState.completed} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState}/>
+                                    <OrderTable orders={orderState.completed} editButtonState={editButtonState} deleteOne={props.deleteOne} editOne={props.editOne} setEditButtonState={setEditButtonState} />
                                 </TableContainer>
                             </Grid>
                         </Grid>
@@ -101,7 +101,13 @@ export default function Orders(props) {
                 </>
                 :
                 <div>
-                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page.</h1>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h2 style={{ textAlign: "center" }}>You are not authorized to view this page. Please log in!</h2>
                 </div>
             }
         </>

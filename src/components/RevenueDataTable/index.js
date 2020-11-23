@@ -22,7 +22,7 @@ export default function RevenueDataTable(props) {
     
     return (
         <div>
-            <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
+            <Typography className={classes.title} component="h2" variant="h6" color="default" gutterBottom>
                 Data Entries
             </Typography>
             <Table className={classes.table}>
