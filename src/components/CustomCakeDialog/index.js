@@ -54,7 +54,7 @@ export default function CustomCakeDialog(props) {
     return (
         <div>
             {props.isAddItem
-                ? <Button variant="outlined" color="primary" onClick={handleOpen} > Add Custom Components </Button>
+                ? <Button className="dialog-btn" variant="outlined" color="default" onClick={handleOpen} > Add Custom Components </Button>
                 : <span className="material-icons" onClick={handleOpen}>edit</span>
             }
 

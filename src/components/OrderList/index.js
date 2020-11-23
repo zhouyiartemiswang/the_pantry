@@ -46,9 +46,9 @@ export default function OrderList(props) {
                                 ))
                             }
                         </>
-                        : <h1>
+                        : <h3 className="dashboard-no-order-text">
                             No open orders!
-                        </h1>
+                        </h3>
                     }
                 </TableBody>
             </Table>

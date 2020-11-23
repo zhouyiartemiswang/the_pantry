@@ -16,7 +16,7 @@ export default function Chart(props) {
 
     return (
         <>
-            <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
+            <Typography className={classes.title} component="h2" variant="h6" color="default" gutterBottom>
                 Monthly Earnings
             </Typography>
             <ResponsiveContainer>
@@ -29,12 +29,12 @@ export default function Chart(props) {
                         left: 24,
                     }}
                 >
-                    <XAxis dataKey="month" stroke={theme.palette.text.secondary} />
-                    <YAxis stroke={theme.palette.text.secondary}>
+                    <XAxis dataKey="month" stroke={theme.palette.text.default} />
+                    <YAxis stroke={theme.palette.text.default}>
                         <Label
                             angle={270}
                             position="left"
-                            style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
+                            style={{ textAnchor: 'middle', fill: theme.palette.text.default }}
                         >
                             Earning ($)
                         </Label>

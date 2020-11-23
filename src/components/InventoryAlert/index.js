@@ -5,7 +5,7 @@ import './style.css';
 export default function InventoryAlert({ lowStockItem }) {
     return (
         <>
-            <Typography component="h2" variant="h6" color="primary" gutterBottom>
+            <Typography component="h2" variant="h6" color="default" gutterBottom>
                 Low Stock Alerts
             </Typography>
             {lowStockItem.map(item =>

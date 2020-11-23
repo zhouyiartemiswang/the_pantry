@@ -86,20 +86,25 @@ InventoryHead.propTypes = {
 };
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
+    paper: {
+        marginTop: theme.spacing(13),
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+        paddingLeft: theme.spacing(4),
+        paddingRight: theme.spacing(4),
         [theme.breakpoints.up('sm')]: {
             marginLeft: 240,
+        },
+        [theme.breakpoints.up('md')]: {
+            marginLeft: "30vw",
+            marginRight: "10vw",
+        },
+        [theme.breakpoints.up('lg')]: {
+            marginLeft: "25vw",
+            marginRight: "10vw",
         }
     },
-    paper: {
-        width: '100%',
-        marginBottom: theme.spacing(2),
-    },
     appBarSpacer: theme.mixins.toolbar,
-    // table: {
-    //     minWidth: 750,
-    // },
     visuallyHidden: {
         border: 0,
         clip: 'rect(0 0 0 0)',
@@ -149,7 +154,7 @@ export default function Inventory(props) {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, inventoryState.length - page * rowsPerPage);
 
     return (
-        <div className={classes.root}>
+        <>
             <div className={classes.appBarSpacer} />
             {props.profile.isLoggedIn && props.profile.isOwner ?
                 <>
@@ -162,12 +167,6 @@ export default function Inventory(props) {
                                 size="medium"
                                 aria-label="enhanced table"
                             >
-                                {/* <colgroup>
-                                    <col style={{ width: '20%' }} />
-                                    <col style={{ width: '20%' }} />
-                                    <col style={{ width: '20%' }} />
-                                    <col style={{ width: '20%' }} />
-                                </colgroup> */}
                                 <InventoryHead
                                     classes={classes}
                                     order={order}
@@ -230,9 +229,12 @@ export default function Inventory(props) {
                 </>
                 :
                 <div>
-                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page.</h1>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h2 style={{ textAlign: "center" }}>You are not authorized to view this page. Please log in!</h2>
                 </div>
             }
-        </div>
+        </>
     );
 }

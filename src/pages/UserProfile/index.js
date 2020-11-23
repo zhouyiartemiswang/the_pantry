@@ -64,7 +64,10 @@ export default function Profile(props) {
                 </div>
                 :
                 <div>
-                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page. Please log in!</h1>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h2 style={{ textAlign: "center" }}>You are not authorized to view this page. Please log in!</h2>
                 </div>
             }
         </>
