@@ -7,9 +7,9 @@ export default function Home() {
     return (
         <>
             <div className="cover-img">
-                <Helmet>
-
-                </Helmet>
+                {/* <Helmet>
+                    
+                </Helmet> */}
             </div>
             <div className="tagline">
                 <h1>THE PANTRY</h1>
