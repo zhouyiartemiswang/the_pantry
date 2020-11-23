@@ -45,7 +45,7 @@ export default function CakeMasters(props) {
         setCakeList({ all: premadeArray, filtered: premadeArray });
 
 
-    }, [props.bakers, props.premade]);
+    }, [props.bakers, props.cakes]);
 
     const handleInputChange = (event, data) => {
         if (data) {

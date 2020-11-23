@@ -99,7 +99,7 @@ export default function Shop(props) {
         setDecorationState({ all: stateArray, filtered: stateArray });
 
 
-    }, [props.bakers, props.custom, props.premade]);
+    }, [props.bakers, props.custom, props.cakes]);
 
     const handleCakeChange = (event) => {
         // console.log(event.target);
