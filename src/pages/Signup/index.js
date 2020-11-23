@@ -14,7 +14,7 @@ import API from '../../utils/API';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(20),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        backgroundColor: "grey",
+        color: "white",
     },
 }));
 
@@ -119,7 +121,7 @@ export default function Signup(props) {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Typography component="h1" variant="h5">
+                <Typography component="h1" variant="h5" className="">
                     Sign up
                 </Typography>
                 <form className={classes.form} noValidate onSubmit={handleSignUp}>
@@ -237,7 +239,6 @@ export default function Signup(props) {
                                 checked={signUpFormState.isOwner}
                                 onChange={handleChange}
                                 name="isOwner"
-                                color="primary"
                             />
                             }
                             label={signUpFormState.isOwner === true ? "Owner" : "Buyer"}
@@ -251,14 +252,13 @@ export default function Signup(props) {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
                         className={classes.submit}
                     >
                         Sign Up
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="/login" variant="body2">
+                            <Link href="/login" variant="body2" className="helper-text">
                                 Already have an account? Sign in
                             </Link>
                         </Grid>
