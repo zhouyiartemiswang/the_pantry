@@ -36,7 +36,7 @@ function NavBar(props) {
 
     useEffect(() => {
         console.log(props)
-        if (props.location.pathname === "/") {
+        if (props.location.pathname === "/" || props.location.pathname === "/cakemasters") {
             setIsHomePage(true);
             console.log("homepage")
         } else {
