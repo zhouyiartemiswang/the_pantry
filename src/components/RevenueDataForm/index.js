@@ -14,24 +14,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function RevenueDataForm() {
+export default function RevenueDataForm(props) {
     const classes = useStyles();
 
     const [chartData, setChartData] = useState({
         year: "",
         month: "",
         sales: "",
-        ingredients: ""
+        ingredients: "",
+        description: ""
     });
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setChartData({ [name]: value })
+        setChartData({ ...chartData, [name]: value })
     };
 
     const handleFormSubmit = (event) => {
         event.preventDefault();
-        // Post to database
+        const data = {month: `${chartData.month} ${chartData.year}`, ingredients: chartData.ingredients, description: chartData.description, sales: chartData.sales};
+        props.addOne("revenue", data);
+        setChartData({
+            year: "",
+            month: "",
+            sales: "",
+            ingredients: "",
+            description: ""
+        });
     };
 
     const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -43,19 +52,21 @@ export default function RevenueDataForm() {
                 Enter Monthly Data
                     </Typography>
 
-            <TextField
-                required
-                id="year"
-                type="number"
-                label="Year (YYYY)"
-                onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 4)
-                }}
-                name="year"
-                value={chartData.year}
-                onChange={handleInputChange}
-                variant="outlined"
-                size="small" />
+            <FormControl required variant="outlined" className={classes.formControl} size="small">
+                <TextField
+                    required
+                    id="year"
+                    type="number"
+                    label="Year (YYYY)"
+                    onInput={(e) => {
+                        e.target.value = Math.max(0, parseInt(e.target.value)).toString().slice(0, 4)
+                    }}
+                    name="year"
+                    value={chartData.year}
+                    onChange={handleInputChange}
+                    variant="outlined"
+                    size="small" />
+                </FormControl>
 
             <FormControl required variant="outlined" className={classes.formControl} size="small">
                 <InputLabel id="month-label">Month</InputLabel>
@@ -110,7 +121,7 @@ export default function RevenueDataForm() {
                 variant="outlined"
                 size="small" />
 
-            <Button variant="outlined" color="primary">
+            <Button onClick={handleFormSubmit} variant="outlined" color="primary">
                 Add
             </Button>
 

@@ -35,17 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Revenue(props) {
     const classes = useStyles();
-    const [monthlyEarning, setMonthlyEarning] = useState({
-        January: "",
-        February: "",
-        March: ""
-    });
     const [dataState, setDataState] = useState([]);
-    const [revenueState, setRevenueState] = useState({});
+    const [revenueState, setRevenueState] = useState([]);
 
     useEffect( function() {
         if(props.baker.revenue){
-            setRevenueState(props.baker.revenue);
             let joinedArray = [];
             for(let i = 0; i < props.baker.revenue.length; i++){
                 let duplicate = false;
@@ -86,6 +80,7 @@ export default function Revenue(props) {
             for(let i = 0; i < joinedArray.length; i ++){
                 sortedArray.push({month: `${joinedArray[i].month} ${joinedArray[i].year}`, earnings: joinedArray[i].earnings});
             }
+            setRevenueState(props.baker.revenue);
             setDataState(sortedArray);
         }
         
@@ -114,14 +109,14 @@ export default function Revenue(props) {
                                 {/* Insert data form */}
                                 <Grid item xs={12}>
                                     <Paper>
-                                        <RevenueDataForm />
+                                        <RevenueDataForm addOne={props.addOne}/>
                                     </Paper>
                                 </Grid>
 
                                 {/* All revenue data entries */}
                                 <Grid item xs={12}>
                                     <Paper>
-                                        <RevenueDataTable data={dataState}/>
+                                        <RevenueDataTable data={revenueState} editOne={props.editOne} deleteOne={props.deleteOne}/>
                                     </Paper>
                                 </Grid>
                             </Grid>
