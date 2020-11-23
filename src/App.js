@@ -2,84 +2,483 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
+import CakeMasters from './pages/CakeMasters';
+import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Shop from './pages/Shop';
 import UserProfile from './pages/UserProfile';
-import Owner from './pages/Owner';
+import Dashboard from './pages/Dashboard';
+import CakePricing from './pages/CakePricing';
+import Orders from './pages/Orders';
+import Inventory from './pages/Inventory';
+import Revenue from './pages/Revenue';
+import NoAuthorization from './pages/NoAuthorization';
 import Footer from './components/Footer';
-import Box from '@material-ui/core/Box';
+import { Box, makeStyles } from '@material-ui/core';
 import API from './utils/API';
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        marginBottom: 50,
+    },
+}));
+
 function App() {
-    const [loginFormState, setLoginFormState] = useState({
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpckBraXIua2lyIiwiaWQiOjMsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjp0cnVlLCJpYXQiOjE2MDU2Mzc3MDMsImV4cCI6MTYwNTY0NDkwM30.RFIGKY8D8AisGXLz6VqNUISUPvgPh6PMvdrOSczyIfU",
-        data: { sale: 15, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc" },
-        token2: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthdEBrYXQua2F0IiwiaWQiOjIsImFkZHJlc3MiOiJzdHJlZXQiLCJwaG9uZSI6IjU1NTU1NTU1NTUiLCJpc093bmVyIjpmYWxzZSwiaWF0IjoxNjA1NjM4MDIyLCJleHAiOjE2MDU2NDUyMjJ9.lQrAbrVmcjclGWYOpZ0Fbo_MdV5Io4Ei5q-BnhIIds4",
-        data2: { sale: 25, ingredients: "stuff", deadline: "2020-11-17", status: "pending", description: "desc", baker_id: 1 }
+    const classes = useStyles();
+    const [profileState, setProfileState] = useState({
+        name: "",
+        email: "",
+        token: "",
+        id: "",
+        phone: "",
+        address: "",
+        isOwner: false,
+        isLoggedIn: false,
+        loginError: "",
+        signUpError: ""
     });
 
-    useEffect(fetchUserData, []);
+    const [buyerProfileState, setBuyerProfileState] = useState({
+        message: "please log in"
+    });
 
-    function fetchUserData() {
-        // API.getEditOrder(loginFormState.token, loginFormState.data).then(data => {
-        //   if (data) {
-        //     console.log("users", data);
-        //   } else {
-        //     console.log("nothing to see here");
-        //   }
-        // });
-        // API.createOrder(loginFormState.token2, loginFormState.data2).then(data => {
-        //     if (data) {
-        //       console.log("users", data);
-        //     } else {
-        //       console.log("nothing to see here");
-        //     }
-        //   });
-        API.getOneOrder(5).then(data => {
+    const [bakerProfileState, setBakerProfileState] = useState({
+        message: "please log in"
+    });
+
+    const [cakeState, setCakeState] = useState({
+        allCakes: [],
+        filteredCakes: []
+    });
+
+    const [customState, setCustomState] = useState({
+        allCustom: [],
+        filteredCustom: []
+    });
+
+    const [bakerState, setBakerState] = useState({
+        allBakers: [],
+        filteredBakers: []
+    });
+
+    useEffect(function () {
+        fetchUserData();
+        fetchCakes();
+        fetchCustom();
+        fetchBakers();
+    }, []);
+
+    function fillProfile() {
+        const token = localStorage.getItem("token");
+        API.getBuyer(token).then(function (buyerData) {
+            if (buyerData) {
+                setBuyerProfileState({ orders: buyerData.Orders });
+                API.getBaker(token).then(function (bakerData) {
+                    if (bakerData) {
+                        setBakerProfileState({ orders: bakerData.Orders, inventory: bakerData.Inventories, invChanges: bakerData.InvChanges, preMade: bakerData.PreMades, pricing: bakerData.Pricings, revenue: bakerData.Revenues });
+                    }
+                    else {
+                        setBakerProfileState({
+                            message: "please log in"
+                        });
+                    }
+                });
+            }
+            else {
+                localStorage.removeItem("token");
+                setProfileState({
+                    name: "",
+                    email: "",
+                    token: "",
+                    id: "",
+                    isOwner: false,
+                    isLoggedIn: false,
+                    loginError: "",
+                    signUpError: ""
+                });
+                setBuyerProfileState({
+                    message: "please log in"
+                });
+                setBakerProfileState({
+                    message: "please log in"
+                });
+            }
+        });
+    }
+
+    function fetchBakers() {
+        API.getAllUsers().then(data => {
             if (data) {
-                console.log(data);
+                let newArray = [];
+                let newArray2 = [];
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].isOwner) {
+                        newArray.push({ id: data[i].id, username: data[i].username, address: data[i].address, phone: data[i].phone, email: data[i].email });
+                        newArray2.push({ id: data[i].id, username: data[i].username, address: data[i].address, phone: data[i].phone, email: data[i].email });
+                    }
+                }
+                setBakerState({
+                    allBakers: newArray,
+                    filteredBakers: newArray2
+                });
             } else {
                 console.log("nothing to see here");
             }
         });
-        // API.deleteOrder(loginFormState.token, 1).then(data => {
-        //     if (data) {
-        //         console.log(data);
-        //     }else {
-        //         console.log("nothing to see here");
-        //     }
-        // });
     }
+
+    function fetchCakes() {
+        API.getAllPreMade().then(data => {
+            if (data) {
+                let newArray = [];
+                let newArray2 = [];
+                for (let i = 0; i < data.length; i++) {
+                    newArray.push(data[i]);
+                    newArray2.push(data[i]);
+                }
+                setCakeState({
+                    allCakes: newArray,
+                    filteredCakes: newArray2
+                });
+            } else {
+                console.log("nothing to see here");
+            }
+        });
+    }
+
+    function fetchCustom() {
+        API.getAllPricing().then(data => {
+            if (data) {
+                let newArray3 = [];
+                let newArray4 = [];
+                for (let i = 0; i < data.length; i++) {
+                    newArray3.push(data[i]);
+                    newArray4.push(data[i]);
+                }
+                setCustomState({
+                    allCustom: newArray3,
+                    filteredCustom: newArray4
+                });
+            } else {
+                console.log("nothing to see here");
+            }
+        });
+    }
+
+    function fetchUserData() {
+        const token = localStorage.getItem("token");
+        API.getProfile(token).then(function (profileData) {
+            if (profileData) {
+                setProfileState({
+                    name: profileData.username,
+                    email: profileData.email,
+                    phone: profileData.phone,
+                    token: token,
+                    address: profileData.address,
+                    id: profileData.id,
+                    isOwner: profileData.isOwner,
+                    isLoggedIn: true,
+                    loginError: "",
+                    signUpError: ""
+                });
+                fillProfile();
+            }
+            else {
+                localStorage.removeItem("token");
+                setProfileState({
+                    name: "",
+                    email: "",
+                    token: "",
+                    id: "",
+                    address: "",
+                    phone: "",
+                    isOwner: false,
+                    isLoggedIn: false,
+                    loginError: "",
+                    signUpError: ""
+                });
+                setBuyerProfileState({
+                    message: "please log in"
+                });
+                setBakerProfileState({
+                    message: "please log in"
+                });
+            }
+        });
+    }
+
+    function deleteOne(type, id) {
+        const token = localStorage.getItem("token");
+        if (type === "premade") {
+            API.deletePreMade(token, id).then(function (res) {
+                if (res) {
+                    fetchCakes();
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "custom") {
+            API.deletePricing(token, id).then(function(res) {
+                if(res){
+                    fetchCustom();
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "order") {
+            API.deleteOrder(token, id).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "inventory") {
+            API.deleteInventory(token, id).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "invChange") {
+            API.deleteInvChanges(token, id).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "revenue") {
+            API.deleteRevenue(token, id).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else {
+            console.log("not sure what you're doing");
+        }
+    }
+
+    function addOne(type, data) {
+        const token = localStorage.getItem("token");
+        if (type === "premade") {
+            API.createPreMade(token, data).then(function (res) {
+                if (res) {
+                    fetchCakes();
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "custom") {
+            API.createPricing(token, data).then(function(res) {
+                if (res) {
+                    fetchCustom();
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "order") {
+            API.createOrder(token, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "inventory") {
+            API.createInventory(token, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "invChange") {
+            API.createInvChanges(token, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "revenue") {
+            API.createRevenue(token, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else {
+            console.log("not sure what you're doing");
+        }
+    }
+
+    function editOne(type, id, data) {
+        const token = localStorage.getItem("token");
+        if (type === "premade") {
+            API.editPreMade(token, id, data).then(function (res) {
+                if (res) {
+                    fetchCakes();
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "custom") {
+            API.editPricing(token, id, data).then(function(res) {
+                if (res) {
+                    fetchCustom();
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "order") {
+            API.editOrder(token, id, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "inventory") {
+            API.editInventory(token, id, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "invChange") {
+            API.editInvChanges(token, id, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else if (type === "revenue") {
+            API.editRevenue(token, id, data).then(function (res) {
+                if (res) {
+                    fillProfile();
+                }
+                else {
+                    console.log("something went wrong");
+                }
+            });
+        }
+        else {
+            console.log("not sure what you're doing");
+        }
+    }
+
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
     return (
         <BrowserRouter>
+            <div className={classes.root}>
+                <NavBar profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
 
-            <Switch>
-                <Route exact path="/">
-                    <NavBar />
-                    <Home />
-                </Route>
-                <Route exact path="/login">
-                    <NavBar />
-                    <Login />
-                </Route>
-                <Route exact path="/shop">
-                    <NavBar />
-                    <Shop />
-                </Route>
-                <Route exact path="/user/profile">
-                    <NavBar />
-                    <UserProfile />
-                </Route>
-                <Route exact path="/owner/dashboard">
-                    <Owner page="Dashboard" />
-                </Route>
-                <Route exact path="/owner/inventory">
-                    <Owner page="Inventory" />
-                </Route>
-            </Switch>
+                <Switch>
+                    <Route exact path="/">
+                        <Home profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/cakemasters">
+                        <CakeMasters cakes={cakeState} setCakeState={setCakeState} bakers={bakerState} setBakerState={setBakerState} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} fillProfile={fillProfile}/>
+                    </Route>
+                    <Route exact path="/signup">
+                        <Signup profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/login">
+                        <Login profile={profileState} setProfileState={setProfileState} fillProfile={fillProfile} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/logout">
+                        <Logout profile={profileState} setProfileState={setProfileState} setBuyerProfileState={setBuyerProfileState} setBakerProfileState={setBakerProfileState} />
+                    </Route>
+                    <Route exact path="/shop">
+                        <Shop profile={profileState} fillProfile={fillProfile} custom={customState} setCustomState={setCustomState} cakes={cakeState} setCakeState={setCakeState} bakers={bakerState} setBakerState={setBakerState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/profile">
+                        <UserProfile buyer={buyerProfileState} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/dashboard">
+                        <Dashboard baker={bakerProfileState} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/premade">
+                        <CakePricing baker={bakerProfileState} editOne={editOne} addOne={addOne} deleteOne={deleteOne} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} isPreMade={true} />
+                    </Route>
+                    <Route exact path="/custom">
+                        <CakePricing baker={bakerProfileState} editOne={editOne} addOne={addOne} deleteOne={deleteOne} profile={profileState} isPreMade={false} />
+                    </Route>
+                    <Route exact path="/orders">
+                        <Orders baker={bakerProfileState} editOne={editOne} addOne={addOne} deleteOne={deleteOne} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/inventory">
+                        <Inventory baker={bakerProfileState} editOne={editOne} addOne={addOne} deleteOne={deleteOne} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/revenue">
+                        <Revenue baker={bakerProfileState} editOne={editOne} addOne={addOne} deleteOne={deleteOne} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    <Route exact path="/noauth">
+                        <NoAuthorization mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                    </Route>
+                    {/* <Route>
+                        <Home />
+                    </Route> */}
+                </Switch>
 
-            <Box position="absolute" bottom={0}>
+            </div>
+            <Box >
                 <Footer />
             </Box>
 

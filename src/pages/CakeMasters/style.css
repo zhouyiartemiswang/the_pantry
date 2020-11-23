@@ -1,12 +1,14 @@
-.shop-cover-img {
-    background-image: url("https://res.cloudinary.com/artemiswang/image/upload/v1606110356/david-holifield-sCsjtUwN8LA-unsplash_tppq8y.jpg");
+.cake-masters-cover-img {
+    background-image: url("https://res.cloudinary.com/artemiswang/image/upload/v1606110504/caramel_cake_md_r0vuro.jpg");
     background-color: black;
+    width: 100vw;
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
-    opacity: 80%;
+    opacity: 70%;
+    justify-content: center;
 }
 
 .title-container {
@@ -19,28 +21,17 @@
     text-align: center;
 }
 
-.form-container {
-    text-align: center;
-}
-
-.form-text {
-    text-align: left;
-}
-
-button.shop-btn {
-    margin: 1vmin;
-    color: grey;
-    border-color: grey;
-}
-
-/* .form-container h1 {
+.title-container h1 {
     font-family: 'Cuprum', sans-serif;
     font-size: 3vmax;
-    text-align: center;
 }
 
-.form-container p {
+.title-container p {
     font-family: 'IBM Plex Serif', serif;
     font-size: 1.4vmax;
-    text-align: center;
-} */
+}
+
+.search-box {
+    margin: auto;
+    margin-bottom: 8vh;
+}

@@ -9,18 +9,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function AddItemForm(props) {
+export default function CustomCakeDialog(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [itemState, setItemState] = useState({
+        type: "",
         name: "",
-        quantity: "",
-        metric: ""
+        price: ""
     });
 
     useEffect( function() {
         if(props.data){
-            setItemState({ ...itemState, name: props.data.name, quantity: props.data.quantity, metric: props.data.metric });
+            setItemState({ ...itemState, name: props.data.name, price: props.data.price, type: props.data.type });
         }
     }, [props.data]);
 
@@ -44,63 +44,68 @@ export default function AddItemForm(props) {
         event.preventDefault();
         handleClose();
         if (props.isAddItem) {
-            props.addOne("inventory", itemState);
+            props.addOne("custom", itemState);
         }
         else{
-            props.editOne("inventory", props.data.id, itemState);
+            props.editOne("custom", props.data.id, itemState);
         }
     }
 
     return (
         <div>
             {props.isAddItem
-                ? <Button variant="outlined" color="primary" onClick={handleOpen}>Add Item</Button>
+                ? <Button variant="outlined" color="primary" onClick={handleOpen} > Add Custom Components </Button>
                 : <span className="material-icons" onClick={handleOpen}>edit</span>
             }
+
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 {props.isAddItem
-                    ? <DialogTitle id="form-dialog-title">Add an Item</DialogTitle>
-                    : <DialogTitle id="form-dialog-title">Edit Item</DialogTitle>
+                    ? <DialogTitle id="form-dialog-title">Add a custom component to your pricing list</DialogTitle>
+                    : <DialogTitle id="form-dialog-title">Edit custom component</DialogTitle>
                 }
+
                 <DialogContent>
+
+                    <FormControl required className={classes.formControl}>
+                        <InputLabel id="type">Type</InputLabel>
+                        <Select
+                            id="type"
+                            value={itemState.type}
+                            name="type"
+                            onChange={handleInputChange}
+                        >
+                            <MenuItem value="Size">Size</MenuItem>
+                            <MenuItem value="Base">Cake Base</MenuItem>
+                            <MenuItem value="Filling">Filling</MenuItem>
+                            <MenuItem value="Decoration">Decoration</MenuItem>
+                        </Select>
+                    </FormControl>
+
                     <FormControl className={classes.formControl}>
                         <TextField
-                            required autoFocus
-                            id="item"
-                            label="Item"
+                            required
+                            multiline={true}
+                            id="name"
+                            label="Name"
                             value={itemState.name}
                             name="name"
                             onChange={handleInputChange}
                         />
                     </FormControl>
+
                     <FormControl className={classes.formControl}>
                         <TextField
-                            required autoFocus
+                            required
+                            multiline={true}
                             type="number"
-                            id="quantity"
-                            label="Quantity"
-                            value={itemState.quantity}
-                            name="quantity"
+                            id="price"
+                            label="Price&nbsp;($)"
+                            value={itemState.price}
+                            name="price"
                             onChange={handleInputChange}
                         />
                     </FormControl>
-                    <FormControl required className={classes.formControl}>
-                        <InputLabel id="metric">Unit</InputLabel>
-                        <Select
-                            id="metric"
-                            value={itemState.metric}
-                            name="metric"
-                            onChange={handleInputChange}
-                        >
-                            <MenuItem value="g">g</MenuItem>
-                            <MenuItem value="kg">kg</MenuItem>
-                            <MenuItem value="lb">lb</MenuItem>
-                            <MenuItem value="oz">oz</MenuItem>
-                            <MenuItem value="gal">gal</MenuItem>
-                            <MenuItem value="dozen">dozen</MenuItem>
-                            <MenuItem value="each">each</MenuItem>
-                        </Select>
-                    </FormControl>
+
                 </DialogContent>
 
                 <DialogActions>
@@ -111,6 +116,7 @@ export default function AddItemForm(props) {
                         Submit
                     </Button>
                 </DialogActions>
+                
             </Dialog>
         </div >
     );

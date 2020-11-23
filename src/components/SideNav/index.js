@@ -1,75 +1,131 @@
 import React from 'react';
-import clsx from 'clsx';
-import { Drawer, List, ListItem, ListItemText, IconButton, Divider, Link, makeStyles } from '@material-ui/core';
-import './style.css';
+import { Divider, List, Link, ListItem, ListItemText, Hidden, Drawer } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-    toolbarIcon: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        padding: '0 8px',
-        ...theme.mixins.toolbar,
-    },
-    drawerPaper: {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        width: drawerWidth,
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    },
-    drawerPaperClose: {
-        overflowX: 'hidden',
-        transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        width: theme.spacing(7),
+    drawer: {
         [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
+            width: drawerWidth,
+            flexShrink: 0,
         },
     },
+    toolbar: theme.mixins.toolbar, // Add top spacing so content won't cover by NavBar
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    mobileTab: {
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    }
 }));
 
-export default function SideNav(props) {
+function SideNav(props) {
+    const { window } = props;
     const classes = useStyles();
+    const theme = useTheme();
+
+    const drawer = (
+        <>
+            <div className={classes.toolbar} />
+            <Divider />
+            {props.profile.isLoggedIn && props.profile.isOwner ?
+                (<>
+                    <List>
+                        {[
+                            ['Dashboard', '/dashboard', 'dashboard'],
+                            ['Pre-made Cakes', '/premade', 'cake'],
+                            ['Custom Cakes', '/custom', 'cake'],
+                            ['Orders', '/orders', 'assignment'],
+                            ['Inventory', '/inventory', 'list_alt'],
+                            ['Revenue', '/revenue', 'bar_chart']
+                        ].map((text) => (
+                            <Link href={text[1]}>
+                                <ListItem button key={text[0]}>
+                                    <span className="material-icons">{text[2]}</span>
+                                    <ListItemText primary={text[0]} />
+                                </ListItem>
+                            </Link>
+                        ))}
+                    </List>
+                    <Divider />
+                </>)
+                :
+                null
+            }
+            <List className={classes.mobileTab}>
+
+                {props.profile.isLoggedIn ?
+                    [
+                        ['Cake Masters', '/cakemasters', 'near_me'],
+                        ['Shop', '/shop', 'shopping_bag'],
+                        ['Account', '/profile', 'account_circle'],
+                        ['Logout', '/logout', 'logout']
+                    ].map((text) => (
+                        <Link href={text[1]}>
+                            <ListItem button key={text[0]}>
+                                <span className="material-icons">{text[2]}</span>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
+                    ))
+                    :
+                    [
+                        ['Cake Masters', '/cakemasters', 'near_me'],
+                        ['Shop', '/shop', 'shopping_bag'],
+                        ['Signup', '/signup', 'how_to_reg'],
+                        ['Login', '/login', 'login']
+                    ].map((text) => (
+                        <Link href={text[1]}>
+                            <ListItem button key={text[0]}>
+                                <span className="material-icons">{text[2]}</span>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
+                    ))
+                }
+            </List>
+        </>
+    );
+
+    const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Drawer
-            variant="permanent"
-            classes={{
-                paper: clsx(classes.drawerPaper, !props.open && classes.drawerPaperClose),
-            }}
-            open={props.open}
-        >
-            <div className={classes.toolbarIcon}>
-                <IconButton onClick={props.handleDrawerClose}>
-                    <span className="material-icons">chevron_left</span>
-                </IconButton>
-            </div>
-            <Divider />
-            <List>
-                {[
-                    ['Dashboard', '/owner/dashboard', 'dashboard'],
-                    ['My Cake Master', '/owner/cakemaster', 'cake'],
-                    ['Orders', '/owner/orders', 'assignment'],
-                    ['Inventory', '/owner/inventory', 'list'],
-                    ['Account', '/owner/account', 'account_box']
-                ].map((text) => (
-                    <Link href={text[1]}>
-                        <ListItem button key={text[0]}>
-                            <span className="material-icons">{text[2]}</span>
-                            <ListItemText primary={text[0]} />
-                        </ListItem>
-                    </Link>
-                ))}
-            </List>
-        </Drawer>
-    )
+        <>
+            <nav className={classes.drawer}>
+                <Hidden smUp implementation="css">
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                        open={props.mobileOpen}
+                        onClose={props.handleDrawerToggle}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        ModalProps={{
+                            keepMounted: true,
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+                <Hidden xsDown implementation="css">
+                    <Drawer
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                        variant="permanent"
+                        open
+                    >
+                        {drawer}
+                    </Drawer>
+                </Hidden>
+            </nav>
+        </>
+    );
 }
 
-
+export default SideNav;

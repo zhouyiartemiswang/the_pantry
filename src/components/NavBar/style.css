@@ -1,8 +1,19 @@
-button.nav-tab span a {
+button.nav-tab span {
     color: white;
-    margin-left: 5vw;
+    margin: 0 1vw; 
 }
 
-h6.nav-tab a {
-    color: white;
+button.nav-tab span span {
+    margin: 0;
+}
+
+h6.logo a img {
+    margin-top: 10px;
+    margin-left: 240px;
+}
+
+@media screen and (max-width: 600px) {
+    h6.logo a img {
+        margin-left: 0;
+    }
 }
