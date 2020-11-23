@@ -12,9 +12,9 @@ function PlacedOrderList(props) {
                 id="panel2a-header"
             >
                 <Typography className={props.classes.heading}>
-                    <span className="material-icons">shopping_basket</span>
-                                    {props.data.description} : {props.data.status}
-                                </Typography>
+                    <span className="material-icons profile-icon">shopping_basket</span>
+                    {props.data.description} : {props.data.status}
+                </Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <Typography style={{whiteSpace: 'pre-line'}}>

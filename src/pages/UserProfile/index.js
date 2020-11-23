@@ -44,7 +44,7 @@ export default function Profile(props) {
                 <div className={classes.root}>
 
                     <Paper className="profile-container">
-                        <Avatar alt={props.profile.name} src="#" />
+                        <Avatar alt={props.profile.name} src="#" className="avatar"/>
                         <Typography className={classes.heading}>
                             {props.profile.name}
                         </Typography>
@@ -59,13 +59,7 @@ export default function Profile(props) {
                         </Typography>
 
                         {orderListState.list}
-
-                        <br />
-
-                        {props.profile.isOwner
-                            ? <Link href="/dashboard">Go to Dashboard</Link>
-                            : null
-                        }
+                        
                     </Paper>
 
                 </div>
