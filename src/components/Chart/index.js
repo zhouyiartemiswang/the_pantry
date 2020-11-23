@@ -39,7 +39,7 @@ export default function Chart(props) {
                             Earning ($)
                         </Label>
                     </YAxis>
-                    <Line type="monotone" dataKey="earning" stroke={theme.palette.primary.main} dot={true} />
+                    <Line type="monotone" dataKey="earnings" stroke={theme.palette.primary.main} dot={true} />
                 </LineChart>
             </ResponsiveContainer>
         </>

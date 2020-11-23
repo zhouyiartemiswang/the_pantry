@@ -434,7 +434,7 @@ function App() {
                         <Home profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
                     </Route>
                     <Route exact path="/cakemasters">
-                        <CakeMasters cakes={cakeState} setCakeState={setCakeState} bakers={bakerState} setBakerState={setBakerState} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                        <CakeMasters cakes={cakeState} setCakeState={setCakeState} bakers={bakerState} setBakerState={setBakerState} profile={profileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} fillProfile={fillProfile}/>
                     </Route>
                     <Route exact path="/signup">
                         <Signup profile={profileState} setProfileState={setProfileState} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
