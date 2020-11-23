@@ -13,7 +13,7 @@ h6.logo a img {
 }
 
 @media screen and (max-width: 600px) {
-    h6.logo a {
+    h6.logo a img {
         margin-left: 0;
     }
 }

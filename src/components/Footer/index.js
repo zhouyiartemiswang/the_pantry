@@ -10,8 +10,6 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
     },
     footer: {
-        // backgroundColor: "black",
-        // color: "white",
         padding: theme.spacing(3, 2),
         width: "100vw",
         marginTop: 10,
@@ -22,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
             theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
     },
     footerHome: {
-        display: "none",
+        backgroundColor: "black",
     },
 }));
 

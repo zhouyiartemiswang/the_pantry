@@ -20,15 +20,20 @@
 
 .tagline h1 {
     font-family: 'Cuprum', sans-serif;
+    font-size: 3vmax;
 }
 
 .tagline p {
     font-family: 'IBM Plex Serif', serif;
-    font-size: 1.4vw;
+    font-size: 1.4vmax;
 }
 
 .tagline a button {
     margin-top: 5vh;
     color: white;
     border-color: white;
+}
+
+.tagline a button span {
+    font-size: 2vmax;
 }
