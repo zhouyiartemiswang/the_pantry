@@ -35,7 +35,7 @@ export default function RevenueDataForm() {
     };
 
     const monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
+
     return (
         <form className={classes.root} noValidate autoComplete="off" onSubmit={handleFormSubmit}>
 
@@ -96,6 +96,16 @@ export default function RevenueDataForm() {
                 }}
                 name="ingredients"
                 value={chartData.ingredients}
+                onChange={handleInputChange}
+                variant="outlined"
+                size="small" />
+
+            <TextField
+                multiline={true}
+                id="description"
+                label="Description"
+                name="description"
+                value={chartData.description}
                 onChange={handleInputChange}
                 variant="outlined"
                 size="small" />
