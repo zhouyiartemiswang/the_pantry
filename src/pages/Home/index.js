@@ -6,7 +6,7 @@ import './style.css';
 export default function Home() {
     return (
         <>
-            <div className="cover-img" style={{backgroundImage: `url(${process.env.PUBLIC_URL}/assets/img/homepage_cover.jpg)`}}>
+            <div className="cover-img">
                 {/* <img src={process.env.PUBLIC_URL + './assets/img/homepage_cover.jpg'} alt="homepage cover"/> */}
                 {/* <Helmet>
                     
