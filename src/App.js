@@ -13,7 +13,6 @@ import CakePricing from './pages/CakePricing';
 import Orders from './pages/Orders';
 import Inventory from './pages/Inventory';
 import Revenue from './pages/Revenue';
-import NoAuthorization from './pages/NoAuthorization';
 import Footer from './components/Footer';
 import { Box, makeStyles } from '@material-ui/core';
 import API from './utils/API';
