@@ -54,7 +54,7 @@ export default function AddItemForm(props) {
     return (
         <div>
             {props.isAddItem
-                ? <Button variant="outlined" color="primary" onClick={handleOpen}>Add Item</Button>
+                ? <Button className="dialog-btn" variant="outlined" color="default" onClick={handleOpen}>Add Item</Button>
                 : <span className="material-icons" onClick={handleOpen}>edit</span>
             }
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

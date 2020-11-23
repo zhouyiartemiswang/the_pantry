@@ -4,10 +4,10 @@ import './style.css';
 
 const useStyles = makeStyles((theme) => ({
     table: {
-        minWidth: 650,
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: 240,
-        }
+        // width: "100%",
+        // [theme.breakpoints.up('sm')]: {
+        //     marginLeft: 0,
+        // }
     },
 }));
 

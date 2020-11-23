@@ -48,7 +48,7 @@ export default function RevenueDataForm(props) {
     return (
         <form className={classes.root} noValidate autoComplete="off" onSubmit={handleFormSubmit}>
 
-            <Typography className={classes.title} component="h2" variant="h6" color="primary" gutterBottom>
+            <Typography className={classes.title} component="h2" variant="h6" color="default" gutterBottom>
                 Enter Monthly Data
                     </Typography>
 
@@ -121,7 +121,7 @@ export default function RevenueDataForm(props) {
                 variant="outlined"
                 size="small" />
 
-            <Button onClick={handleFormSubmit} variant="outlined" color="primary">
+            <Button onClick={handleFormSubmit} variant="outlined" color="default">
                 Add
             </Button>
 

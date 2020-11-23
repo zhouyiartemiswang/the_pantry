@@ -125,7 +125,13 @@ export default function Revenue(props) {
                 </>
                 :
                 <div>
-                    <h1 style={{ textAlign: "center" }}>You are not authorized to view this page.</h1>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h2 style={{ textAlign: "center" }}>You are not authorized to view this page.</h2>
                 </div>
             }
         </div>
