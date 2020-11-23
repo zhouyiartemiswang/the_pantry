@@ -43,7 +43,7 @@ function NavBar(props) {
         if (props.location.pathname === "/" || props.location.pathname === "/cakemasters" || props.location.pathname === "/shop") {
             setIsHomePage(true);
             console.log("homepage")
-        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login" || props.location.pathname === "/profile" || props.location.pathname === "/dashboard" || props.location.pathname === "/premade" || props.location.pathname === "/custom" || props.location.pathname === "/orders" || props.location.pathname === "/inventory" || props.location.pathname === "/revenue") {
+        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login" || props.location.pathname === "/profile" || props.location.pathname === "/dashboard" || props.location.pathname === "/premade" || props.location.pathname === "/custom" || props.location.pathname === "/orders" || props.location.pathname === "/inventory" || props.location.pathname === "/revenue" || props.location.pathname === "/logout") {
             setIsSignUpPage(true);
         } else {
             setIsHomePage(false);
