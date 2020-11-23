@@ -36,7 +36,7 @@ function NavBar(props) {
 
     useEffect(() => {
         console.log(props)
-        if (props.location.pathname === "/" || props.location.pathname === "/cakemasters") {
+        if (props.location.pathname === "/" || props.location.pathname === "/cakemasters" || props.location.pathname === "/shop") {
             setIsHomePage(true);
             console.log("homepage")
         } else {
@@ -48,7 +48,7 @@ function NavBar(props) {
 
     return (
         <>
-            <AppBar position="fixed" className={clsx(classes.appBar, {[classes.appBarHome]: isHomePage})}>
+            <AppBar position="fixed" className={clsx(classes.appBar, { [classes.appBarHome]: isHomePage })}>
                 <Toolbar>
 
                     {/* Menu Icon - shows up on mobile screen */}
