@@ -43,7 +43,7 @@ function NavBar(props) {
         if (props.location.pathname === "/" || props.location.pathname === "/cakemasters" || props.location.pathname === "/shop") {
             setIsHomePage(true);
             console.log("homepage")
-        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login") {
+        } else if (props.location.pathname === "/signup" || props.location.pathname === "/login" || props.location.pathname === "/profile") {
             setIsSignUpPage(true);
         } else {
             setIsHomePage(false);
@@ -55,7 +55,7 @@ function NavBar(props) {
 
     return (
         <>
-            <AppBar position="fixed" className={clsx(classes.appBar, { [classes.appBarHome]: isHomePage }, {[classes.appBarSignup]: isSignUpPage})}>
+            <AppBar position="fixed" className={clsx(classes.appBar, { [classes.appBarHome]: isHomePage }, { [classes.appBarSignup]: isSignUpPage })}>
                 <Toolbar>
 
                     {/* Menu Icon - shows up on mobile screen */}

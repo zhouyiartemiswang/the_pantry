@@ -2,15 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Paper, Avatar, Typography, Link, Toolbar, makeStyles } from '@material-ui/core';
 import './style.css';
 import PlacedOrderList from '../../components/PlacedOrderList/PlacedOrderList'
+import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: "50%",
+        margin: "auto",
+        marginTop: theme.spacing(20),
+        width: "50vw",
         textAlign: "center",
+
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
+        fontFamily: "IBM Plex Serif",
+        margin: "1vw",
     },
 }));
 
@@ -37,7 +43,7 @@ export default function Profile(props) {
             {props.profile.isLoggedIn ?
                 <div className={classes.root}>
 
-                    <Paper>
+                    <Paper className="profile-container">
                         <Avatar alt={props.profile.name} src="#" />
                         <Typography className={classes.heading}>
                             {props.profile.name}
