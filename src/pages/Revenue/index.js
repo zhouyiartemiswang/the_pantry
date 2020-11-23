@@ -40,58 +40,55 @@ export default function Revenue(props) {
         March: ""
     });
     const [dataState, setDataState] = useState([]);
+    const [revenueState, setRevenueState] = useState({});
 
-    useEffect(() => {
-        // Get all revenue data
-        const res = [
-            {
-                month: "January",
-                year: "2020",
-                sales: 50,
-                ingredients: 30,
-                description: "something"
-            },
-            {
-                month: "January",
-                year: "2020",
-                sales: 45,
-                ingredients: 35,
-                description: "something2"
+    useEffect( function() {
+        if(props.baker.revenue){
+            setRevenueState(props.baker.revenue);
+            let joinedArray = [];
+            for(let i = 0; i < props.baker.revenue.length; i++){
+                let duplicate = false;
+                if(parseInt(props.baker.revenue[i].baker_id) === parseInt(props.profile.id)){
+                    if( i === 0){
+                        let sales = parseFloat(props.baker.revenue[0].sales) - parseFloat(props.baker.revenue[0].ingredients);
+                        joinedArray.push({month: props.baker.revenue[0].month.split(" ")[0], year: props.baker.revenue[0].month.split(" ")[1], earnings: sales});
+                    }
+                    else{
+                        for(let j = 0; j < joinedArray.length; j++){
+                            if(`${joinedArray[j].month} ${joinedArray[j].year}` === props.baker.revenue[i].month){
+                                duplicate = true;
+                                let sales = parseFloat(joinedArray[j].earnings) + parseFloat(props.baker.revenue[i].sales) - parseFloat(props.baker.revenue[i].ingredients);
+                                joinedArray[j].earnings = sales;
+                            }
+                        }
+                        if(duplicate){
+                            duplicate = false;
+                        }
+                        else{
+                            let sales = parseFloat(props.baker.revenue[i].sales) - parseFloat(props.baker.revenue[i].ingredients);
+                            joinedArray.push({month: props.baker.revenue[i].month.split(" ")[0], year: props.baker.revenue[i].month.split(" ")[1], earnings: sales});
+                        }
+                    }
+
+                }
             }
-        ]
-        let janData = res.filter(data => data.month === "January");
-        let sum = 0;
-        let janSum = janData.map(data => {
-            sum += data.sales - data.ingredients
-            return sum;
-        })
-        console.log(janSum[janSum.length - 1]);
-
-        setMonthlyEarning({
-            ...monthlyEarning,
-            January: janSum[janSum.length - 1]
-        })
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const sorter = (a, b) => {
+                if(a.year !== b.year){
+                    return a.year - b.year;
+                }else{
+                    return months.indexOf(a.month) - months.indexOf(b.month);
+                };
+            };
+            joinedArray.sort(sorter);
+            let sortedArray = [];
+            for(let i = 0; i < joinedArray.length; i ++){
+                sortedArray.push({month: `${joinedArray[i].month} ${joinedArray[i].year}`, earnings: joinedArray[i].earnings});
+            }
+            setDataState(sortedArray);
+        }
         
-        const data = [
-            {
-                month: "January",
-                earning: 30
-            },
-            {
-                month: "February",
-                earning: 100
-            },
-            {
-                month: "March",
-                earning: 200
-            },
-            {
-                month: "April",
-                earning: 180
-            }
-        ]
-        setDataState(data);
-    }, [])
+    }, [props.baker]);
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
